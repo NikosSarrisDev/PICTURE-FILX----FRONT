@@ -1,0 +1,72 @@
+<div class="main-full-div">
+  <div style="border-radius: 10px">
+    <div class="center-image">
+      <img src="assets/images-logos/picture-flix-high-resolution-logo-grayscale-transparent.svg">
+    </div>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <h3>ΕΙΣΟΔΟΣ ΜΕ</h3>
+      <div class="row">
+        <div class="col-md-6">
+          <p-button>
+            <ng-template pTemplate="content">
+              <div style="display: flex; justify-content: space-between; align-items: center">
+                <div>
+                  Facebook
+                </div>
+                <i class="pi pi-facebook"></i>
+              </div>
+            </ng-template>
+          </p-button>
+        </div>
+        <div class="col-md-6">
+          <p-button>
+            <ng-template pTemplate="content">
+              <div style="display: flex; justify-content: space-between; align-items: center">
+                <div>
+                  Google
+                </div>
+                <i class="pi pi-google"></i>
+              </div>
+            </ng-template>
+          </p-button>
+        </div>
+      </div>
+      <h3>ΕΙΣΟΔΟΣ ΜΕ EMAIL</h3>
+      <div>
+        <p-floatlabel variant="on">
+          <label for="email">Email</label>
+          <input id="email" type="text" formControlName="email"/>
+        </p-floatlabel>
+        <div *ngIf="loginForm.controls['email'].invalid && !loginForm.controls['email'].untouched">
+          <small *ngIf="loginForm.controls['email'].errors?.['required']">Email field is required</small>
+        </div>
+      </div>
+      <div>
+        <p-floatlabel variant="on">
+          <label for="password">Password</label>
+          <input id="password" type="text" formControlName="password">
+        </p-floatlabel>
+        <div *ngIf="loginForm.controls['password'].invalid && !loginForm.controls['password'].untouched">
+          <small *ngIf="loginForm.controls['password'].errors?.['required']">Password field is required</small>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center">
+        <p-button (click)="forgetPassWord()">Ξέχασες τον κωδικό σου;</p-button>
+        <div>
+          <label for="ny" class="ml-2">Να με θυμάσε</label>
+          <p-checkbox [(ngModel)]="rememberMe" value="rememberMe" inputId="ny"/>
+        </div>
+      </div>
+
+      <p-button type="submit" [disabled]="loginForm.invalid">Είσοδος</p-button>
+
+      <div class="legend-container">
+        <label class="legend">Δεν έχεις λογαριασμό; Κάνε την εγγραφή σου εδώ</label>
+        <p-button (click)="navigateToRegister()">Εγγραφή</p-button>
+      </div>
+
+
+    </form>
+  </div>
+</div>
