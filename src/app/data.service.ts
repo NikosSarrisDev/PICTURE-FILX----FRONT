@@ -11,7 +11,9 @@ const httpOptions = {
   withCredentials: true
 };
 
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class DataService {
   constructor(public authenticationService: AuthenticationService,
               private http: HttpClient,

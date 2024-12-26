@@ -5,6 +5,14 @@
   align-items: center;
 }
 
+.login-table {
+  border-radius: 10px;
+  padding: 30px;
+  background: #FFFFFF;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  transition: box-shadow 0.3s ease;
+}
+
 .center-image {
   display: flex;
   justify-content: center;
@@ -24,5 +32,31 @@
   margin-bottom: 0.5rem;
 }
 
+.facebook-google-fonts{
+  font-size: 1rem;
+}
+
+.fb-gl-buttons {
+  background-color: #1f787e;
+  color: white;
+  border: none;
+  width: 100%;
+  padding: 1rem;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.fb-gl-buttons:hover {
+  background-color: #91d0d3 !important;
+  transform: scale(1.05);
+}
+
+.forget-pass-link {
+  text-decoration: none;
+  color: black;
+}
+
+::ng-deep p-password input {
+  width: 100%;
+}
 
 

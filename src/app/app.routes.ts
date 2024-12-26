@@ -22,5 +22,10 @@ export const routes: Routes = [
   {
     path: 'forgetPass',
     component: PasswordRecoveryComponent
-  }
+  },
+  {
+    path: '**',
+    redirectTo: 'login',
+    pathMatch: 'full',
+  },
 ];

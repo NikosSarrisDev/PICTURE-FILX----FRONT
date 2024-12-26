@@ -28,7 +28,7 @@ export class AuthenticationService {
     return this.user;
   }
   login(password: string ,email: string) {
-    return this.http.post<any>(this.remoteDataService.serviceURL + 'login',
+    return this.http.post<any>(this.remoteDataService.serviceURL + 'loginUser',
         {
           password: password,
           email: email,
@@ -43,14 +43,7 @@ export class AuthenticationService {
           return user;
         }));
   }
-  impersonateUser(user:any , previousUserAdmin:any) {
-    user.impersonateUser=true;
-    user.previousUserAdmin=previousUserAdmin;
-    this.user = user;
-    this.currentUserSubject.next(this.user);
-    this.cookieService.deleteCookie(this.remoteDataService.platform+'_user');
-    this.cookieService.setCookie(this.remoteDataService.platform+'_user', JSON.stringify(user), 1);
-  }
+
   logout() {
     this.cookieService.deleteCookie(this.remoteDataService.platform+'_user');
     this.user = null;

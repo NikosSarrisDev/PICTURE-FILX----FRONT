@@ -1,34 +1,44 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {RemoteDataService} from '../../remotedata.service';
-import {MessageService, PrimeTemplate} from 'primeng/api';
+import { MessageService } from 'primeng/api';
+import { Toast } from 'primeng/toast';
 import { AuthenticationService } from '../../auth.service';
 import {DataService} from '../../data.service';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {first} from 'rxjs';
 import {FloatLabel} from 'primeng/floatlabel';
-import {NgIf} from '@angular/common';
-import {Button} from 'primeng/button';
+import {CommonModule, NgIf} from '@angular/common';
+import {Button, ButtonDirective} from 'primeng/button';
 import {Checkbox} from 'primeng/checkbox';
+import { PasswordModule } from 'primeng/password';
+import {Divider, DividerModule} from 'primeng/divider';
+import {InputText} from 'primeng/inputtext';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     FloatLabel,
     NgIf,
     Button,
-    PrimeTemplate,
     Checkbox,
-    FormsModule
+    FormsModule,
+    PasswordModule,
+    DividerModule,
+    RouterLink,
+    ButtonDirective,
+    InputText
   ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
+  providers: [MessageService]
 })
 export class LoginComponent implements OnInit{
 
-  public loginForm: FormGroup = this.formBuilder.group({});
+  public loginForm!: FormGroup;
   rememberMe : boolean = false;
   loading: boolean = false;
   password = '';
@@ -55,9 +65,13 @@ export class LoginComponent implements OnInit{
       this.router.navigate([''])
     }
 
-    if (localStorage.getItem(this.remoteDataService.platform + '_rememberMe_password') != null && localStorage.getItem(this.remoteDataService.platform + '_rememberMe_email')){
-      this.password = localStorage.getItem(this.remoteDataService.platform + '_rememberMe_password').toString()
-      this.email = localStorage.getItem(this.remoteDataService.platform + '_rememberMe_email').toString()
+    //Handle the local storage values for remember password option
+    const storedUserEmail : any = localStorage.getItem(this.remoteDataService.platform + '_rememberMe_email');
+    const storedUserPassword : any = localStorage.getItem(this.remoteDataService.platform + '_rememberMe_password');
+
+    if (localStorage.getItem(storedUserEmail) != null && localStorage.getItem(storedUserPassword) != null){
+      this.password = storedUserPassword;
+      this.email = storedUserEmail;
     }
   }
 
