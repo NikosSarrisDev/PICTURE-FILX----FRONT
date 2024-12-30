@@ -1,16 +1,35 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { AuthenticationService } from '../../auth.service';
 import {DataService} from '../../data.service';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
+import {ButtonDirective} from 'primeng/button';
+import {Checkbox} from 'primeng/checkbox';
+import {FloatLabel} from 'primeng/floatlabel';
+import {InputText} from 'primeng/inputtext';
+import {NgIf} from '@angular/common';
+import {Password} from 'primeng/password';
+import {Toast} from 'primeng/toast';
 
 @Component({
   selector: 'app-password-recovery',
   standalone: true,
-  imports: [],
+  imports: [
+    ButtonDirective,
+    Checkbox,
+    FloatLabel,
+    FormsModule,
+    InputText,
+    NgIf,
+    Password,
+    ReactiveFormsModule,
+    RouterLink,
+    Toast
+  ],
   templateUrl: './password-recovery.component.html',
-  styleUrl: './password-recovery.component.css'
+  styleUrl: './password-recovery.component.css',
+  providers: [MessageService]
 })
 export class PasswordRecoveryComponent implements OnInit{
 
@@ -50,7 +69,9 @@ export class PasswordRecoveryComponent implements OnInit{
       return;
     }
 
-    this.dataService.recoverPassword({email: this.email}).subscribe(r => {
+     const email = this.recoveryForm.get('email')?.value
+
+    this.dataService.recoverPassword({email: email}).subscribe(r => {
       if(r.status == 'success') {
         this.messageService.add({severity: 'success', summary: 'Success!', detail: r.message});
       } else {

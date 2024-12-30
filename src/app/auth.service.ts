@@ -36,6 +36,7 @@ export class AuthenticationService {
         .pipe(map(user => {
           if (user && user.isVerified) {
             this.user = user;
+            console.log(user.isVerified)
             this.currentUserSubject.next(this.user);
             this.cookieService.deleteCookie(this.remoteDataService.platform+'_user');
             this.cookieService.setCookie(this.remoteDataService.platform+'_user', JSON.stringify(user), 1);
@@ -47,23 +48,5 @@ export class AuthenticationService {
   logout() {
     this.cookieService.deleteCookie(this.remoteDataService.platform+'_user');
     this.user = null;
-  }
-  logoutPlay(data:any) {
-    return this.http.post<any>(this.remoteDataService.serviceURL + 'logout', {} , httpOptions)
-      .pipe(map(user => {
-        return user;
-      }));
-  }
-  addingToSessionManually(data:any) {
-    return this.http.post<any>(this.remoteDataService.serviceURL + 'addingToSessionManually', data  )
-      .pipe(map(user => {
-        return user;
-      }));
-  }
-  currentIp() {
-    return this.http.get<any>('https://api.db-ip.com/v2/free/self' )
-      .pipe(map(currentIp => {
-        return currentIp;
-      }));
   }
 }

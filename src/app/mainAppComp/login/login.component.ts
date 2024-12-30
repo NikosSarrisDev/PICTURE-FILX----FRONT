@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {RemoteDataService} from '../../remotedata.service';
-import { MessageService } from 'primeng/api';
-import { Toast } from 'primeng/toast';
-import { AuthenticationService } from '../../auth.service';
+import {MessageService} from 'primeng/api';
+import {Toast} from 'primeng/toast';
+import {AuthenticationService} from '../../auth.service';
 import {DataService} from '../../data.service';
 import {Router, RouterLink} from '@angular/router';
 import {first} from 'rxjs';
@@ -11,8 +11,8 @@ import {FloatLabel} from 'primeng/floatlabel';
 import {CommonModule, NgIf} from '@angular/common';
 import {Button, ButtonDirective} from 'primeng/button';
 import {Checkbox} from 'primeng/checkbox';
-import { PasswordModule } from 'primeng/password';
-import {Divider, DividerModule} from 'primeng/divider';
+import {PasswordModule} from 'primeng/password';
+import {DividerModule} from 'primeng/divider';
 import {InputText} from 'primeng/inputtext';
 
 @Component({
@@ -30,7 +30,8 @@ import {InputText} from 'primeng/inputtext';
     DividerModule,
     RouterLink,
     ButtonDirective,
-    InputText
+    InputText,
+    Toast
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
@@ -41,8 +42,8 @@ export class LoginComponent implements OnInit{
   public loginForm!: FormGroup;
   rememberMe : boolean = false;
   loading: boolean = false;
-  password = '';
-  email = '';
+  password: string = '';
+  email: string = '';
   submitted: boolean = false;
   error = '';
 
@@ -56,8 +57,8 @@ export class LoginComponent implements OnInit{
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password : ['', [Validators.required]]
+      email: [this.email, [Validators.required, Validators.email]],
+      password : [this.password, [Validators.required]]
     })
 
     const currentUser = this.authenticationService.currentUser();
@@ -84,7 +85,11 @@ export class LoginComponent implements OnInit{
     }
     this.loading = true;
 
-    this.authenticationService.login(this.password,this.email)
+    // Extract values from the form
+    const email = this.loginForm.get('email')?.value;
+    const password = this.loginForm.get('password')?.value;
+
+    this.authenticationService.login(password,email)
       .pipe(first()).subscribe(
         httpResponse => {
           if (httpResponse.status == "success"){
@@ -94,7 +99,7 @@ export class LoginComponent implements OnInit{
               localStorage.setItem(this.remoteDataService.platform + '_rememberMe_email',this.email)
             }
             this.messageService.add({severity: 'success', summary: 'Success!', detail: httpResponse.message});
-
+            this.router.navigate([''])
           }else {
             this.messageService.add({severity: 'error', summary: 'error!', detail: httpResponse.message});
           }
@@ -123,11 +128,11 @@ export class LoginComponent implements OnInit{
   }
 
   navigateToRegister(){
-    this.router.navigate(['register']);
+    this.router.navigate(['/register']);
   }
 
   forgetPassWord(){
-    this.router.navigate(['forgetPass'])
+    this.router.navigate(['/forgetPass'])
   }
 
 

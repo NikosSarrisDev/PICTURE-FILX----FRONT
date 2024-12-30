@@ -29,9 +29,9 @@ export class AuthGuard  {
 
     async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot ) {
         console.log("can activate!");
-        var coockiePlayExist=this.checkPlaySessionCookie(this.remoteDataService.coockieName);
+        // var coockiePlayExist=this.checkPlaySessionCookie(this.remoteDataService.coockieName);
         const currentUser = this.authenticationService.currentUser();
-        if (currentUser && coockiePlayExist) {
+        if (currentUser) {
             return true;
         }else{
             this.authenticationService.logout();
@@ -41,15 +41,15 @@ export class AuthGuard  {
     }
 
 
-    checkPlaySessionCookie(name:any) {
-        var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-        if (match) {
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
+    // checkPlaySessionCookie(name:any) {
+    //     var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    //     if (match) {
+    //         return true;
+    //     }
+    //     else{
+    //         return false;
+    //     }
+    // }
 
 
 

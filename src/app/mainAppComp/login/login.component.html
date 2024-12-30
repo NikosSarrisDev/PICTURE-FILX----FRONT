@@ -41,13 +41,13 @@
           <label for="email">Email</label>
         </p-floatlabel>
         <div *ngIf="loginForm.controls['email'].invalid && !loginForm.controls['email'].untouched">
-          <small style="color: red" *ngIf="loginForm.controls['email'].errors?.['required']">To πεδίο Email είναι
+          <small style="color: red" *ngIf="loginForm.controls['email'].hasError('required')">To πεδίο Email είναι
             υποχρεωτικό</small>
         </div>
       </div>
       <div style="margin-bottom: 1rem">
         <p-floatlabel variant="on" [style]="{'height': '42px'}">
-          <p-password [style]="{'width': '100%'}" formControlName="password" inputId="over_label" [toggleMask]="true"/>
+          <p-password [style]="{'width': '100%'}" formControlName="password" inputId="over_label" [feedback]="false" [toggleMask]="true"/>
           <label for="over_label">Κωδικός</label>
         </p-floatlabel>
         <div *ngIf="loginForm.controls['password'].invalid && !loginForm.controls['password'].untouched">
@@ -59,8 +59,8 @@
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem">
         <a class="forget-pass-link" routerLink="/forgetPass">Ξέχασες τον κωδικό σου;</a>
         <div>
-          <label style="padding-right: 0.5rem" for="ny" class="ml-2">Να με θυμάσε</label>
-          <p-checkbox [(ngModel)]="rememberMe" value="rememberMe" inputId="ny"/>
+          <label style="padding-right: 0.5rem" class="ml-2">Να με θυμάσε</label>
+          <p-checkbox [(ngModel)]="rememberMe" value="rememberMe" binary="true"/>
         </div>
       </div>
 
@@ -69,6 +69,7 @@
       </div>
       <div class="legend-container">
         <label class="legend">Δεν έχεις λογαριασμό; Κάνε την εγγραφή σου εδώ</label>
+        <p-toast />
         <button pButton class="fb-gl-buttons" (click)="navigateToRegister()">Εγγραφή</button>
       </div>
 

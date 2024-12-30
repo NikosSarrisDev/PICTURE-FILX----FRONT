@@ -21,7 +21,7 @@ export class DataService {
   }
 
   recoverPassword(data:any) {
-    return this.http.post<any>(this.remoteDataService.serviceURL + 'recoverPassword', data, httpOptions).pipe(
+    return this.http.post<any>(this.remoteDataService.serviceURL + 'forgotPasswordSendEmail', data, httpOptions).pipe(
       map(
         (response: any) => {
           return response;
