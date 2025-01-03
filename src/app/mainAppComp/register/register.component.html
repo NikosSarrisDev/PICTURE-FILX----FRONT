@@ -21,6 +21,7 @@
           <small style="color: red" *ngIf="creationForm.controls['name'].errors?.['required']">Το πεδίο Όνομα χρήστη
             είναι
             υποχρεωτικό</small>
+          <small style="color: red" *ngIf="creationForm.controls['name'].errors?.['minLength']">Το όνομα χρήστη πρέπει να έχει τουλάχιστον 4 χαρακτήρες</small>
         </div>
       </div>
       <div style="margin-bottom: 1.5rem">
@@ -63,6 +64,7 @@
               <li>Τουλάχιστον ένα πεζό γράμμα</li>
               <li>Τουλάχιστον ένα κεφαλαίο γράμμα</li>
               <li>Τουλάχιστον ένας αριθμός</li>
+              <li>Τουλάχιστον ένας ειδικός χαρακτήρας (π.χ. %#!)</li>
               <li>Τουλάχιστον 8 χαρακτήρες</li>
             </ul>
           </small>
@@ -85,6 +87,7 @@
       </div>
 
       <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 1rem">
+        <p-toast />
         <button pButton class="fb-gl-buttons" type="submit" [disabled]="creationForm.invalid">Εγγραφή <i
           class="pi pi-arrow-right"></i></button>
       </div>

@@ -46,7 +46,7 @@ export class PasswordRecoveryComponent implements OnInit{
   ngOnInit() {
 
     this.recoveryForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]]
+      email: [this.email, [Validators.required, Validators.email]]
     });
   }
 

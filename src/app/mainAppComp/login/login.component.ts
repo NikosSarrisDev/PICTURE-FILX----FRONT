@@ -14,6 +14,7 @@ import {Checkbox} from 'primeng/checkbox';
 import {PasswordModule} from 'primeng/password';
 import {DividerModule} from 'primeng/divider';
 import {InputText} from 'primeng/inputtext';
+declare const FB: any;
 
 @Component({
   selector: 'app-login',
@@ -58,10 +59,12 @@ export class LoginComponent implements OnInit{
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       email: [this.email, [Validators.required, Validators.email]],
-      password : [this.password, [Validators.required]]
+      password : [this.password, Validators.required],
+      rememberMe : [this.rememberMe],
     })
 
     const currentUser = this.authenticationService.currentUser();
+    console.log("That one !!! the current user", currentUser);
     if (currentUser){
       this.router.navigate([''])
     }
@@ -76,6 +79,39 @@ export class LoginComponent implements OnInit{
     }
   }
 
+  loginViaGoogle(){
+    alert("Sign in with Google is not yes implemented!!");
+  }
+
+  //This is taken from facebook Javascript SDK
+  loginWithFacebook() {
+    FB.login((response: any) => {
+      if (response.authResponse) {
+        console.log('User logged in', response);
+
+        this.fetchUserDetails();
+      } else {
+        console.log('User cancelled login or did not fully authorize.');
+      }
+    }, {scope: 'public_profile,email'});
+  }
+
+  //This is taken from facebook Javascript SDK
+  fetchUserDetails() {
+    FB.api('/me', { fields: 'name,email' }, (response: any) => {
+      console.log('User details:', response);
+      const userName = response.name;
+      const userEmail = response.email;
+
+      console.log(`Name: ${userName}, Email: ${userEmail}`);
+
+      //Route the user in the full component and pass the guard
+      this.authenticationService.loginFb({ name: userName, email: userEmail });
+      this.router.navigate(['']);
+    });
+  }
+
+
   onSubmit(){
     if(this.loginForm.invalid){
       this.messageService.add({severity: 'error', summary: 'error!', detail: 'Η φόρμα σας δεν είναι έγκυρη, παρακαλώ όλα τα υποχρεωτικά όλα τα υποχρεωτικά πεδία'})
@@ -88,13 +124,14 @@ export class LoginComponent implements OnInit{
     // Extract values from the form
     const email = this.loginForm.get('email')?.value;
     const password = this.loginForm.get('password')?.value;
+    const rememberMe = this.loginForm.get('rememberMe')?.value;
 
     this.authenticationService.login(password,email)
       .pipe(first()).subscribe(
         httpResponse => {
           if (httpResponse.status == "success"){
 
-            if(this.rememberMe){
+            if(rememberMe){
               localStorage.setItem(this.remoteDataService.platform + '_rememberMe_password', this.password)
               localStorage.setItem(this.remoteDataService.platform + '_rememberMe_email',this.email)
             }
@@ -110,10 +147,6 @@ export class LoginComponent implements OnInit{
           this.loading = false;
       }
     )
-  }
-
-  changePass(userId: any){
-
   }
 
   validateAllFromFields(formGroup: FormGroup| any){

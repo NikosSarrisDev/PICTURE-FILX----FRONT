@@ -101,6 +101,7 @@ export class RegisterComponent implements OnInit{
     this.dataService.createUser({name: name, email: email, password: password}).subscribe(r =>{
       if(r.status == 'success'){
         this.messageService.add({severity: 'success', summary: 'Success!', detail: r.message});
+        this.router.navigate(['/login']);
       }else {
         this.messageService.add({severity: 'error', summary: 'Error!', detail: r.message})
       }

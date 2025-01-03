@@ -14,7 +14,7 @@
       <div style="font-size: 1rem; margin: 0 0 0.5rem 0.5rem; font-weight: bold">ΕΙΣΟΔΟΣ ΜΕ</div>
       <div class="row">
         <div class="col-md-6">
-          <button pButton class="fb-gl-buttons">
+          <button pButton class="fb-gl-buttons" (click)="loginWithFacebook()">
             <div style="display: flex; justify-content: space-between; align-items: center; width: 100%">
               <div class="facebook-google-fonts">
                 Facebook
@@ -24,7 +24,7 @@
           </button>
         </div>
         <div class="col-md-6">
-          <button pButton class="fb-gl-buttons">
+          <button pButton class="fb-gl-buttons" (click)="loginViaGoogle()">
             <div style="display: flex; justify-content: space-between; align-items: center; width: 100%">
               <div class="facebook-google-fonts">
                 Google
@@ -60,7 +60,7 @@
         <a class="forget-pass-link" routerLink="/forgetPass">Ξέχασες τον κωδικό σου;</a>
         <div>
           <label style="padding-right: 0.5rem" class="ml-2">Να με θυμάσε</label>
-          <p-checkbox [(ngModel)]="rememberMe" value="rememberMe" binary="true"/>
+          <p-checkbox formControlName="rememberMe" value="rememberMe" binary="true"/>
         </div>
       </div>
 
