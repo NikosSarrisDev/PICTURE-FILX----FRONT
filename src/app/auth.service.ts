@@ -47,6 +47,7 @@ export class AuthenticationService {
 
   loginFb(user: any) {
     if(user){
+      //The Facebook authenticated user becomes the currentUser
       this.user = user;
       this.currentUserSubject.next(this.user);
       this.cookieService.deleteCookie(this.remoteDataService.platform+'_user');
@@ -59,10 +60,11 @@ export class AuthenticationService {
 
   loginGl(user: any) {
     if(user){
+      //The Google authenticated user becomes the currentUser
       this.user = user;
       this.currentUserSubject.next(this.user);
-      this.cookieService.deleteCookie('_user_google');
-      this.cookieService.setCookie('_user_google', JSON.stringify(user), 1);
+      this.cookieService.deleteCookie(this.remoteDataService.platform+'_user');
+      this.cookieService.setCookie(this.remoteDataService.platform+'_user', JSON.stringify(user), 1);
     }else {
       alert("Error in login via Google");
       this.user = null;

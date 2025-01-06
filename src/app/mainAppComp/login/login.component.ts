@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {RemoteDataService} from '../../remotedata.service';
 import {MessageService} from 'primeng/api';
@@ -14,7 +14,11 @@ import {Checkbox} from 'primeng/checkbox';
 import {PasswordModule} from 'primeng/password';
 import {DividerModule} from 'primeng/divider';
 import {InputText} from 'primeng/inputtext';
+import { CredentialResponse, PromptMomentNotification } from 'google-one-tap';
+import {GoogleAuthServiceService} from '../../google-auth-service.service';
+
 declare const FB: any;
+declare const google: any;
 
 @Component({
   selector: 'app-login',
@@ -53,7 +57,9 @@ export class LoginComponent implements OnInit{
               private messageService: MessageService,
               public dataService: DataService,
               private router: Router,
-              private authenticationService: AuthenticationService) {
+              private authenticationService: AuthenticationService,
+              private _ngZone: NgZone,
+              private googleService: GoogleAuthServiceService) {
   }
 
   ngOnInit() {
@@ -77,11 +83,30 @@ export class LoginComponent implements OnInit{
       this.password = storedUserPassword;
       this.email = storedUserEmail;
     }
+
+    window.onload = () => {
+      google.accounts.id.initialize({
+        client_id: '336220583971-i4nhckcchce9d2l4udsjpchad0sfrf3m.apps.googleusercontent.com',
+        callback: this.handleCredentialResponse.bind(this),
+        auto_select: false,
+        cancel_on_tap_outside: true
+      })
+
+
+      if (document.getElementById("google_btn")) {
+
+      google.accounts.id.renderButton(document.getElementById("google_btn"), {
+        // theme: "outline",
+        // size: "large",
+        // width: "100%",
+      });
+
+      }
+
+      google.accounts.id.prompt((notification: PromptMomentNotification) => {})
+    }
   }
 
-  loginViaGoogle(){
-    alert("Sign in with Google is not yes implemented!!");
-  }
 
   //This is taken from facebook Javascript SDK
   loginWithFacebook() {
@@ -160,14 +185,24 @@ export class LoginComponent implements OnInit{
     })
   }
 
+  //Handling the JWT taken by Google
+  async handleCredentialResponse(response: CredentialResponse){
+    await this.googleService.LoginWithGoogle(response.credential).subscribe(
+      x => {
+        localStorage.setItem("token", x.token);
+        this._ngZone.run(() => {
+          //Pass the user to the auth service to become the current user
+          this.authenticationService.loginGl(response.credential);
+          this.router.navigate([''])
+        })
+      },(error: any) => {
+        debugger
+        console.log(error)
+      }
+    )
+  }
+
   navigateToRegister(){
     this.router.navigate(['/register']);
   }
-
-  forgetPassWord(){
-    this.router.navigate(['/forgetPass'])
-  }
-
-
-
 }
