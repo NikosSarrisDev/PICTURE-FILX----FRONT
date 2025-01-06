@@ -1,6 +1,112 @@
 /* You can add global styles to this file, and also import other style files */
 @import "primeicons/primeicons.css";
 
-.app-color-theme{
+.app-color-theme {
   background: #28bcd7;
+}
+
+.general-button {
+  border: none;
+  font-family: sans-serif;
+  background: linear-gradient(45deg, rgb(23, 204, 193), rgba(34, 106, 215, 0.76));
+  border-radius: 0.3rem;
+  height: 3rem;
+  margin: 0 2rem;
+  padding: 0 2rem;
+  cursor: pointer;
+  transition: background 0.4s ease;
+}
+
+.general-button:hover {
+  color: black;
+  background: linear-gradient(90deg, rgb(222, 180, 58), rgb(255, 237, 65));
+}
+
+.action-button {
+  border: none;
+  font-family: sans-serif;
+  color: black;
+  background: linear-gradient(90deg, rgb(222, 180, 58), rgb(255, 237, 65));
+  border-radius: 0.3rem;
+  height: 3rem;
+  margin: 0 2rem 0 0;
+  padding: 0 2rem;
+  cursor: pointer;
+  transition: background 0s ease
+}
+
+.action-button:hover {
+  background: yellow;
+}
+
+.header-full {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: black;
+  padding: 1.5rem;
+}
+
+.back-to-full {
+  font-family: cursive;
+  position: relative;
+  font-size: 2rem;
+  color: #FFFFFF;
+  margin: 0 1rem;
+  transition: color 0.4s ease-in-out;
+}
+
+.to-movies-co {
+  position: relative;
+  font-family: Georgia, serif;
+  font-size: 1.5rem;
+  color: #FFFFFF;
+  margin: 0 1rem;
+  transition: color 0.4s ease-in-out;
+}
+
+.to-rooms-co {
+  position: relative;
+  font-family: Georgia, serif;
+  font-size: 1.5rem;
+  color: #FFFFFF;
+  margin: 0 3rem 0 1rem;
+  transition: color 0.4s ease-in-out;
+}
+
+.to-contact-co {
+  border: none;
+  background: none;
+  margin: 0 2rem 0 0;
+  transition: color 0.4s ease-in-out;
+}
+
+.locale-switch {
+  border: none;
+  background: none;
+  margin: 0 1rem 0 0;
+  transition: color 0.4s ease-in-out;
+}
+
+.back-to-full::after, .to-movies-co::after, .to-rooms-co::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: #e78a0a;
+  transition: width 0.4s ease-in-out;
+}
+
+.back-to-full:hover, .to-movies-co:hover, .to-rooms-co:hover, .to-contact-co:hover, .locale-switch:hover {
+  color: #e78a0a;
+}
+
+.back-to-full:hover::after, .to-movies-co:hover::after, .to-rooms-co:hover::after {
+  width: 100%;
+}
+
+.active-route {
+  color: #e78a0a;
 }
