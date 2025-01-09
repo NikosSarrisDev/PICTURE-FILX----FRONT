@@ -1,0 +1,10 @@
+.all-home {
+  background: #e78a0a;
+  margin-top: 6rem;
+  width: 100%;
+}
+
+.youtube-container {
+  display: flex;
+  flex-direction: column;
+}

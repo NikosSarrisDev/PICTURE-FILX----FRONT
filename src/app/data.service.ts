@@ -48,9 +48,60 @@ export class DataService {
 
   }
 
+  getMovie(data: any){
+    return this.http.post<any>(this.remoteDataService.serviceURL + 'getMovie', data, httpOptions).pipe(
+      map(
+        (response: any) => {
+          return response;
+        }
+      ),
+      catchError((error: any) => {
+        this.handleError(error);
+        return throwError(error); // Rethrow the error to be handled by the caller
+      }));
+  }
 
+  //For admin-------------
+  addMovie(data: any){
+    return this.http.post<any>(this.remoteDataService.serviceURL + 'addMovie', data, httpOptions).pipe(
+      map(
+        (response: any) => {
+          return response;
+        }
+      ),
+      catchError((error: any) => {
+        this.handleError(error);
+        return throwError(error); // Rethrow the error to be handled by the caller
+      }));
+  }
 
+  //For admin------------
+  updateMovie(data: any){
+    return this.http.post<any>(this.remoteDataService.serviceURL + 'updateMovie', data, httpOptions).pipe(
+      map(
+        (response: any) => {
+          return response;
+        }
+      ),
+      catchError((error: any) => {
+        this.handleError(error);
+        return throwError(error); // Rethrow the error to be handled by the caller
+      }));
+  }
 
+  //For admin-------------
+  deleteMovie(data: any){
+    return this.http.post<any>(this.remoteDataService.serviceURL + 'deleteMovie', data, httpOptions).pipe(
+      map(
+        (response: any) => {
+          return response;
+        }
+      ),
+      catchError((error: any) => {
+        this.handleError(error);
+        return throwError(error); // Rethrow the error to be handled by the caller
+      }));
+  }
 
   private handleError(error:any) {
     var status = error.error.status;

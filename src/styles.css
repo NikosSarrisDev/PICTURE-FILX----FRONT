@@ -45,6 +45,10 @@
   justify-content: space-between;
   background: black;
   padding: 1.5rem;
+  position: fixed;
+  top: 0;
+  width: 100%;
+
 }
 
 .back-to-full {
@@ -109,4 +113,16 @@
 
 .active-route {
   color: #e78a0a;
+}
+
+.info-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 1rem 1rem 2rem;
+  padding: 1rem;
+  font-size: 1.2rem;
+  border-radius: 1rem;
+  background: black;
+  color: white;
 }

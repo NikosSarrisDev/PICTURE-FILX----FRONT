@@ -28,9 +28,10 @@ import {Button, ButtonDirective} from 'primeng/button';
   templateUrl: './full.component.html',
   styleUrl: './full.component.css'
 })
-export class FullComponent implements OnInit{
+export class FullComponent implements OnInit {
 
   currentUser: any;
+
   constructor(private router: Router,
               private route: ActivatedRoute,
               private authenticationService: AuthenticationService) {
@@ -38,21 +39,10 @@ export class FullComponent implements OnInit{
 
   ngOnInit() {
     this.currentUser = this.authenticationService.currentUser();
+    this.router.navigate(['home']);
   }
 
-  refreshFull(){
-    this.router.navigate(['']);
-  }
-
-  toMovies(){
-    this.router.navigate(['movies']);
-  }
-
-  toRooms(){
-    this.router.navigate(['rooms']);
-  }
-
-  toContactForm(){
+  toContactForm() {
     this.router.navigate(['contact']);
   }
 }

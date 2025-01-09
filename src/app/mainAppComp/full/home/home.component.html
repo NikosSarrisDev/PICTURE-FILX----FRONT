@@ -1,0 +1,30 @@
+<div class="all-home">
+  <div class="youtube-container">
+    <!--  Trailer-->
+    <div class="row">
+      <div class="col-md-2 mt-5 info-button">
+        Παίζεται τώρα<i class="pi pi-video"></i></div>
+    </div>
+    <div style="display: flex; justify-content: center">
+      <youtube-player [width]="window.innerWidth*0.95" height="550" [videoId]="trailerCode" [playerVars]="{ autoplay: 0 }"/>
+    </div>
+    <div style="font-size: 2rem; margin: 1rem 0 0 1.5rem; font-weight: bold">{{title}}</div>
+    <div style="font-size: 1rem; margin: 1rem 0 2rem 1.5rem">{{description}}</div>
+    <div style="display: flex; align-items: center; margin-top: 0.5rem">
+      <div class="info-button">
+        Καταλληλότητα: {{rated}}
+      </div>
+      <div class="info-button">
+        <i class="pi pi-align-justify" style="padding-right: 0.5rem"></i> {{type}}
+      </div>
+      <div class="info-button">
+        <i class="pi pi-clock" style="padding-right: 0.5rem"></i> {{duration}} min
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; margin: 0 0 3rem 2rem">
+      <button class="action-button" style="flex-shrink: 0">Εισιτήρια <i class="pi pi-arrow-right"></i></button>
+      <button class="general-button" style="flex-shrink: 0">Πληροφορίες</button>
+      <button class="general-button" style="flex-shrink: 0"><i class="pi pi-play"></i> Trailer</button>
+    </div>
+  </div>
+</div>
