@@ -6,6 +6,7 @@ import {AuthenticationService} from '../../auth.service';
 import {MoviesComponent} from './movies/movies.component';
 import {RoomsComponent} from './rooms/rooms.component';
 import {Button, ButtonDirective} from 'primeng/button';
+import {Tooltip} from 'primeng/tooltip';
 
 @Component({
   selector: 'app-full',
@@ -23,7 +24,8 @@ import {Button, ButtonDirective} from 'primeng/button';
     RoomsComponent,
     ButtonDirective,
     Button,
-    RouterLinkActive
+    RouterLinkActive,
+    Tooltip
   ],
   templateUrl: './full.component.html',
   styleUrl: './full.component.css'

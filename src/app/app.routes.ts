@@ -33,6 +33,11 @@ export const routes: Routes = [
     ]
   },
   {
+    path: 'contact',
+    component: ContactComponent,
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'login',
     component: LoginComponent,
   },
