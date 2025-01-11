@@ -1,15 +1,20 @@
-<div class="header-full">
-  <div style="display: flex; align-items: center">
-    <a routerLink="/home" routerLinkActive="active-route" class="back-to-full">PICTURE FLIX</a>
-    <a routerLink="/movies" routerLinkActive="active-route" class="to-movies-co">Ταινίες</a>
-    <a routerLink="/rooms" routerLinkActive="active-route" class="to-rooms-co">Αίθουσες</a>
-  </div>
+<div>
+  <div class="header-full">
+    <div style="display: flex; align-items: center">
+      <a routerLink="/home" routerLinkActive="active-route" class="back-to-full">PICTURE FLIX</a>
+      <a routerLink="/movies" routerLinkActive="active-route" class="to-movies-co">Ταινίες</a>
+      <a routerLink="/rooms" routerLinkActive="active-route" class="to-rooms-co">Αίθουσες</a>
+    </div>
 
-  <div style="display: flex; align-items: center">
-    <button class="general-button"><i class="pi pi-user"></i> {{ currentUser.name }}</button>
-    <button class="action-button">Εισιτήρια <i class="pi pi-arrow-right"></i></button>
-    <button class="to-contact-co" pTooltip="Φόρμα Επικοινωνίας" tooltipPosition="bottom" (click)="toContactForm()"><i style="font-size: 2rem" class="pi pi-phone"></i></button>
-    <button class="locale-switch" pTooltip="Εναλλαγή γλώσσας" tooltipPosition="bottom"><i style="font-size: 2rem" class="pi pi-globe"></i></button>
+    <div style="display: flex; align-items: center">
+      <button class="general-button"><i class="pi pi-user"></i> {{ currentUser.name }}</button>
+      <button class="action-button">Εισιτήρια <i class="pi pi-arrow-right"></i></button>
+      <button class="to-contact-co" pTooltip="Φόρμα Επικοινωνίας" tooltipPosition="bottom" (click)="toContactForm()"><i
+        style="font-size: 2rem" class="pi pi-phone"></i></button>
+      <button class="locale-switch" pTooltip="Εναλλαγή γλώσσας" tooltipPosition="bottom"><i style="font-size: 2rem"
+                                                                                            class="pi pi-globe"></i>
+      </button>
+    </div>
   </div>
+  <router-outlet></router-outlet>
 </div>
-<router-outlet></router-outlet>

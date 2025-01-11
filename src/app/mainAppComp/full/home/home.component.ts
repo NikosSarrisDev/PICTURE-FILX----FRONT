@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DataService} from '../../../data.service';
 import {YouTubePlayer} from '@angular/youtube-player';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -21,9 +22,11 @@ export class HomeComponent implements OnInit {
   type!: string;
   trailerCode!: string;
   rated!: string;
+  wikiLink!: string;
   thumbnail!: any;
 
-  constructor(private dataService: DataService) {
+  constructor(private dataService: DataService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -39,7 +42,7 @@ export class HomeComponent implements OnInit {
   getMovies(data: any) {
     console.log(data, "this is the response")
     this.dataService.getMovie(data).subscribe((response) => {
-      console.log(response.data[0].duration)
+      console.log(response.data[0])
       this.title = response.data[0].title;
       this.description = response.data[0].description;
       this.director = response.data[0].director;
@@ -48,9 +51,18 @@ export class HomeComponent implements OnInit {
       this.type = response.data[0].type;
       this.trailerCode = response.data[0].trailerCode;
       this.rated = response.data[0].rated;
+      this.wikiLink = response.data[0].wikiLink;
       this.thumbnail = response.data[0].thumbnail;
 
     })
+  }
+
+  moveToWiki() {
+    window.open("https://en.wikipedia.org/wiki/" + this.wikiLink, '_blank');
+  }
+
+  toContactForm() {
+    this.router.navigate(['contact']);
   }
 
   protected readonly window = window;
