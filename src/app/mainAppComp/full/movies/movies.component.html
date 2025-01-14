@@ -1,1 +1,77 @@
-<p>movies works!</p>
+<div class="row">
+  <div style="background: #948e8e; display: flex; justify-content: center" class="col-md-3">
+    <div style="margin: 10rem 1rem 0 1rem;">
+      <form [formGroup]="filtersForm" (ngSubmit)="applyFilters()">
+        <div style="display: flex; flex-direction: column; justify-content: center; margin: 2rem 0">
+          <label for="title">Title</label>
+          <input pInputText id="title" formControlName="title" (keyup)="applyFilters()">
+          <label for="director">Director</label>
+          <input pInputText id="director" formControlName="director" (keyup)="applyFilters()">
+          <label for="producer">Producer</label>
+          <input pInputText id="producer" formControlName="producer" (keyup)="applyFilters()">
+        </div>
+        <div class="filter-div">
+          <div>ΝΤΟΚΙΜΑΝΤΕΡ</div>
+          <p-checkbox binary="true" formControlName="documentary" (onChange)="applyFilters()"></p-checkbox>
+        </div>
+        <div class="filter-div">
+          <div>ΤΡΟΜΟΥ</div>
+          <p-checkbox binary="true" formControlName="horror" (onChange)="applyFilters()"></p-checkbox>
+        </div>
+        <div class="filter-div">
+          <div>ANIMATION</div>
+          <p-checkbox binary="true" formControlName="animation" (onChange)="applyFilters()"></p-checkbox>
+        </div>
+        <div class="filter-div">
+          <div>ΘΡΙΛΕΡ ΜΥΣΤΗΡΙΟΥ</div>
+          <p-checkbox binary="true" formControlName="horror-mystery" (onChange)="applyFilters()"></p-checkbox>
+        </div>
+        <div class="filter-div">
+          <div>ΘΡΙΛΕΡ, ΤΡΟΜΟΥ</div>
+          <p-checkbox binary="true" formControlName="horror-thriller" (onChange)="applyFilters()"></p-checkbox>
+        </div>
+        <div class="filter-div">
+          <div>ΔΡΑΜΑ</div>
+          <p-checkbox binary="true" formControlName="drama" (onChange)="applyFilters()"></p-checkbox>
+        </div>
+        <div class="filter-div">
+          <div>ΠΑΙΔΙΚΗ</div>
+          <p-checkbox binary="true" formControlName="family" (onChange)="applyFilters()"></p-checkbox>
+        </div>
+        <div class="filter-div">
+          <div>ΚΙΝΟΥΜΕΝΑ ΣΧΕΔΙΑ</div>
+          <p-checkbox binary="true" formControlName="cartoon" (onChange)="applyFilters()"></p-checkbox>
+        </div>
+        <div class="filter-div">
+          <div>ΜΙΟΥΖΙΚΑΛ</div>
+          <p-checkbox binary="true" formControlName="musical" (onChange)="applyFilters()"></p-checkbox>
+        </div>
+        <div class="filter-div">
+          <div>ΒΙΟΓΡΑΦΙΚΗ</div>
+          <p-checkbox binary="true" formControlName="biography" (onChange)="applyFilters()"></p-checkbox>
+        </div>
+        <div class="filter-div" style="margin-bottom: 2rem">
+          <div>ΠΕΡΙΠΕΤΕΙΑ ΔΡΑΣΗΣ</div>
+          <p-checkbox binary="true" formControlName="action-adventure" (onChange)="applyFilters()"></p-checkbox>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div style="background: #e78a0a; display: flex; align-items: center; flex-direction: column" class="col-md-9">
+    <div style="margin: 10rem 0 2rem 0; font-size: 2rem; font-family: Georgia, serif;">Ταινίες</div>
+    <div style="font-size: 1rem; color: #2b38cc; align-self: flex-start; margin-bottom: 1rem">Ημερομηνία Κυκλοφορίας</div>
+    <div class="movie-grid">
+      <div *ngFor="let movie of movies" class="movie-style">
+        <img class="movie-picture" [src]="movie.thumbnail" alt="MovieImage">
+        <div style="font-weight: bold">{{movie.title}}</div>
+        <div class="info-style">
+          <div>{{movie.rated}}</div>
+          <div><i class="pi pi-align-justify" style="padding-right: 0.5rem"></i>{{movie.type}}</div>
+          <div><i class="pi pi-clock" style="padding-right: 0.5rem"></i>{{movie.duration}}'</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="background: #1f787e"></div>

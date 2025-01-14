@@ -1,0 +1,38 @@
+.filter-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.5rem 0;
+  border: 0.1rem solid #2b38cc;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+.movie-grid {
+  display: grid;
+  grid-gap: 1.5rem 4rem;
+  grid-template-rows: repeat(auto-fit, 25rem);
+  grid-template-columns: repeat(3, minmax(240px, 18rem));
+}
+
+.movie-style {
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.movie-picture {
+  width: 100%;
+  height: 80%;
+  transition: tranform 0.3s ease;
+}
+
+.movie-picture:hover {
+  transform: scale(1.05);
+}
+
+.info-style {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
