@@ -62,6 +62,7 @@ export class MoviesComponent implements OnInit {
     })
   }
 
+  //ugly code it was not to be that way :)
   applyFilters() {
 
     const title = this.filtersForm.get('title')?.value;
@@ -106,4 +107,9 @@ export class MoviesComponent implements OnInit {
     this.getMovies({ title: title, director: director, producer: producer, type: type})
   }
 
+  toContactForm(){
+    this.router.navigate(['contact']);
+  }
+
+  protected readonly window = window;
 }
