@@ -76,42 +76,44 @@ export class MoviesComponent implements OnInit {
     const director = this.filtersForm.get('director')?.value;
     const producer = this.filtersForm.get('producer')?.value;
 
-    let type = '';
+    let type: string[] = [];
     if (this.filtersForm.get('documentary')?.value) {
-      type += ' documentary ';
+      type.push('documentary');
     }
     if (this.filtersForm.get('horror')?.value) {
-      type += ' horror ';
+      type.push('horror');
     }
     if (this.filtersForm.get('animation')?.value) {
-      type += ' animation ';
+      type.push('animation');
     }
     if (this.filtersForm.get('horror-mystery')?.value) {
-      type += ' horror-mystery ';
+      type.push('horror-mystery');
     }
     if (this.filtersForm.get('horror-thriller')?.value) {
-      type += ' horror-thriller ';
+      type.push('horror-thriller');
     }
     if (this.filtersForm.get('drama')?.value) {
-      type += ' drama ';
+      type.push('drama');
     }
     if (this.filtersForm.get('family')?.value) {
-      type += ' family ';
+      type.push('family');
     }
     if (this.filtersForm.get('cartoon')?.value) {
-      type += ' cartoon ';
+      type.push('cartoon');
     }
     if (this.filtersForm.get('musical')?.value) {
-      type += ' musical ';
+      type.push('musical');
     }
     if (this.filtersForm.get('biography')?.value) {
-      type += ' biography '
+      type.push('biography');
     }
     if (this.filtersForm.get('action-adventure')?.value) {
-      type += 'action-adventure';
+      type.push('action-adventure');
     }
 
-    this.getMovies({ title: title, director: director, producer: producer, type: type})
+    console.log(type.map(type => `'${type}'`).join(","), "This is the type");
+
+    this.getMovies({ title: title, director: director, producer: producer, type: type.map(type => `'${type}'`).join(","), start: this.first, limit: this.rows});
   }
 
   onPageChange(event: any){
