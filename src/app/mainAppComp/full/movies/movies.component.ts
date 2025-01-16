@@ -6,6 +6,7 @@ import {DataService} from '../../../data.service';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {NgForOf} from '@angular/common';
+import {Paginator} from 'primeng/paginator';
 
 @Component({
   selector: 'app-movies',
@@ -15,7 +16,8 @@ import {NgForOf} from '@angular/common';
     InputText,
     ButtonDirective,
     ReactiveFormsModule,
-    NgForOf
+    NgForOf,
+    Paginator
   ],
   templateUrl: './movies.component.html',
   styleUrl: './movies.component.css'
@@ -23,10 +25,10 @@ import {NgForOf} from '@angular/common';
 export class MoviesComponent implements OnInit {
 
   filtersForm!: FormGroup;
-  movies!: any[];
-
-  // remove this
-  moviesDump = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  movies: any[] = [];
+  allMovies: any[] = [];
+  first: number = 0;
+  rows: number = 10;
 
   constructor(private dataService: DataService,
               private router: Router,
@@ -34,7 +36,8 @@ export class MoviesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getMovies({start: 0, limit: 12});
+    this.getMovies({start: this.first, limit: this.rows});
+    this.getAlMovies();
 
     this.filtersForm = this.formBuilder.group({
       "title": [''],
@@ -55,10 +58,14 @@ export class MoviesComponent implements OnInit {
   }
 
   getMovies(data: any) {
-    console.log(data, "this is the response")
     this.dataService.getMovie(data).subscribe((response) => {
       this.movies = response.data;
-      console.log(response.data, "This is the image");
+    })
+  }
+
+  getAlMovies() {
+    this.dataService.getMovie({}).subscribe((response) => {
+      this.allMovies = response.data;
     })
   }
 
@@ -105,6 +112,13 @@ export class MoviesComponent implements OnInit {
     }
 
     this.getMovies({ title: title, director: director, producer: producer, type: type})
+  }
+
+  onPageChange(event: any){
+    this.first = event.first;
+    this.rows = event.rows;
+
+    this.getMovies({start: this.first, limit: this.rows});
   }
 
   toContactForm(){

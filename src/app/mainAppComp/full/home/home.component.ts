@@ -16,16 +16,6 @@ import {NgForOf} from '@angular/common';
 })
 export class HomeComponent implements OnInit {
 
-  // title!: string;
-  // description!: string;
-  // director!: string;
-  // rating!: number;
-  // duration!: number;
-  // type!: string;
-  // trailerCode!: string;
-  // rated!: string;
-  // wikiLink!: string;
-  // thumbnail!: any;
   movies!: any;
 
   constructor(private dataService: DataService,
@@ -39,7 +29,7 @@ export class HomeComponent implements OnInit {
       return window.innerWidth
     })
 
-    this.getMovies({start: 10, limit: 13});
+    this.getMovies({start: 10, limit: 4});
   }
 
   getMovies(data: any) {
@@ -47,17 +37,6 @@ export class HomeComponent implements OnInit {
     this.dataService.getMovie(data).subscribe((response) => {
       console.log(response.data[0])
       this.movies = response.data;
-      // this.title = response.data[0].title;
-      // this.description = response.data[0].description;
-      // this.director = response.data[0].director;
-      // this.rating = response.data[0].response;
-      // this.duration = response.data[0].duration;
-      // this.type = response.data[0].type;
-      // this.trailerCode = response.data[0].trailerCode;
-      // this.rated = response.data[0].rated;
-      // this.wikiLink = response.data[0].wikiLink;
-      // this.thumbnail = response.data[0].thumbnail;
-
     })
   }
 

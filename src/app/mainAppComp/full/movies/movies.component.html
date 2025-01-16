@@ -71,6 +71,9 @@
         </div>
       </div>
     </div>
+    <div class="card flex justify-center" style="margin-bottom: 2rem">
+      <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="allMovies.length" [rowsPerPageOptions]="[10,15,20]" />
+    </div>
     <div style="display: flex; justify-content: center; margin: 0 2rem">
       <div class="row" style="width: 100%">
         <div class="col-md-4" style="background: #FFFFFF; display: flex; justify-content: center; align-items: center; border-top-left-radius: 2rem">
