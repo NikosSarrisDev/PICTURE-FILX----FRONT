@@ -116,6 +116,116 @@ export class DataService {
       }));
   }
 
+  getRoom(data: any){
+    return this.http.post<any>(this.remoteDataService.serviceURL + 'getRoom', data, httpOptions).pipe(
+      map(
+        (response: any) => {
+          return response;
+        }
+      ),
+      catchError((error: any) => {
+        this.handleError(error);
+        return throwError(error); // Rethrow the error to be handled by the caller
+      }));
+  }
+
+  //For Admin ------------
+  addRoom(data: any){
+    return this.http.post<any>(this.remoteDataService.serviceURL + 'addRoom', data, httpOptions).pipe(
+      map(
+        (response: any) => {
+          return response;
+        }
+      ),
+      catchError((error: any) => {
+        this.handleError(error);
+        return throwError(error); // Rethrow the error to be handled by the caller
+      }));
+  }
+
+  //For Admin ------------
+  updateRoom(data: any){
+    return this.http.post<any>(this.remoteDataService.serviceURL + 'updateRoom', data, httpOptions).pipe(
+      map(
+        (response: any) => {
+          return response;
+        }
+      ),
+      catchError((error: any) => {
+        this.handleError(error);
+        return throwError(error); // Rethrow the error to be handled by the caller
+      }));
+  }
+
+  //For Admin ------------
+  deleteRoom(data: any){
+    return this.http.post<any>(this.remoteDataService.serviceURL + 'deleteRoom', data, httpOptions).pipe(
+      map(
+        (response: any) => {
+          return response;
+        }
+      ),
+      catchError((error: any) => {
+        this.handleError(error);
+        return throwError(error); // Rethrow the error to be handled by the caller
+      }));
+  }
+
+  getSeat(data: any){
+    return this.http.post<any>(this.remoteDataService.serviceURL + 'getSeat', data, httpOptions).pipe(
+      map(
+        (response: any) => {
+          return response;
+        }
+      ),
+      catchError((error: any) => {
+        this.handleError(error);
+        return throwError(error); // Rethrow the error to be handled by the caller
+      }));
+  }
+
+  //For Admin ------------
+  addSeat(data: any){
+    return this.http.post<any>(this.remoteDataService.serviceURL + 'addSeat', data, httpOptions).pipe(
+      map(
+        (response: any) => {
+          return response;
+        }
+      ),
+      catchError((error: any) => {
+        this.handleError(error);
+        return throwError(error); // Rethrow the error to be handled by the caller
+      }));
+  }
+
+  //For Admin -----------
+  updateSeat(data: any){
+    return this.http.post<any>(this.remoteDataService.serviceURL + 'updateSeat', data, httpOptions).pipe(
+      map(
+        (response: any) => {
+          return response;
+        }
+      ),
+      catchError((error: any) => {
+        this.handleError(error);
+        return throwError(error); // Rethrow the error to be handled by the caller
+      }));
+  }
+
+  //For Admin -----------
+  deleteSeat(data: any){
+    return this.http.post<any>(this.remoteDataService.serviceURL + 'deleteSeat', data, httpOptions).pipe(
+      map(
+        (response: any) => {
+          return response;
+        }
+      ),
+      catchError((error: any) => {
+        this.handleError(error);
+        return throwError(error); // Rethrow the error to be handled by the caller
+      }));
+  }
+
   private handleError(error:any) {
     var status = error.error.status;
     if (status == undefined) {

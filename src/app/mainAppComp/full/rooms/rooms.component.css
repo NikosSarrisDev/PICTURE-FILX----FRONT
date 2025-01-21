@@ -1,0 +1,53 @@
+.all-room {
+  background: #e78a0a;
+  margin-top: 6rem;
+  width: 100%;
+}
+
+.grid-rooms {
+  display: grid;
+  margin: 0 1rem;
+  grid-gap: 1.5rem 1.5rem;
+  grid-template-rows: repeat(auto-fit, 25rem);
+  grid-template-columns: repeat(3, minmax(240px, 25rem));
+}
+
+.grid-element {
+  display: flex;
+  flex-direction: column;
+  background: black;
+  border-bottom-left-radius: 1.5rem;
+  border-bottom-right-radius: 1.5rem;
+  transition: tranform 0.3s ease-in-out;
+}
+
+.grid-element:hover {
+  transform: scale(1.05);
+}
+
+.grid-element:hover .select-button {
+  background: white;
+}
+
+.thumbnail {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 80%;
+}
+
+.picture {
+  width: 100%;
+}
+
+.select-button {
+  padding: 1rem;
+  margin: 0.5rem 1rem 1rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: flex-end;
+  background: gold;
+  border-radius: 1rem;
+  transition: background 0.3s ease-in-out;
+}

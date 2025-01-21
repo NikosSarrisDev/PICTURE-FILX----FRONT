@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
       return window.innerWidth
     })
 
-    this.getMovies({start: 10, limit: 4});
+    this.getMovies({start: 3, limit: 4});
   }
 
   getMovies(data: any) {

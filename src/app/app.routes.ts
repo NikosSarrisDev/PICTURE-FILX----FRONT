@@ -8,6 +8,9 @@ import {MoviesComponent} from './mainAppComp/full/movies/movies.component';
 import {RoomsComponent} from './mainAppComp/full/rooms/rooms.component';
 import {ContactComponent} from './mainAppComp/full/contact/contact.component';
 import {HomeComponent} from './mainAppComp/full/home/home.component';
+import {RoomDefaultComponent} from './mainAppComp/full/rooms/room-default/room-default.component';
+import {RoomAtmosComponent} from './mainAppComp/full/rooms/room-atmos/room-atmos.component';
+import {RoomGoldComponent} from './mainAppComp/full/rooms/room-gold/room-gold.component';
 
 export const routes: Routes = [
   {
@@ -30,6 +33,21 @@ export const routes: Routes = [
         component: RoomsComponent,
         canActivate: [AuthGuard],
       },
+      {
+        path: 'roomDefault',
+        component: RoomDefaultComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'roomAtmos',
+        component: RoomAtmosComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'roomGold',
+        component: RoomGoldComponent,
+        canActivate: [AuthGuard]
+      }
     ]
   },
   {
