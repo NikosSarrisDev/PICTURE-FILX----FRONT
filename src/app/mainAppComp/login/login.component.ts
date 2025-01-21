@@ -69,6 +69,13 @@ export class LoginComponent implements OnInit{
       rememberMe : [this.rememberMe],
     })
 
+    //Add the Event listener to disable the Enter key because of wrong focus
+    addEventListener("keydown", (event:any) => {
+      if(event.key == "Enter"){
+        event.preventDefault();
+      }
+    })
+
     const currentUser = this.authenticationService.currentUser();
     console.log("That one !!! the current user", currentUser);
     if (currentUser){
