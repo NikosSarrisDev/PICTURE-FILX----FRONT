@@ -2,14 +2,17 @@ import {Component, OnInit} from '@angular/core';
 import {DataService} from '../../../data.service';
 import {YouTubePlayer} from '@angular/youtube-player';
 import {Router} from '@angular/router';
-import {NgForOf} from '@angular/common';
+import {NgForOf, NgIf} from '@angular/common';
+import {ProgressSpinner} from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
     YouTubePlayer,
-    NgForOf
+    NgForOf,
+    ProgressSpinner,
+    NgIf
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
@@ -17,12 +20,14 @@ import {NgForOf} from '@angular/common';
 export class HomeComponent implements OnInit {
 
   movies!: any;
-
+  loading!: boolean;
   constructor(private dataService: DataService,
               private router: Router) {
   }
 
   ngOnInit() {
+
+    this.loading = true;
 
     //On resize event for dynamic width of video
     addEventListener("resize", () => {
@@ -37,6 +42,7 @@ export class HomeComponent implements OnInit {
     this.dataService.getMovie(data).subscribe((response) => {
       console.log(response.data[0])
       this.movies = response.data;
+      this.loading = false;
     })
   }
 

@@ -57,26 +57,36 @@
       </form>
     </div>
   </div>
-  <div style="background: #e78a0a; display: flex; align-items: center; flex-direction: column" class="col-md-9">
-    <div style="margin: 10rem 0 2rem 0; font-size: 2rem; font-family: Georgia, serif;">Ταινίες</div>
-    <div style="font-size: 1rem; color: #2b38cc; align-self: flex-start; margin-bottom: 1rem">Ημερομηνία Κυκλοφορίας</div>
-    <div class="movie-grid">
-      <div *ngFor="let movie of movies" class="movie-style">
-        <img class="movie-picture" [src]="movie.thumbnail" alt="MovieImage">
-        <div style="font-weight: bold">{{movie.title}}</div>
-        <div class="info-style">
-          <div>{{movie.rated}}</div>
-          <div><i class="pi pi-align-justify" style="padding-right: 0.5rem"></i>{{movie.type}}</div>
-          <div><i class="pi pi-clock" style="padding-right: 0.5rem"></i>{{movie.duration}}'</div>
+  <div style="background: #e78a0a" class="col-md-9">
+    <div style="display: flex; align-items: center; flex-direction: column; min-height: 100vh">
+      <div style="margin: 10rem 0 2rem 0; font-size: 2rem; font-family: Georgia, serif;">Ταινίες</div>
+      <div style="font-size: 1rem; color: #2b38cc; align-self: flex-start; margin-bottom: 1rem">Ημερομηνία Κυκλοφορίας
+      </div>
+      <div *ngIf="loading" style="min-height: 100vh; position: relative">
+        <div style="display: flex; justify-content: center; align-items: center; position: absolute; top: 0; bottom: 0; left: 0; right: 0;">
+          <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '100px', height: '100px', background: 'none' }"/>
         </div>
       </div>
-    </div>
-    <div class="card flex justify-center" style="margin-bottom: 2rem">
-      <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="allMovies.length" [rowsPerPageOptions]="[10,15,20]" />
+      <div *ngIf="!loading" class="movie-grid">
+        <div *ngFor="let movie of movies" class="movie-style">
+          <img class="movie-picture" [src]="movie.thumbnail" alt="MovieImage">
+          <div style="font-weight: bold">{{movie.title}}</div>
+          <div class="info-style">
+            <div>{{movie.rated}}</div>
+            <div><i class="pi pi-align-justify" style="padding-right: 0.5rem"></i>{{movie.type}}</div>
+            <div><i class="pi pi-clock" style="padding-right: 0.5rem"></i>{{movie.duration}}'</div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="movies.length > 0" class="card flex justify-center" style="margin-bottom: 2rem">
+        <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows"
+                     [totalRecords]="allMovies.length" [rowsPerPageOptions]="[10,15,20]"/>
+      </div>
     </div>
     <div style="display: flex; justify-content: center; margin: 0 2rem">
       <div class="row" style="width: 100%">
-        <div class="col-md-4" style="background: #FFFFFF; display: flex; justify-content: center; align-items: center; border-top-left-radius: 2rem">
+        <div class="col-md-4"
+             style="background: #FFFFFF; display: flex; justify-content: center; align-items: center; border-top-left-radius: 2rem">
           <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="400" height="200"
                data-id="lg_S9ZFZcZkZAMFrsO4IQ" data-version="1" viewBox="0 0 2000 1500"><path fill="#fff" stroke="transparent" d="M0 0h2000v1500H0z"/>
             <g data-padding="20"><g transform="translate(-1661.29 -1250.858)scale(2.59182)"><rect width="351.06" height="197.149" x="451.273" y="276.116" fill="none" rx="0" ry="0" transform="translate(404.44 457.02)"/><path
@@ -86,11 +96,16 @@
               <path fill="transparent" stroke="transparent" stroke-width="2.688"
                     d="M250 323.925h1500v852.15H250z"/></g></svg>
         </div>
-        <div class="col-md-8" style="background: #605d5d; display: flex; align-items: center; border-top-right-radius: 2rem">
+        <div class="col-md-8"
+             style="background: #605d5d; display: flex; align-items: center; border-top-right-radius: 2rem">
           <div class="row" style="padding-left: 2rem">
             <div class="col-md-6">
-              <div style="color: #FFFFFF; margin-bottom: 1rem; cursor: pointer" (click)="toContactForm()">Επικοινωνία</div>
-              <div style="color: #FFFFFF; cursor: pointer" (click)="window.open('https://www.linkedin.com/in/nikolaos-sarris-910340259/', '_blank')">Σχετικά με Εμένα</div>
+              <div style="color: #FFFFFF; margin-bottom: 1rem; cursor: pointer" (click)="toContactForm()">Επικοινωνία
+              </div>
+              <div style="color: #FFFFFF; cursor: pointer"
+                   (click)="window.open('https://www.linkedin.com/in/nikolaos-sarris-910340259/', '_blank')">Σχετικά με
+                Εμένα
+              </div>
             </div>
             <div class="col-md-6">
               <div style="color: gold; margin-bottom: 1rem;">2025 PICTURE FLIX</div>

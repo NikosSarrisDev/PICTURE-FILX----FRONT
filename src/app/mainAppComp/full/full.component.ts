@@ -44,6 +44,11 @@ export class FullComponent implements OnInit {
     this.router.navigate(['home']);
   }
 
+  logoutUser() {
+    this.authenticationService.logout();
+    location.reload();
+  }
+
   toContactForm() {
     this.router.navigate(['contact']);
   }

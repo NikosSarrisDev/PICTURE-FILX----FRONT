@@ -6,8 +6,8 @@
   </div>
 
   <div style="display: flex; align-items: center">
-    <button class="general-button"><i class="pi pi-user"></i> {{ currentUser.name }}</button>
-    <button class="action-button">Εισιτήρια <i class="pi pi-arrow-right"></i></button>
+    <button class="general-button" pTooltip="Αποσύνδεση Χρήστη" tooltipPosition="bottom" (click)="logoutUser()"><i class="pi pi-sign-out"></i> {{ currentUser.name }}</button>
+    <button class="action-button" pTooltip="Γρήγορο Εισητήριο" tooltipPosition="bottom">Εισιτήρια <i class="pi pi-arrow-right"></i></button>
     <button class="to-contact-co" pTooltip="Φόρμα Επικοινωνίας" tooltipPosition="bottom" (click)="toContactForm()"><i
       style="font-size: 2rem" class="pi pi-phone"></i></button>
     <button class="locale-switch" pTooltip="Εναλλαγή γλώσσας" tooltipPosition="bottom"><i style="font-size: 2rem" class="pi pi-globe"></i>

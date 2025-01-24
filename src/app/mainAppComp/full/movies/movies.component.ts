@@ -5,8 +5,10 @@ import {ButtonDirective} from 'primeng/button';
 import {DataService} from '../../../data.service';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {NgForOf} from '@angular/common';
+import {NgForOf, NgIf} from '@angular/common';
 import {Paginator} from 'primeng/paginator';
+import {ProgressSpinner} from 'primeng/progressspinner';
+import {Rating} from 'primeng/rating';
 
 @Component({
   selector: 'app-movies',
@@ -17,7 +19,10 @@ import {Paginator} from 'primeng/paginator';
     ButtonDirective,
     ReactiveFormsModule,
     NgForOf,
-    Paginator
+    Paginator,
+    NgIf,
+    ProgressSpinner,
+    Rating
   ],
   templateUrl: './movies.component.html',
   styleUrl: './movies.component.css'
@@ -29,6 +34,7 @@ export class MoviesComponent implements OnInit {
   allMovies: any[] = [];
   first: number = 0;
   rows: number = 10;
+  loading!: boolean;
 
   constructor(private dataService: DataService,
               private router: Router,
@@ -36,6 +42,7 @@ export class MoviesComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loading = true;
     this.getMovies({start: this.first, limit: this.rows});
     this.getAlMovies();
 
@@ -60,6 +67,7 @@ export class MoviesComponent implements OnInit {
   getMovies(data: any) {
     this.dataService.getMovie(data).subscribe((response) => {
       this.movies = response.data;
+      this.loading = false;
     })
   }
 

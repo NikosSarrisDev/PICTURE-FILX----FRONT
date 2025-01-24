@@ -19,6 +19,14 @@
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
+  position: relative;
+}
+
+.stars {
+  position: absolute;
+  top: 0;
+  margin: 0 auto;
+  padding-top: 0.5rem;
 }
 
 .movie-picture {

@@ -2,20 +2,24 @@ import {Component, OnInit} from '@angular/core';
 import {DataService} from '../../../data.service';
 import {Router} from '@angular/router';
 import {FormBuilder} from '@angular/forms';
-import {NgForOf} from '@angular/common';
+import {NgForOf, NgIf} from '@angular/common';
+import {ProgressSpinner} from "primeng/progressspinner";
 
 @Component({
   selector: 'app-rooms',
   standalone: true,
-  imports: [
-    NgForOf
-  ],
+    imports: [
+        NgForOf,
+        NgIf,
+        ProgressSpinner
+    ],
   templateUrl: './rooms.component.html',
   styleUrl: './rooms.component.css'
 })
 export class RoomsComponent implements OnInit {
 
   allRooms: any[] = [];
+  loading!: boolean;
 
   constructor(private dataService: DataService,
               private router: Router,
@@ -24,6 +28,7 @@ export class RoomsComponent implements OnInit {
 
   ngOnInit() {
 
+    this.loading = true;
     this.getAllRooms({});
 
   }
@@ -31,6 +36,7 @@ export class RoomsComponent implements OnInit {
   getAllRooms(data: any) {
     this.dataService.getRoom(data).subscribe((response) => {
       this.allRooms = response.data;
+      this.loading = false;
     })
   }
 

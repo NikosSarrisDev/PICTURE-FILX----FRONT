@@ -1,5 +1,11 @@
 <div class="all-home">
-  <div class="youtube-container">
+  <!--    loading Screen-->
+  <div *ngIf="loading" style="min-height: 100vh; position: relative">
+    <div style="display: flex; justify-content: center; align-items: center; position: absolute; top: 0; bottom: 0; left: 0; right: 0;">
+      <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '100px', height: '100px' }"/>
+    </div>
+  </div>
+  <div *ngIf="!loading" class="youtube-container">
     <!--  Trailer-->
     <div class="row" style="width: 100%">
       <div class="col-md-2 mt-5 info-button">

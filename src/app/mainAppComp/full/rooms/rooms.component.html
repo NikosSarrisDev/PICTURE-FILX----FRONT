@@ -1,20 +1,27 @@
 <div class="all-room">
-  <div
-    style="display: flex; justify-content: center; align-items: center; padding: 3rem 0; font-family: Georgia, serif; font-size: 2rem">
-    Ζήστε μια απίστευτη εμπειρία!
+  <div *ngIf="loading" style="min-height: 100vh; position: relative">
+    <div style="display: flex; justify-content: center; align-items: center; position: absolute; top: 0; bottom: 0; left: 0; right: 0">
+      <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '100px', height: '100px' }"/>
+    </div>
   </div>
-  <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 10rem">
-    <div class="grid-rooms">
-      <div *ngFor="let room of allRooms" class="grid-element">
-        <div class="thumbnail">
-          <img class="picture" [src]="room.thumbnail" alt="roomsThumbnail">
-        </div>
-        <div style="font-weight: bold; padding: 0.5rem 0 0.5rem 0.5rem; color: white">{{room.title}}</div>
-        <div style="color: white; margin-left: 0.5rem">
-          {{room.quickText}}
-        </div>
-        <div class="select-button" (click)="navigateToRooms(room.title)">
-          <i class="pi pi-arrow-right"></i>
+  <div *ngIf="!loading" style="min-height: 100vh">
+    <div
+      style="display: flex; justify-content: center; align-items: center; padding: 3rem 0; font-family: Georgia, serif; font-size: 2rem">
+      Ζήστε μια απίστευτη εμπειρία!
+    </div>
+    <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 10rem">
+      <div class="grid-rooms">
+        <div *ngFor="let room of allRooms" (click)="navigateToRooms(room.title)" class="grid-element">
+          <div class="thumbnail">
+            <img class="picture" [src]="room.thumbnail" alt="roomsThumbnail">
+          </div>
+          <div style="font-weight: bold; padding: 0.5rem 0 0.5rem 0.5rem; color: white">{{room.title}}</div>
+          <div style="color: white; margin-left: 0.5rem">
+            {{room.quickText}}
+          </div>
+          <div class="select-button">
+            <i class="pi pi-arrow-right"></i>
+          </div>
         </div>
       </div>
     </div>
