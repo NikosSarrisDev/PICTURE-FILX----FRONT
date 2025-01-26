@@ -31,10 +31,12 @@ export class MoviesComponent implements OnInit {
 
   filtersForm!: FormGroup;
   movies: any[] = [];
-  allMovies: any[] = [];
+  paginatedMovies: any[] = [];
   first: number = 0;
-  rows: number = 10;
+  rows: number = 9;
   loading!: boolean;
+  orderCol: any;
+  descAsc: number = 1;
 
   constructor(private dataService: DataService,
               private router: Router,
@@ -42,9 +44,7 @@ export class MoviesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loading = true;
-    this.getMovies({start: this.first, limit: this.rows});
-    this.getAlMovies();
+    this.getMovies({});
 
     this.filtersForm = this.formBuilder.group({
       "title": [''],
@@ -65,15 +65,11 @@ export class MoviesComponent implements OnInit {
   }
 
   getMovies(data: any) {
+    this.loading = true;
     this.dataService.getMovie(data).subscribe((response) => {
       this.movies = response.data;
+      this.updatePaginatedMovies();
       this.loading = false;
-    })
-  }
-
-  getAlMovies() {
-    this.dataService.getMovie({}).subscribe((response) => {
-      this.allMovies = response.data;
     })
   }
 
@@ -124,11 +120,40 @@ export class MoviesComponent implements OnInit {
     this.getMovies({ title: title, director: director, producer: producer, type: type.map(type => `'${type}'`).join(","), start: this.first, limit: this.rows});
   }
 
+  onSort(field:any) {
+    this.movies = [];
+    if (this.orderCol != field)
+      this.descAsc = -1
+    else
+      this.descAsc *= -1;
+    this.orderCol = field;
+    this.getMovies({});
+  }
+
+  getOrderIcon(field:any) {
+    if (this.descAsc == -1 && this.orderCol == field) {
+      return 'pi pi-arrow-down';
+    }
+    else if (this.descAsc == 1 && this.orderCol == field) {
+      return 'pi pi-arrow-up';
+    }
+    else {
+      return 'pi pi-arrows-v';
+    }
+  }
+
   onPageChange(event: any){
     this.first = event.first;
     this.rows = event.rows;
 
-    this.getMovies({start: this.first, limit: this.rows});
+    // this.getMovies({start: this.first, limit: this.rows});
+    this.updatePaginatedMovies();
+  }
+
+  updatePaginatedMovies() {
+    const start = this.first;
+    const end = this.first + this.rows;
+    this.paginatedMovies = this.movies.slice(start, end);
   }
 
   toContactForm(){
