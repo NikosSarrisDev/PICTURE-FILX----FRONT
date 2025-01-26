@@ -127,7 +127,7 @@ export class MoviesComponent implements OnInit {
     else
       this.descAsc *= -1;
     this.orderCol = field;
-    this.getMovies({});
+    this.getMovies({ orderCol: this.orderCol, descAsc: this.descAsc });
   }
 
   getOrderIcon(field:any) {
