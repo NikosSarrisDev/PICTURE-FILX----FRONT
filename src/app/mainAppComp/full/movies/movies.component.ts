@@ -4,8 +4,8 @@ import {InputText} from 'primeng/inputtext';
 import {ButtonDirective} from 'primeng/button';
 import {DataService} from '../../../data.service';
 import {Router} from '@angular/router';
-import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {NgForOf, NgIf} from '@angular/common';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {NgClass, NgForOf, NgIf} from '@angular/common';
 import {Paginator} from 'primeng/paginator';
 import {ProgressSpinner} from 'primeng/progressspinner';
 import {Rating} from 'primeng/rating';
@@ -22,7 +22,9 @@ import {Rating} from 'primeng/rating';
     Paginator,
     NgIf,
     ProgressSpinner,
-    Rating
+    Rating,
+    NgClass,
+    FormsModule
   ],
   templateUrl: './movies.component.html',
   styleUrl: './movies.component.css'
@@ -127,7 +129,8 @@ export class MoviesComponent implements OnInit {
     else
       this.descAsc *= -1;
     this.orderCol = field;
-    this.getMovies({ orderCol: this.orderCol, descAsc: this.descAsc });
+    this.getMovies({orderCol: this.orderCol, descAsc: this.descAsc == 1 ? 'asc': 'desc' });
+    this.updatePaginatedMovies();
   }
 
   getOrderIcon(field:any) {

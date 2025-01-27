@@ -54,8 +54,6 @@ export class RoomAtmosComponent implements OnInit {
 
   ngOnInit() {
 
-    this.loadingMovies = true;
-    this.loadingRooms = true;
     this.getAllRooms({title: "Dolby Atmos"});
     this.getMovies({});
 
@@ -104,6 +102,7 @@ export class RoomAtmosComponent implements OnInit {
   }
 
   getAllRooms(data: any) {
+    this.loadingRooms = true;
     this.dataService.getRoom(data).subscribe((response) => {
       this.roomAtmos = response.data[0];
 
@@ -132,6 +131,7 @@ export class RoomAtmosComponent implements OnInit {
   }
 
   getMovies(data: any) {
+    this.loadingMovies = true;
     this.dataService.getMovie(data).subscribe((response) => {
       this.allMovies = response.data;
       this.loadingMovies = false;

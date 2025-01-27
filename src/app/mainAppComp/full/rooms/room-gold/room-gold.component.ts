@@ -54,8 +54,6 @@ export class RoomGoldComponent implements OnInit {
 
   ngOnInit() {
 
-    this.loadingMovies = true;
-    this.loadingRooms = true;
     this.getAllRooms({title: "VIP Luxe"});
     this.getMovies({});
 
@@ -104,6 +102,7 @@ export class RoomGoldComponent implements OnInit {
   }
 
   getAllRooms(data: any) {
+    this.loadingRooms = true;
     this.dataService.getRoom(data).subscribe((response) => {
       this.roomVIP = response.data[0];
 
@@ -126,6 +125,7 @@ export class RoomGoldComponent implements OnInit {
   }
 
   getMovies(data: any) {
+    this.loadingMovies = true;
     this.dataService.getMovie(data).subscribe((response) => {
       this.allMovies = response.data;
       this.loadingMovies = false;

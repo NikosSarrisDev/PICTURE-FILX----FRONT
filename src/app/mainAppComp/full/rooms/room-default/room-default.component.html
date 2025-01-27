@@ -1,10 +1,11 @@
 <div style="background: #e78a0a">
-  <div *ngIf="loadingMovies && loadingRooms" style="min-height: 100vh; position: relative">
-    <div style="display: flex; justify-content: center; align-items: center; position: absolute; top: 0; bottom: 0; left: 0; right: 0">
+  <div *ngIf="loadingRooms" style="min-height: 100vh; position: relative">
+    <div
+      style="display: flex; justify-content: center; align-items: center; position: absolute; top: 0; bottom: 0; left: 0; right: 0">
       <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '100px', height: '100px' }"/>
     </div>
   </div>
-  <div *ngIf="!loadingMovies && !loadingRooms" style="min-height: 100vh">
+  <div *ngIf="!loadingRooms" style="min-height: 100vh">
     <div
       style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding-top: 10rem">
       <div style="margin: 1rem 0; font-weight: bold; font-size: 2rem">{{roomDefault.title}}</div>
@@ -32,7 +33,10 @@
       </form>
     </div>
     <div>
-      <p-carousel [value]="allMovies" [numVisible]="3" [numScroll]="3" [circular]="false">
+      <div *ngIf="loadingMovies" style="display: flex; justify-content: center; align-items: center; padding: 2rem">
+        <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '100px', height: '100px' }"/>
+      </div>
+      <p-carousel *ngIf="!loadingMovies" [value]="allMovies" [numVisible]="3" [numScroll]="3" [circular]="false">
         <ng-template let-movie #item>
           <div class="movie-style">
             <!--          <div>Pictue</div>-->

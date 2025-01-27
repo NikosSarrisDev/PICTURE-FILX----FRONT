@@ -52,8 +52,6 @@ export class RoomDefaultComponent implements OnInit {
 
   ngOnInit() {
 
-    this.loadingMovies = true;
-    this.loadingRooms = true;
     this.getAllRooms({title: "Η Απλή Αίθουσα"});
     this.getMovies({});
 
@@ -102,6 +100,7 @@ export class RoomDefaultComponent implements OnInit {
   }
 
   getAllRooms(data: any) {
+    this.loadingRooms = true;
     this.dataService.getRoom(data).subscribe((response) => {
       this.roomDefault = response.data[0];
 
@@ -130,6 +129,7 @@ export class RoomDefaultComponent implements OnInit {
   }
 
   getMovies(data: any) {
+    this.loadingMovies = true;
     this.dataService.getMovie(data).subscribe((response) => {
       this.allMovies = response.data;
       this.loadingMovies = false;

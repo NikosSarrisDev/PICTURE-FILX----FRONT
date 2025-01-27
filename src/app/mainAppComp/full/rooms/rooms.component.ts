@@ -28,12 +28,12 @@ export class RoomsComponent implements OnInit {
 
   ngOnInit() {
 
-    this.loading = true;
     this.getAllRooms({});
 
   }
 
   getAllRooms(data: any) {
+    this.loading = true;
     this.dataService.getRoom(data).subscribe((response) => {
       this.allRooms = response.data;
       this.loading = false;

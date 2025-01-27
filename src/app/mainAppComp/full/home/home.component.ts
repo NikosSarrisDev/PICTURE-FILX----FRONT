@@ -27,8 +27,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
 
-    this.loading = true;
-
     //On resize event for dynamic width of video
     addEventListener("resize", () => {
       return window.innerWidth
@@ -38,7 +36,7 @@ export class HomeComponent implements OnInit {
   }
 
   getMovies(data: any) {
-    console.log(data, "this is the response")
+    this.loading = true;
     this.dataService.getMovie(data).subscribe((response) => {
       console.log(response.data[0])
       this.movies = response.data;
