@@ -159,6 +159,10 @@ export class MoviesComponent implements OnInit {
     this.paginatedMovies = this.movies.slice(start, end);
   }
 
+  viewsForMovie(title: string){
+    this.router.navigate(['views'], { queryParams: { title: title } })
+  }
+
   toContactForm(){
     this.router.navigate(['contact']);
   }

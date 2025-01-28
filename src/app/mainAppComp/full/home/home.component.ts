@@ -52,5 +52,9 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['contact']);
   }
 
+  viewsForMovie(title: string){
+    this.router.navigate(['views'], { queryParams: { title: title } })
+  }
+
   protected readonly window = window;
 }

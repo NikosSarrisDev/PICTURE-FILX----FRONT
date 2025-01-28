@@ -9,8 +9,7 @@ import {RoomsComponent} from './mainAppComp/full/rooms/rooms.component';
 import {ContactComponent} from './mainAppComp/full/contact/contact.component';
 import {HomeComponent} from './mainAppComp/full/home/home.component';
 import {RoomDefaultComponent} from './mainAppComp/full/rooms/room-default/room-default.component';
-import {RoomAtmosComponent} from './mainAppComp/full/rooms/room-atmos/room-atmos.component';
-import {RoomGoldComponent} from './mainAppComp/full/rooms/room-gold/room-gold.component';
+import {ViewsComponent} from './mainAppComp/full/views/views.component';
 
 export const routes: Routes = [
   {
@@ -39,13 +38,8 @@ export const routes: Routes = [
         canActivate: [AuthGuard]
       },
       {
-        path: 'roomAtmos',
-        component: RoomAtmosComponent,
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'roomGold',
-        component: RoomGoldComponent,
+        path: 'views',
+        component: ViewsComponent,
         canActivate: [AuthGuard]
       }
     ]

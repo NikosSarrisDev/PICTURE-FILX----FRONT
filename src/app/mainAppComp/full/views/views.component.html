@@ -1,58 +1,59 @@
-<div style="background: #e78a0a">
-  <div *ngIf="loadingRooms" style="min-height: 100vh; position: relative">
-    <div style="display: flex; justify-content: center; align-items: center; position: absolute; top: 0; bottom: 0; left: 0; right: 0">
-      <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '100px', height: '100px' }"/>
+<div style="background: #e78a0a; padding-top: 5rem">
+  <div *ngIf="loadingMovie" style="min-height: 100vh">
+    <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s"
+                        [style]="{ width: '100px', height: '100px' }"/>
+  </div>
+  <div *ngIf="!loadingMovie" class="row" style="min-height: 30vh; padding: 2rem; width: 100%">
+    <div class="col-md-7">
+      <div style="font-size: 2.5rem; margin: 1rem 0; font-weight: bold">{{movieDetails.title}}</div>
+      <div style="margin: 1rem 0 1rem 0">
+        <label style="font-size: 2rem">Περιγραφή</label>
+        <div>{{movieDetails.description}}</div>
+      </div>
+<!--      <div style="display: flex; align-items: center; margin-bottom: 2rem">-->
+<!--        <div>{{movieDetails.rated}}</div>-->
+<!--        <div><i class="pi pi-align-justify" style="padding-right: 0.5rem"></i>{{movieDetails.type}}</div>-->
+<!--        <div><i class="pi pi-clock" style="padding-right: 0.5rem"></i>{{movieDetails.duration}}'</div>-->
+<!--      </div>-->
+      <div style="display: flex; align-items: center; margin-bottom: 2rem">
+        <div class="info-button" style="margin: unset">
+          Καταλληλότητα: {{movieDetails.rated}}
+        </div>
+        <div class="info-button">
+          <i class="pi pi-align-justify" style="padding-right: 0.5rem"></i> {{movieDetails.type}}
+        </div>
+        <div class="info-button">
+          <i class="pi pi-clock" style="padding-right: 0.5rem"></i> {{movieDetails.duration}}'
+        </div>
+      </div>
+      <button class="general-button" style="margin: unset" (click)="moveToWiki(movieDetails.wikiLink)">Περισσότερες Πληροφορίες<i
+        class="pi pi-arrow-right"></i></button>
+    </div>
+    <div class="col-md-5">
+      <img class="movie-picture" [src]="movieDetails.thumbnail" alt="MovieImage">
     </div>
   </div>
-  <div *ngIf="!loadingRooms" style="min-height: 100vh">
-    <div
-      style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding-top: 10rem">
-      <div style="margin: 1rem 0; font-weight: bold; font-size: 2rem">{{roomAtmos.title}}</div>
-      <p-galleria [value]="images" [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '1200px' }"
-                  [numVisible]="5">
-        <ng-template pTemplate="item" let-item>
-          <img [src]="item.itemImageSrc" style="width:100%" height="600" width="800"/>
-        </ng-template>
-        <ng-template pTemplate="thumbnail" let-item>
-          <img [src]="item.thumbnailImageSrc" height="100" width="200"/>
-        </ng-template>
-      </p-galleria>
-    </div>
-    <div style="display: flex; flex-direction: column; align-items: flex-start; margin: 2rem 0 1rem 1.5rem">
-      <div style="font-size: 2rem; font-weight: bold; padding-bottom: 0.7rem">Περιγραφή</div>
-      <div style="margin-bottom: 4rem; font-size: 1.5rem">{{roomAtmos.description}}</div>
-    </div>
-    <div style="margin-left: 2rem;font-size: 2rem; font-weight: bold">
-      Ταινίες που προβάλονται στην {{roomAtmos.title}}
-    </div>
-    <div style="margin: 2rem">
-      <form [formGroup]="filterForm">
-        <p-select formControlName="type" [options]="movieTypes" optionLabel="name" placeholder="ΤΥΠΟΣ ΤΑΙΝΙΑΣ"
-                  (onChange)="onSelectType($event)" class="w-full md:w-56"/>
-      </form>
-    </div>
-    <div>
-      <div *ngIf="loadingMovies" style="display: flex; justify-content: center; align-items: center; padding: 2rem">
-        <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '100px', height: '100px' }"/>
+  <div style="display: flex; justify-content: center; align-items: center">COMING SOON</div>
+  <div class="row" style="padding: 2rem; width: 100%">
+    <div class="col-md-4">
+      <div>
+        <label class="director-str">Σκηνοθεσία</label>
+        <div style="font-size: 1.5rem">{{movieDetails.director}}</div>
       </div>
-      <p-carousel *ngIf="!loadingMovies" [value]="allMovies" [numVisible]="3" [numScroll]="3" [circular]="false">
-        <ng-template let-movie #item>
-          <div class="movie-style">
-            <!--          <div>Pictue</div>-->
-            <img class="movie-picture" [src]="movie.thumbnail" alt="MovieImage">
-            <div style="font-weight: bold">{{movie.title}}</div>
-            <div class="info-style">
-              <div>{{movie.rated}}</div>
-              <div><i class="pi pi-align-justify" style="padding-right: 0.5rem"></i>{{movie.type}}</div>
-              <div><i class="pi pi-clock" style="padding-right: 0.5rem"></i>{{movie.duration}}'</div>
-            </div>
-          </div>
-        </ng-template>
-      </p-carousel>
+      <div>
+        <label class="director-str">Παραγωγή</label>
+        <div style="font-size: 1.5rem">{{movieDetails.producer}}</div>
+      </div>
+      <div>
+        <label class="director-str">Χρονολογία</label>
+        <div style="font-size: 1.5rem">{{movieDetails.releaseDate}}</div>
+      </div>
     </div>
-    <div style="display: flex; justify-content: flex-end; margin-bottom: 2rem; margin-right: 3rem">
-      <button class="action-button" style="margin: unset" (click)="backToAllMovies()">Όλες οι ταινίες <i
-        class="pi pi-arrow-right"></i></button>
+    <div class="col-md-8">
+      <div style="display: flex; justify-content: center; width: 100%" id="movieDiv">
+        <youtube-player [width]="Math.floor(window.innerWidth / 2)*0.95" height="550" [videoId]="movieDetails.trailerCode"
+                        [playerVars]="{ autoplay: 0 }"/>
+      </div>
     </div>
   </div>
   <div style="display: flex; justify-content: center; margin: 0 2rem">

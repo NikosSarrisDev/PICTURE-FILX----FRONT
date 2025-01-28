@@ -8,7 +8,7 @@
   <div *ngIf="!loadingRooms" style="min-height: 100vh">
     <div
       style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding-top: 10rem">
-      <div style="margin: 1rem 0; font-weight: bold; font-size: 2rem">{{roomDefault.title}}</div>
+      <div style="margin: 1rem 0; font-weight: bold; font-size: 2rem">{{room.title}}</div>
       <p-galleria [value]="images" [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '1200px' }"
                   [numVisible]="5">
         <ng-template pTemplate="item" let-item>
@@ -21,10 +21,10 @@
     </div>
     <div style="display: flex; flex-direction: column; align-items: flex-start; margin: 2rem 0 1rem 1.5rem">
       <div style="font-size: 2rem; font-weight: bold; padding-bottom: 0.7rem">Περιγραφή</div>
-      <div style="margin-bottom: 4rem; font-size: 1.5rem">{{roomDefault.description}}</div>
+      <div style="margin-bottom: 4rem; font-size: 1.5rem">{{room.description}}</div>
     </div>
     <div style="margin-left: 2rem;font-size: 2rem; font-weight: bold">
-      Ταινίες που προβάλονται στην Απλή Αίθουσα
+      Ταινίες που προβάλονται εδώ
     </div>
     <div style="margin: 2rem">
       <form [formGroup]="filterForm">
@@ -40,7 +40,7 @@
         <ng-template let-movie #item>
           <div class="movie-style">
             <!--          <div>Pictue</div>-->
-            <img class="movie-picture" [src]="movie.thumbnail" alt="MovieImage">
+            <img class="movie-picture" [src]="movie.thumbnail" alt="MovieImage" (click)="viewsForMovie(movie.title)">
             <div style="font-weight: bold">{{movie.title}}</div>
             <div class="info-style">
               <div>{{movie.rated}}</div>

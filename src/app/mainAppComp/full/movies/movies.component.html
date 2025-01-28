@@ -71,7 +71,7 @@
       </div>
       <div *ngIf="!loading" class="movie-grid">
         <div *ngFor="let movie of paginatedMovies" class="movie-style">
-          <img class="movie-picture" [src]="movie.thumbnail" alt="MovieImage">
+          <img class="movie-picture" [src]="movie.thumbnail" alt="MovieImage" (click)="viewsForMovie(movie.title)">
           <p-rating [(ngModel)]="movie.rating" [readonly]="true"></p-rating>
           <div style="font-weight: bold">{{movie.title}}</div>
           <div class="info-style">

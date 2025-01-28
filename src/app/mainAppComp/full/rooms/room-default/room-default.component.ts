@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {DataService} from '../../../../data.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {GalleriaModule} from 'primeng/galleria';
 import {DropdownModule} from 'primeng/dropdown';
@@ -24,7 +24,8 @@ import {ProgressSpinner} from 'primeng/progressspinner';
 })
 export class RoomDefaultComponent implements OnInit {
 
-  roomDefault!: any;
+  room!: any;
+  title!: string;
   filterForm!: FormGroup;
   allMovies: any[] = [];
   images: any[] = [];
@@ -47,12 +48,17 @@ export class RoomDefaultComponent implements OnInit {
 
   constructor(private dataService: DataService,
               private router: Router,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
 
-    this.getAllRooms({title: "Η Απλή Αίθουσα"});
+    this.route.queryParams.subscribe((params) => {
+      this.title = params["title"];
+    })
+
+    this.getAllRooms({title: this.title});
     this.getMovies({});
 
     this.filterForm = this.formBuilder.group({
@@ -102,7 +108,7 @@ export class RoomDefaultComponent implements OnInit {
   getAllRooms(data: any) {
     this.loadingRooms = true;
     this.dataService.getRoom(data).subscribe((response) => {
-      this.roomDefault = response.data[0];
+      this.room = response.data[0];
 
       this.images.push({
         itemImageSrc: response.data[0].image1,
@@ -138,6 +144,10 @@ export class RoomDefaultComponent implements OnInit {
 
   toContactForm() {
     this.router.navigate(['contact']);
+  }
+
+  viewsForMovie(title: string){
+    this.router.navigate(['views'], { queryParams: { title: title } })
   }
 
   backToAllMovies() {

@@ -127,3 +127,8 @@
   background: black;
   color: white;
 }
+
+img {
+  display: block;
+  max-inline-size: 100%;
+}

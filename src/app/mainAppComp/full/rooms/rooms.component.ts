@@ -45,19 +45,7 @@ export class RoomsComponent implements OnInit {
   }
 
   navigateToRooms(roomTitle: string){
-    switch (roomTitle){
-      case "Η Απλή Αίθουσα":
-        this.router.navigate(['roomDefault']);
-        break;
-      case "Dolby Atmos":
-        this.router.navigate(['roomAtmos']);
-        break;
-      case "VIP Luxe":
-        this.router.navigate(['roomGold']);
-        break;
-      default:
-        console.error("No such room");
-    }
+    this.router.navigate(['roomDefault'], { queryParams: { title: roomTitle } })
   }
 
   protected readonly window = window;
