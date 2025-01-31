@@ -69,6 +69,9 @@
           <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '100px', height: '100px', background: 'none' }"/>
         </div>
       </div>
+      <div *ngIf="movies.length == 0 && !loading" style="min-height: 50vh; display: flex; justify-content: center; align-items: center">
+        <div style="font-weight: bold; font-size: 2rem">Δεν υπάρχουν ταινίες</div>
+      </div>
       <div *ngIf="!loading" class="movie-grid">
         <div *ngFor="let movie of paginatedMovies" class="movie-style">
           <img class="movie-picture" [src]="movie.thumbnail" alt="MovieImage" (click)="viewsForMovie(movie.title)">

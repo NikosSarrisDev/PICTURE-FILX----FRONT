@@ -1,58 +1,78 @@
 <div style="background: #e78a0a; padding-top: 5rem">
-  <div *ngIf="loadingMovie" style="min-height: 100vh">
-    <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s"
-                        [style]="{ width: '100px', height: '100px' }"/>
+  <div *ngIf="loadingMovie" style="min-height: 100vh; display: flex; justify-content: center; align-items: center">
+    <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '100px', height: '100px' }"/>
   </div>
-  <div *ngIf="!loadingMovie" class="row" style="min-height: 30vh; padding: 2rem; width: 100%">
-    <div class="col-md-7">
-      <div style="font-size: 2.5rem; margin: 1rem 0; font-weight: bold">{{movieDetails.title}}</div>
-      <div style="margin: 1rem 0 1rem 0">
-        <label style="font-size: 2rem">Περιγραφή</label>
-        <div>{{movieDetails.description}}</div>
-      </div>
-<!--      <div style="display: flex; align-items: center; margin-bottom: 2rem">-->
-<!--        <div>{{movieDetails.rated}}</div>-->
-<!--        <div><i class="pi pi-align-justify" style="padding-right: 0.5rem"></i>{{movieDetails.type}}</div>-->
-<!--        <div><i class="pi pi-clock" style="padding-right: 0.5rem"></i>{{movieDetails.duration}}'</div>-->
-<!--      </div>-->
-      <div style="display: flex; align-items: center; margin-bottom: 2rem">
-        <div class="info-button" style="margin: unset">
-          Καταλληλότητα: {{movieDetails.rated}}
+  <div *ngIf="!loadingMovie">
+    <div class="row" style="min-height: 30vh; padding: 2rem; width: 100%">
+      <div class="col-md-7">
+        <div style="font-size: 2.5rem; margin: 1rem 0; font-weight: bold">{{movieDetails.title}}</div>
+        <div style="margin: 1rem 0 1rem 0">
+          <label style="font-size: 2rem">Περιγραφή</label>
+          <div>{{movieDetails.description}}</div>
         </div>
-        <div class="info-button">
-          <i class="pi pi-align-justify" style="padding-right: 0.5rem"></i> {{movieDetails.type}}
+        <div style="display: flex; align-items: center; margin-bottom: 2rem">
+          <div class="info-button" style="margin: unset">
+            Καταλληλότητα: {{movieDetails.rated}}
+          </div>
+          <div class="info-button">
+            <i class="pi pi-align-justify" style="padding-right: 0.5rem"></i> {{movieDetails.type}}
+          </div>
+          <div class="info-button">
+            <i class="pi pi-clock" style="padding-right: 0.5rem"></i> {{movieDetails.duration}}'
+          </div>
         </div>
-        <div class="info-button">
-          <i class="pi pi-clock" style="padding-right: 0.5rem"></i> {{movieDetails.duration}}'
-        </div>
+        <button class="general-button" style="margin: unset" (click)="moveToWiki(movieDetails.wikiLink)">Περισσότερες
+          Πληροφορίες<i
+            class="pi pi-arrow-right"></i></button>
       </div>
-      <button class="general-button" style="margin: unset" (click)="moveToWiki(movieDetails.wikiLink)">Περισσότερες Πληροφορίες<i
-        class="pi pi-arrow-right"></i></button>
-    </div>
-    <div class="col-md-5">
-      <img class="movie-picture" [src]="movieDetails.thumbnail" alt="MovieImage">
-    </div>
-  </div>
-  <div style="display: flex; justify-content: center; align-items: center">COMING SOON</div>
-  <div class="row" style="padding: 2rem; width: 100%">
-    <div class="col-md-4">
-      <div>
-        <label class="director-str">Σκηνοθεσία</label>
-        <div style="font-size: 1.5rem">{{movieDetails.director}}</div>
-      </div>
-      <div>
-        <label class="director-str">Παραγωγή</label>
-        <div style="font-size: 1.5rem">{{movieDetails.producer}}</div>
-      </div>
-      <div>
-        <label class="director-str">Χρονολογία</label>
-        <div style="font-size: 1.5rem">{{movieDetails.releaseDate}}</div>
+      <div class="col-md-5">
+        <img class="movie-picture" [src]="movieDetails.thumbnail" alt="MovieImage">
       </div>
     </div>
-    <div class="col-md-8">
-      <div style="display: flex; justify-content: center; width: 100%" id="movieDiv">
-        <youtube-player [width]="Math.floor(window.innerWidth / 2)*0.95" height="550" [videoId]="movieDetails.trailerCode"
-                        [playerVars]="{ autoplay: 0 }"/>
+    <div class="calendar-container">
+      <div>Ημερολόγιο Κρατήσεων</div>
+      <full-calendar [options]="calendarOptions"></full-calendar>
+    </div>
+    <div #viewPlace style="width: 100%; background: #948e8e; padding: 2rem">
+      <div style="font-size: 2rem; font-weight: bold; text-decoration: underline">Διαθέσιμες
+        Προβολές {{selectedDate}}</div>
+      <div class="view-container">
+        <div *ngIf="views.length == 0"
+             style="min-height: 20vh; display: flex; justify-content: center; align-items: center">
+          <div style="font-weight: bold; font-size: 2rem">Δεν υπάρχουν Προβολές αυτή την ημέρα</div>
+        </div>
+        <div class="views" *ngFor="let view of views">
+          <div>{{view.date}}</div>
+          <div>{{view.startTime}}</div>
+          <div>{{movieDetails.title}}</div>
+          <div>{{view.roomTitle}}</div>
+          <div [ngClass]="view.availableNumberOfSeats > 0 ? 'action-button' : 'action-button-disable'"
+               style="margin: unset; display: flex; align-items: center; justify-content: center">Κράτηση <i
+            class="pi pi-arrow-right"></i></div>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="padding: 2rem; width: 100%">
+      <div class="col-md-4">
+        <div>
+          <label class="director-str">Σκηνοθεσία</label>
+          <div style="font-size: 1.5rem">{{movieDetails.director}}</div>
+        </div>
+        <div>
+          <label class="director-str">Παραγωγή</label>
+          <div style="font-size: 1.5rem">{{movieDetails.producer}}</div>
+        </div>
+        <div>
+          <label class="director-str">Χρονολογία</label>
+          <div style="font-size: 1.5rem">{{movieDetails.releaseDate}}</div>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div style="display: flex; justify-content: center; width: 100%" id="movieDiv">
+          <youtube-player [width]="Math.floor(window.innerWidth / 2)*0.95" height="550"
+                          [videoId]="movieDetails.trailerCode"
+                          [playerVars]="{ autoplay: 0 }"/>
+        </div>
       </div>
     </div>
   </div>

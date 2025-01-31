@@ -2,3 +2,55 @@
   color: #1e3b91;
   font-size: 1rem;
 }
+
+.calendar-container {
+  width: 80%;
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 20px;
+  background: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.view-container {
+  margin: 0 auto;
+  display: flex;
+  width: 80%;
+}
+
+.views {
+  width: 100%;
+  margin: 1rem 0;
+  padding: 2rem;
+  display: flex;
+  color: black;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid black;
+  border-radius: 0.5rem;
+  background: white;
+  transition: background 0.4s ease-in-out;
+}
+
+.single-view-movie {
+  text-align: center;
+}
+
+.single-view-room {
+  text-align: center;
+}
+
+.single-view-buy {
+  text-align: center;
+}
+
+.views:hover {
+  background: #28bcd7;
+}
+
+/* Fix FullCalendar anchor links (remove blue color & underline) */
+::ng-deep .fc a {
+  color: black !important;
+  text-decoration: none !important;
+}

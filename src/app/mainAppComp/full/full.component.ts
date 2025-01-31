@@ -41,7 +41,6 @@ export class FullComponent implements OnInit {
 
   ngOnInit() {
     this.currentUser = this.authenticationService.currentUser();
-    this.router.navigate(['home']);
   }
 
   logoutUser() {

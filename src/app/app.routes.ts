@@ -18,8 +18,9 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: 'home',
+        path: '',
         component: HomeComponent,
+        pathMatch: 'full',
         canActivate: [AuthGuard]
       },
       {

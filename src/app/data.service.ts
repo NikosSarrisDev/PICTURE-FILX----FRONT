@@ -226,6 +226,61 @@ export class DataService {
       }));
   }
 
+  getView(data: any){
+    return this.http.post<any>(this.remoteDataService.serviceURL + 'getView', data, httpOptions).pipe(
+      map(
+        (response: any) => {
+          return response;
+        }
+      ),
+      catchError((error: any) => {
+        this.handleError(error);
+        return throwError(error); // Rethrow the error to be handled by the caller
+      }));
+  }
+
+  // For Admin---
+  addView(data: any){
+    return this.http.post<any>(this.remoteDataService.serviceURL + 'addView', data, httpOptions).pipe(
+      map(
+        (response: any) => {
+          return response;
+        }
+      ),
+      catchError((error: any) => {
+        this.handleError(error);
+        return throwError(error); // Rethrow the error to be handled by the caller
+      }));
+  }
+
+  // For Admin---
+  updateView(data: any){
+    return this.http.post<any>(this.remoteDataService.serviceURL + 'updateView', data, httpOptions).pipe(
+      map(
+        (response: any) => {
+          return response;
+        }
+      ),
+      catchError((error: any) => {
+        this.handleError(error);
+        return throwError(error); // Rethrow the error to be handled by the caller
+      }));
+  }
+
+  // For Admin---
+  deleteView(data: any){
+    return this.http.post<any>(this.remoteDataService.serviceURL + 'deleteView', data, httpOptions).pipe(
+      map(
+        (response: any) => {
+          return response;
+        }
+      ),
+      catchError((error: any) => {
+        this.handleError(error);
+        return throwError(error); // Rethrow the error to be handled by the caller
+      }));
+  }
+
   private handleError(error:any) {
     var status = error.error.status;
     if (status == undefined) {
