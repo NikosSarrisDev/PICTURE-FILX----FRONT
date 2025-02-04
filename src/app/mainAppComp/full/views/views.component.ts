@@ -28,6 +28,7 @@ export class ViewsComponent implements OnInit, AfterViewInit {
   @ViewChild('viewPlace') targetSection!: ElementRef;
 
   movieTitle!: string;
+  movieId!: number;
   movieDetails!: any;
   views: any[] = [];
   loadingMovie!: boolean;
@@ -52,6 +53,7 @@ export class ViewsComponent implements OnInit, AfterViewInit {
       day: 'day',
       list: 'list'
     },
+    events: [],
     buttonIcons: {
       prev: 'chevron-left',
       next: 'chevron-right',
@@ -83,10 +85,10 @@ export class ViewsComponent implements OnInit, AfterViewInit {
 
     //Doing this in order to scroll the page in the specific part after the click
     if (this.targetSection) {
-      this.targetSection.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      this.targetSection.nativeElement.scrollIntoView({behavior: 'smooth', block: 'start'});
     }
 
-    this.getViewByCalendarDate(this.selectedDate);
+    this.getViewByCalendarDate(this.selectedDate, this.movieId);
   }
 
   ngAfterViewInit() {
@@ -102,6 +104,7 @@ export class ViewsComponent implements OnInit, AfterViewInit {
     this.dataService.getMovie({title: title}).subscribe((response) => {
       this.movieDetails = response.data[0];
       this.getView(response.data[0].id);
+      this.movieId = response.data[0].id;
       this.loadingMovie = false;
     })
   }
@@ -109,13 +112,37 @@ export class ViewsComponent implements OnInit, AfterViewInit {
   getView(movieId: any) {
     this.dataService.getView({movieId: movieId}).subscribe((response) => {
       this.views = response.data;
+
+      const event = response.data.map((view: any) => {
+        return {
+            start: view.date,
+            end: view.date,
+            display: 'background',
+            classNames: ['highlighted-dates']
+        }
+      })
+
+      this.calendarOptions = {...this.calendarOptions, events: [...event]}
+
     })
   }
 
-  getViewByCalendarDate(date: any) {
-    this.dataService.getView({date: date}).subscribe((response) => {
+  getViewByCalendarDate(date: any, movieId: any) {
+    console.log(movieId, "This is the movie name");
+    this.dataService.getView({date: date, movieId: movieId}).subscribe((response) => {
       this.views = response.data;
     })
+  }
+
+  moveToQuantityOffTickets(movieTitle: string, viewDate: string, startTime: string, roomTitle: string) {
+    this.router.navigate(['quantity'], {
+      queryParams: {
+        movieTitle: movieTitle,
+        viewDate: viewDate,
+        startTime: startTime,
+        roomTitle: roomTitle
+      }
+    });
   }
 
   toContactForm() {

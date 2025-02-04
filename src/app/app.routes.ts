@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import {Routes} from '@angular/router';
 import {FullComponent} from './mainAppComp/full/full.component';
 import {LoginComponent} from './mainAppComp/login/login.component';
 import {RegisterComponent} from './mainAppComp/register/register.component';
@@ -10,6 +10,7 @@ import {ContactComponent} from './mainAppComp/full/contact/contact.component';
 import {HomeComponent} from './mainAppComp/full/home/home.component';
 import {RoomDefaultComponent} from './mainAppComp/full/rooms/room-default/room-default.component';
 import {ViewsComponent} from './mainAppComp/full/views/views.component';
+import {QuantityComponent} from './mainAppComp/full/quantity/quantity.component';
 
 export const routes: Routes = [
   {
@@ -41,6 +42,11 @@ export const routes: Routes = [
       {
         path: 'views',
         component: ViewsComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'quantity',
+        component: QuantityComponent,
         canActivate: [AuthGuard]
       }
     ]

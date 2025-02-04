@@ -1,0 +1,49 @@
+.ticket-counter {
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 0.5rem;
+  padding: 2.5rem;
+  background: #948e8e;
+}
+
+.button-plus-minus {
+  cursor: pointer;
+  border-radius: 0.5rem;
+  background: black;
+  margin: 1rem;
+  padding: 0.5rem 0.5rem;
+}
+
+.total-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #948e8e;
+  padding: 1rem;
+  border-radius: 1rem;
+  margin-top: 2rem;
+}
+
+.sticky-ticket-container {
+  background: white;
+  position: fixed;
+  padding: 2.5rem 1rem;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top-right-radius: 1rem;
+  border-top-left-radius: 1rem;
+}
+
+.ticket-secondary-class {
+  margin: unset;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

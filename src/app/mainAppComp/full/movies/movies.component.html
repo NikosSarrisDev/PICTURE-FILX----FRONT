@@ -3,6 +3,7 @@
     <div style="margin: 10rem 1rem 0 1rem;">
       <form [formGroup]="filtersForm" (ngSubmit)="applyFilters()">
         <div style="display: flex; flex-direction: column; justify-content: center; margin: 2rem 0">
+          <div (click)="resetFilters()" style="margin-bottom: 0.5rem;color: #2b38cc;cursor: pointer"><i class="pi pi-refresh" style="color: #2b38cc"></i> Καθαρισμός φίλτρων</div>
           <label for="title">Title</label>
           <input pInputText id="title" formControlName="title" (keyup)="applyFilters()">
           <label for="director">Director</label>
