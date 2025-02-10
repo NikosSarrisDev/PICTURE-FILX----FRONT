@@ -198,9 +198,21 @@ export class DataService {
       }));
   }
 
-  //For Admin -----------
   updateSeat(data: any){
     return this.http.post<any>(this.remoteDataService.serviceURL + 'updateSeat', data, httpOptions).pipe(
+      map(
+        (response: any) => {
+          return response;
+        }
+      ),
+      catchError((error: any) => {
+        this.handleError(error);
+        return throwError(error); // Rethrow the error to be handled by the caller
+      }));
+  }
+
+  updateAllSeat(data: any){
+    return this.http.post<any>(this.remoteDataService.serviceURL + 'updateAllSeat', data, httpOptions).pipe(
       map(
         (response: any) => {
           return response;

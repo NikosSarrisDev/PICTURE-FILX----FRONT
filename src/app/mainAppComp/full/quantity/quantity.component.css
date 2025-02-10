@@ -47,3 +47,20 @@
   justify-content: center;
   align-items: center;
 }
+
+.rows-of-divs {
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  gap: 0.5rem;
+  margin: 1rem 1rem;
+}
+
+.select-ticket {
+  background: green !important;
+}
+
+.reset-seats-div {
+  align-self: flex-end;
+  color: #e78a0a;
+  cursor: pointer;
+}
