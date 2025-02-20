@@ -1,11 +1,10 @@
-import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {DataService} from '../../../data.service';
 import {NgClass, NgForOf, NgIf, NgStyle} from '@angular/common';
 import {Dialog} from 'primeng/dialog';
 import {Tooltip} from 'primeng/tooltip';
 import {ProgressSpinner} from 'primeng/progressspinner';
-import {getXHRResponse} from 'rxjs/internal/ajax/getXHRResponse';
 
 @Component({
   selector: 'app-quantity',
@@ -53,7 +52,7 @@ export class QuantityComponent implements OnInit {
       })
     })
 
-    this.dataService.updateAllSeat({});
+    this.dataService.updateAllSeat({ selected: false });
     this.getSeats({roomTitle: this.roomTitle});
 
   }
@@ -87,12 +86,8 @@ export class QuantityComponent implements OnInit {
 
   resetSelectedSeats() {
     this.remainingTicket = this.ticketCounter;
-    this.dataService.updateAllSeat({});
+    this.dataService.updateAllSeat({ selected: false });
     this.getSeats({roomTitle: this.roomTitle});
-  }
-
-  checkIfThereAreAnySelected() {
-    return this.seats.every(row => row.every(obj => !obj.selected));
   }
 
   addTicket() {
@@ -115,9 +110,31 @@ export class QuantityComponent implements OnInit {
 
   closeDialogSeats() {
     this.visible = false;
-    this.dataService.updateAllSeat({});
+    this.dataService.updateAllSeat({ selected: false });
     this.getSeats({roomTitle: this.roomTitle});
     this.remainingTicket = this.ticketCounter;
+  }
+
+  moveToShowRemainingTickets() {
+    //Overwrite the seats 2D Array with only the selected seats
+    this.getSeats({selected: true});
+
+    this.router.navigate(['buyTicket'], {
+      queryParams: {
+        movieTitle: this.movieTitle,
+        seats: this.seats,
+        roomTitle: this.roomTitle,
+        allRoomSeats: this.availableNumberOfSeats,
+        remainingTickets: this.availableNumberOfSeats - this.ticketCounter
+      }
+    });
+
+    //If I press the update it will make the selected seats to reserved
+    this.seats.forEach((seatInnerArray) => {
+      this.updateSeats({id: seatInnerArray[0].id, reserved: true});
+    });
+
+    this.visible = false;
   }
 
   protected readonly window = window;

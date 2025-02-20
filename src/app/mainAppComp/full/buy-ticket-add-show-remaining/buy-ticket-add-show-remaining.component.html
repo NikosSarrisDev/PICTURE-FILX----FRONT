@@ -1,50 +1,23 @@
-<div style="padding: 10rem 2rem 0 2rem; background: #e78a0a; position: relative;">
-  <div class="row" style="min-height: 100vh">
-    <div class="col-md-8 pr-2" style="font-size: 2rem; font-weight: bold">
-      Επιλέξτε Εισιτήρια
-      <div class="ticket-counter">
-        <div>
-          Eticket <span style="margin-left: 1rem">{{ticketPrice}} <i class="pi pi-euro" style="font-size: 1.5rem"></i></span>
-        </div>
-        <div style="display: flex; align-items: center; justify-content: center">
-          <button (click)="removeTicket()" [disabled]="!ticketCounter" class="button-plus-minus"><i class="pi pi-minus" style="font-size: 2rem"></i></button>
-          <div>{{ticketCounter}}</div>
-          <button (click)="addTicket()" [disabled]="ticketCounter >= availableNumberOfSeats" class="button-plus-minus"><i class="pi pi-plus" style="font-size: 2rem"></i></button>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4 pl-2">
-      <div class="total-container">
-        <div style="font-weight: bold; font-size: 1rem">Σύνολο</div>
-        <div style="font-weight: bold; font-size: 1.5rem">{{ticketPrice * ticketCounter}} <i class="pi pi-euro"></i></div>
-      </div>
-    </div>
-  </div>
-  <p-dialog header="Θέσεις" [modal]="true" (onHide)="closeDialogSeats()" [(visible)]="visible" [style]="{ width: '70rem', height: '70rem' }">
-    <span class="p-text-secondary block mb-8">Επιλέξτε {{ticketCounter}} από τις διαθέσημες θέσεις</span>
-    <div *ngIf="loading" style="display: flex; justify-content: center; align-items: center; padding-top: 10rem">
-      <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '100px', height: '100px', background: 'none' }"/>
-    </div>
-    <div *ngIf="!loading">
-      <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; padding-top: 3rem">
-        <div *ngIf="!remainingTicket" (click)="resetSelectedSeats()" class="reset-seats-div"><i class="pi pi-sync" style="color: #e78a0a"></i> Αλλαγή θέσεων</div>
-        <div *ngFor="let itemRow of seats; let i = index" class="rows-of-divs">
-          <div *ngFor="let itemCol of itemRow; let j = index" (click)="toggleSelectSeat(i,j)" [pTooltip]="itemCol?.code" tooltipPosition="bottom" [ngClass]="itemCol?.selected ? 'select-ticket' : ''" [ngStyle]="{ 'background': !itemCol?.reserved ? 'white' : 'red', 'cursor': 'pointer', 'width': '1.5rem', 'height': '1.5rem' }">
-            <div>{{""}}</div>
+<div style="padding: 10rem 2rem 0 2rem; background: #e78a0a; min-height: 100vh">
+  <div style="margin: 0 auto; padding: 1rem;">
+    <div style="font-size: 4rem; text-align: center">Φανταστηκά μόλις ολοκληρώσατε την κράτηση του εισιτιρίου σας! Το αποδεικτικό βρίσκετε στην αλληλογραφία σας</div>
+    <div style="display: flex; flex-direction: column; gap: 1rem">
+      <div>Ταινία: {{movieTitle}}</div>
+      <div style="display: flex; align-items: center;">
+        Θέσεις που επιλέχθηκαν:
+        <div style="padding-inline: 1rem" *ngFor="let itemRow of seats">
+          <div style="padding-inline: 1rem" *ngFor="let itemCol of itemRow">
+            {{itemCol}}
           </div>
         </div>
       </div>
-      <div style="display: flex; justify-content: right; align-items: center; padding-top: 4rem">
-        <button class="action-button" style="margin: unset" [ngStyle]="{ 'background': remainingTicket ? '#948e8e' : 'linear-gradient(90deg, rgb(222, 180, 58), rgb(255, 237, 65))' }" [disabled]="remainingTicket" (click)="moveToShowRemainingTickets()">Κράτηση <i class="pi pi-arrow-right"></i></button>
-      </div>
+      <div>Δωμάτιο: {{roomTitle}}</div>
+      <div>Σύνολο Θέσεων: {{allTicketsONSpecificRoom}}</div>
+      <div>Θέσεις που απομένουν: {{remainingTicketsONSpecificRoom}}</div>
     </div>
-  </p-dialog>
-  <div class="sticky-ticket-container">
-    <div>{{movieTitle}}</div>
-    <div>{{viewDate}}</div>
-    <div>{{startTime.slice(0,5)}}</div>
-    <div>{{roomTitle}}</div>
-    <button (click)="showDialogSeats()" [disabled]="!ticketCounter" [ngStyle]="{ 'background': !ticketCounter ? '#948e8e' : 'linear-gradient(90deg, rgb(222, 180, 58), rgb(255, 237, 65))' }" class="action-button ticket-secondary-class">Επόμενο <i class="pi pi-arrow-right"></i></button>
+    <div style="display: flex; justify-content: flex-end">
+      <button (click)="backToHome()" class="action-button" style="margin: unset">Επιστοφή στην Αρχική <i class="pi pi-arrow-right"></i></button>
+    </div>
   </div>
   <div style="display: flex; justify-content: center; margin: 0 2rem; padding-bottom: 6rem">
     <div class="row" style="width: 100%">
@@ -79,3 +52,4 @@
     </div>
   </div>
 </div>
+

@@ -11,6 +11,9 @@ import {HomeComponent} from './mainAppComp/full/home/home.component';
 import {RoomDefaultComponent} from './mainAppComp/full/rooms/room-default/room-default.component';
 import {ViewsComponent} from './mainAppComp/full/views/views.component';
 import {QuantityComponent} from './mainAppComp/full/quantity/quantity.component';
+import {
+  BuyTicketAddShowRemainingComponent
+} from './mainAppComp/full/buy-ticket-add-show-remaining/buy-ticket-add-show-remaining.component';
 
 export const routes: Routes = [
   {
@@ -47,6 +50,11 @@ export const routes: Routes = [
       {
         path: 'quantity',
         component: QuantityComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'buyTicket',
+        component: BuyTicketAddShowRemainingComponent,
         canActivate: [AuthGuard]
       }
     ]
