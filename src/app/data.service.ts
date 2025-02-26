@@ -224,6 +224,19 @@ export class DataService {
       }));
   }
 
+  sendTicketToUser(data: any){
+    return this.http.post<any>(this.remoteDataService.serviceURL + 'sendTicketToUser', data, httpOptions).pipe(
+      map(
+        (response: any) => {
+          return response;
+        }
+      ),
+      catchError((error: any) => {
+        this.handleError(error);
+        return throwError(error); // Rethrow the error to be handled by the caller
+      }));
+  }
+
   //For Admin -----------
   deleteSeat(data: any){
     return this.http.post<any>(this.remoteDataService.serviceURL + 'deleteSeat', data, httpOptions).pipe(

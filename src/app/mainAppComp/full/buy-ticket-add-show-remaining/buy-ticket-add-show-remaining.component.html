@@ -1,25 +1,28 @@
-<div style="padding: 10rem 2rem 0 2rem; background: #e78a0a; min-height: 100vh">
-  <div style="margin: 0 auto; padding: 1rem;">
-    <div style="font-size: 4rem; text-align: center">Φανταστηκά μόλις ολοκληρώσατε την κράτηση του εισιτιρίου σας! Το αποδεικτικό βρίσκετε στην αλληλογραφία σας</div>
+<div style="padding: 10rem 2rem 0 2rem; background: #e78a0a;">
+  <div style="margin: 0 auto; padding: 1rem; min-height: 50vh">
+    <div class="div-text-email">
+      Φανταστηκά μόλις ολοκληρώσατε την κράτηση του εισιτιρίου σας!
+      <button [ngStyle]="{ 'display': ticketsEnabled ? '' : 'none' }" (click)="sendTicketToEmail()" class="action-button" style="font-size: 1rem; align-self: flex-end">Αποστολή στο Email <i class="pi pi-arrow-right"></i></button>
+    </div>
     <div style="display: flex; flex-direction: column; gap: 1rem">
-      <div>Ταινία: {{movieTitle}}</div>
-      <div style="display: flex; align-items: center;">
+      <div style="font-size: 1.5rem">Ταινία: <span style="font-weight: bold">{{movieTitle}}</span></div>
+      <div style="display: flex; align-items: center; font-size: 1.5rem">
         Θέσεις που επιλέχθηκαν:
-        <div style="padding-inline: 1rem" *ngFor="let itemRow of seats">
-          <div style="padding-inline: 1rem" *ngFor="let itemCol of itemRow">
-            {{itemCol}}
-          </div>
+        <div style="padding-inline: 1rem; font-weight: bold" *ngFor="let code of seatsToSend">
+          {{code}}
         </div>
       </div>
-      <div>Δωμάτιο: {{roomTitle}}</div>
-      <div>Σύνολο Θέσεων: {{allTicketsONSpecificRoom}}</div>
-      <div>Θέσεις που απομένουν: {{remainingTicketsONSpecificRoom}}</div>
+      <div style="font-size: 1.5rem">Δωμάτιο: <span style="font-weight: bold">{{roomTitle}}</span></div>
+      <div style="font-size: 1.5rem">Σύνολο Θέσεων: <span style="font-weight: bold">{{allTicketsONSpecificRoom}}</span></div>
+      <div style="font-size: 1.5rem">Θέσεις που απομένουν: <span style="font-weight: bold">{{remainingTicketsONSpecificRoom}}</span></div>
     </div>
-    <div style="display: flex; justify-content: flex-end">
-      <button (click)="backToHome()" class="action-button" style="margin: unset">Επιστοφή στην Αρχική <i class="pi pi-arrow-right"></i></button>
+    <div style="display: flex; align-items: center; justify-content: flex-end; gap: 1rem; margin: 2rem 0">
+      <p-toast></p-toast>
+      <button (click)="cancelTickets()" [ngStyle]="{ 'display': ticketsEnabled ? '' : 'none' }" class="cancel-button">Ακύρωση Εισιτηρίων <i class="pi pi-times"></i></button>
+      <button (click)="backToHome()" class="action-button" style="margin: unset;">Επιστοφή στην Αρχική <i class="pi pi-arrow-right"></i></button>
     </div>
   </div>
-  <div style="display: flex; justify-content: center; margin: 0 2rem; padding-bottom: 6rem">
+  <div style="display: flex; justify-content: center; margin: 0 2rem;">
     <div class="row" style="width: 100%">
       <div class="col-md-4"
            style="background: #FFFFFF; display: flex; justify-content: center; align-items: center; border-top-left-radius: 2rem">

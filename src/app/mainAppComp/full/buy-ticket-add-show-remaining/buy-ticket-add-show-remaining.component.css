@@ -1,0 +1,12 @@
+.div-text-email {
+  display: flex;
+  flex-direction: column;
+  font-size: 3rem;
+  text-align: center;
+  background: white;
+  border-radius: 2rem;
+  padding: 1rem;
+  color: white;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(45deg, rgb(23, 204, 193), rgba(34, 106, 215, 0.76));
+}

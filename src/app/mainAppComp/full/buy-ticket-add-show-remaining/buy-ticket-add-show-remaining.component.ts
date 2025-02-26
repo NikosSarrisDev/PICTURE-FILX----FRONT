@@ -1,48 +1,61 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder} from '@angular/forms';
 import {RemoteDataService} from '../../../remotedata.service';
 import {MessageService} from 'primeng/api';
 import {DataService} from '../../../data.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {NgForOf} from '@angular/common';
+import {NgForOf, NgStyle} from '@angular/common';
+import {Toast} from 'primeng/toast';
+import {AuthenticationService} from '../../../auth.service';
 
 @Component({
   selector: 'app-buy-ticket-add-show-remaining',
   standalone: true,
   imports: [
-    NgForOf
+    NgForOf,
+    Toast,
+    NgStyle
   ],
   templateUrl: './buy-ticket-add-show-remaining.component.html',
-  styleUrl: './buy-ticket-add-show-remaining.component.css'
+  styleUrl: './buy-ticket-add-show-remaining.component.css',
+  providers: [MessageService]
 })
 export class BuyTicketAddShowRemainingComponent implements OnInit {
 
+  seatsToSend: string[] = [];
   seats: any[][] = Array.from({length: 5}, () => Array(20).fill(null));
   movieTitle!: string;
   roomTitle!: string;
   allTicketsONSpecificRoom!: number;
   remainingTicketsONSpecificRoom!: number;
+  date!: any;
+  time!: any;
+  amount!: any;
+  ticketsEnabled: boolean = true;
 
   constructor(private remoteDataService: RemoteDataService,
               private messageService: MessageService,
               public dataService: DataService,
               private router: Router,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private auth: AuthenticationService) {
   }
 
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
       this.movieTitle = params["movieTitle"];
       this.roomTitle = params["roomTitle"];
+      this.amount = params["amount"];
+      this.date = params["date"];
+      this.time = params["time"];
     })
     this.getRoom({ title: this.roomTitle });
   }
 
   getRoom(data: any){
     this.dataService.getRoom(data).subscribe((response) => {
-      this.allTicketsONSpecificRoom = response.data.availableNumberOfSeats;
-      this.getReservedSeats({ roomTitle: response.data.roomTitle, reserved: true });
-      this.getSelectedSeats({ roomTitle: response.data.roomTitle, selected: true });
+      this.allTicketsONSpecificRoom = response.data[0].availableNumberOfSeats;
+      this.getReservedSeats({ roomTitle: response.data[0].title, reserved: true });
+      this.getSelectedSeats({ roomTitle: response.data[0].title, selected: true });
     })
   }
 
@@ -55,7 +68,11 @@ export class BuyTicketAddShowRemainingComponent implements OnInit {
   getSelectedSeats(data: any) {
     this.dataService.getSeat(data).subscribe((response) => {
       response.data.forEach((seat: any) => {
-        this.seats[seat.row - 1][seat.col - 1] = seat.title
+        this.seatsToSend.push(seat.title);
+        this.seats[seat.row - 1][seat.col - 1] = {
+          id: seat.id,
+          seatCode: seat.title
+        }
       })
     })
   }
@@ -64,8 +81,28 @@ export class BuyTicketAddShowRemainingComponent implements OnInit {
     this.router.navigate(['contact']);
   }
 
+  sendTicketToEmail(){
+    console.log(this.time, "This is the time")
+    this.dataService.sendTicketToUser({
+      userEmail: this.auth.currentUser().email,
+      movieTitle: this.movieTitle,
+      roomTitle: this.roomTitle,
+      seats: this.seatsToSend,
+      date: this.date,
+      time: this.time,
+      amount: this.amount
+    }).subscribe((response) => {
+      this.messageService.add({severity: response.status, summary: 'Ολοκλήρωση!', detail: response.message});
+    })
+  }
+
   cancelTickets() {
-    this.dataService.updateAllSeat({ reserved: false });
+    this.ticketsEnabled = false;
+    this.messageService.add({severity: 'success', summary: 'Ολοκλήρωση!', detail: 'Τα Εισιτήριά σας μόλις ακυρώθηκαν με επιτυχία'});
+    this.seats.forEach((seatArray) => {
+      //Make the prev selected seats reserved : false to cancel them
+      this.dataService.updateSeat({ id: seatArray[0].id, reserved: false });
+    })
   }
 
   backToHome() {

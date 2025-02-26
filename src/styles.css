@@ -35,6 +35,22 @@
   transition: background 0s ease
 }
 
+.cancel-button {
+  border: none;
+  font-family: sans-serif;
+  color: black;
+  background: linear-gradient(90deg, rgb(227, 57, 57), rgb(238, 3, 3));
+  border-radius: 0.3rem;
+  height: 3rem;
+  padding: 0 2rem;
+  cursor: pointer;
+  transition: background 0s ease
+}
+
+.cancel-button:hover {
+  background: linear-gradient(90deg, rgba(227, 57, 57, 0.17), rgba(238, 3, 3, 0.4));
+}
+
 .action-button-disable {
   border: none;
   font-family: sans-serif;

@@ -73,7 +73,9 @@ export class QuantityComponent implements OnInit {
   }
 
   updateSeats(data: any) {
-    this.dataService.updateSeat(data);
+    this.dataService.updateSeat(data).subscribe((response) => {
+      console.log(response)
+    });
   }
 
   toggleSelectSeat(rowIndex: number, colIndex: number) {
@@ -122,10 +124,10 @@ export class QuantityComponent implements OnInit {
     this.router.navigate(['buyTicket'], {
       queryParams: {
         movieTitle: this.movieTitle,
-        seats: this.seats,
         roomTitle: this.roomTitle,
-        allRoomSeats: this.availableNumberOfSeats,
-        remainingTickets: this.availableNumberOfSeats - this.ticketCounter
+        date: this.viewDate,
+        time: this.startTime,
+        amount: this.ticketPrice * this.ticketCounter
       }
     });
 
