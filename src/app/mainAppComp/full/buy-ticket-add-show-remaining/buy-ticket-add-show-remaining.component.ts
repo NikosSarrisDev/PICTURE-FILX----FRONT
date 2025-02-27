@@ -98,10 +98,21 @@ export class BuyTicketAddShowRemainingComponent implements OnInit {
 
   cancelTickets() {
     this.ticketsEnabled = false;
-    this.messageService.add({severity: 'success', summary: 'Ολοκλήρωση!', detail: 'Τα Εισιτήριά σας μόλις ακυρώθηκαν με επιτυχία'});
-    this.seats.forEach((seatArray) => {
+
+    const arrayWithTitles: string[] = [];
+
+    this.dataService.getSeat({ roomTitle: this.roomTitle, selected: true }).subscribe((response) => {
+
       //Make the prev selected seats reserved : false to cancel them
-      this.dataService.updateSeat({ id: seatArray[0].id, reserved: false });
+      response.data.forEach((seat: any) => {
+        arrayWithTitles.push(seat.title);
+      })
+
+      //Turn the string array in this format "'DA-1', 'DB-1'" in order for where title in ... sql statement to work
+      this.dataService.updateAllSeat({ seatTitleList: arrayWithTitles.map(title => `'${title}'`).join(","), reserved: false }).subscribe((response) => {
+        this.messageService.add({severity: response.status, summary: 'Ολοκλήρωση!', detail: "Τα εισητήρια ακυρώθηκαν με επιτυχία"});
+      })
+
     })
   }
 

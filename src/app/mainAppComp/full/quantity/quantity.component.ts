@@ -52,8 +52,9 @@ export class QuantityComponent implements OnInit {
       })
     })
 
-    this.dataService.updateAllSeat({ selected: false });
-    this.getSeats({roomTitle: this.roomTitle});
+    this.dataService.updateAllSeat({ selected: false }).subscribe((response) => {
+      this.getSeats({roomTitle: this.roomTitle});
+    });
 
   }
 
@@ -74,7 +75,7 @@ export class QuantityComponent implements OnInit {
 
   updateSeats(data: any) {
     this.dataService.updateSeat(data).subscribe((response) => {
-      console.log(response)
+      this.getSeats({roomTitle: this.roomTitle});
     });
   }
 
@@ -88,8 +89,9 @@ export class QuantityComponent implements OnInit {
 
   resetSelectedSeats() {
     this.remainingTicket = this.ticketCounter;
-    this.dataService.updateAllSeat({ selected: false });
-    this.getSeats({roomTitle: this.roomTitle});
+    this.dataService.updateAllSeat({ selected: false }).subscribe((response) => {
+      this.getSeats({roomTitle: this.roomTitle});
+    });
   }
 
   addTicket() {
@@ -112,29 +114,37 @@ export class QuantityComponent implements OnInit {
 
   closeDialogSeats() {
     this.visible = false;
-    this.dataService.updateAllSeat({ selected: false });
-    this.getSeats({roomTitle: this.roomTitle});
+    this.dataService.updateAllSeat({ selected: false }).subscribe((response) => {
+      this.getSeats({roomTitle: this.roomTitle});
+    });
     this.remainingTicket = this.ticketCounter;
   }
 
   moveToShowRemainingTickets() {
-    //Overwrite the seats 2D Array with only the selected seats
-    this.getSeats({selected: true});
 
-    this.router.navigate(['buyTicket'], {
-      queryParams: {
-        movieTitle: this.movieTitle,
-        roomTitle: this.roomTitle,
-        date: this.viewDate,
-        time: this.startTime,
-        amount: this.ticketPrice * this.ticketCounter
-      }
-    });
+    //Create an array to store the ids of the selected seats so the updateAllSeat can turn them to reserved
+    const arrayWithIds: number[] = [];
 
-    //If I press the update it will make the selected seats to reserved
-    this.seats.forEach((seatInnerArray) => {
-      this.updateSeats({id: seatInnerArray[0].id, reserved: true});
-    });
+    this.dataService.getSeat({ roomTitle: this.roomTitle, selected: true }).subscribe((response) => {
+      response.data.forEach((seat: any) => {
+        arrayWithIds.push(seat.id);
+      })
+
+      //If I press the update it will make the selected seats to reserved
+      this.dataService.updateAllSeat({ idList: arrayWithIds.join(",") , reserved: true }).subscribe((response) => {
+        console.log(response);
+        this.router.navigate(['buyTicket'], {
+          queryParams: {
+            movieTitle: this.movieTitle,
+            roomTitle: this.roomTitle,
+            date: this.viewDate,
+            time: this.startTime,
+            amount: this.ticketPrice * this.ticketCounter
+          }
+        });
+      })
+
+    })
 
     this.visible = false;
   }
