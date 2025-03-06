@@ -3,7 +3,7 @@ import {RemoteDataService} from '../../../remotedata.service';
 import {MessageService} from 'primeng/api';
 import {DataService} from '../../../data.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {NgForOf, NgStyle} from '@angular/common';
+import {NgForOf, NgIf, NgStyle} from '@angular/common';
 import {Toast} from 'primeng/toast';
 import {AuthenticationService} from '../../../auth.service';
 
@@ -13,7 +13,8 @@ import {AuthenticationService} from '../../../auth.service';
   imports: [
     NgForOf,
     Toast,
-    NgStyle
+    NgStyle,
+    NgIf
   ],
   templateUrl: './buy-ticket-add-show-remaining.component.html',
   styleUrl: './buy-ticket-add-show-remaining.component.css',
@@ -24,6 +25,7 @@ export class BuyTicketAddShowRemainingComponent implements OnInit {
   seatsToSend: string[] = [];
   seats: any[][] = Array.from({length: 5}, () => Array(20).fill(null));
   movieTitle!: string;
+  movieId!: number;
   roomTitle!: string;
   allTicketsONSpecificRoom!: number;
   remainingTicketsONSpecificRoom!: number;
@@ -31,6 +33,10 @@ export class BuyTicketAddShowRemainingComponent implements OnInit {
   time!: any;
   amount!: any;
   ticketsEnabled: boolean = true;
+  user!: any;
+  numOfTicketsUser!: number;
+  numOfTicketsMovie!: number;
+  ticketCounter!: number;
 
   constructor(private remoteDataService: RemoteDataService,
               private messageService: MessageService,
@@ -45,10 +51,48 @@ export class BuyTicketAddShowRemainingComponent implements OnInit {
       this.movieTitle = params["movieTitle"];
       this.roomTitle = params["roomTitle"];
       this.amount = params["amount"];
+      this.ticketCounter = params["ticketCounter"];
       this.date = params["date"];
       this.time = params["time"];
     })
     this.getRoom({ title: this.roomTitle });
+    this.getMovie({ title: this.movieTitle });
+    this.user = this.auth.currentUser();
+  }
+
+
+
+  getUserByName(data: any) {
+    this.dataService.getUser(data).subscribe((response) => {
+      this.numOfTicketsUser = response.data[0].numOfTickets;
+      this.updateUserNumOfTickets({ id: response.data[0].id, numOfTickets: Number(this.numOfTicketsUser) + Number(this.ticketCounter) });
+    })
+  }
+
+  updateUserNumOfTickets(data: any) {
+    console.log(this.numOfTicketsMovie + this.ticketCounter)
+
+    //If the tickets get canceled then the user update no values in db in this way i will not update the movie also
+    if (!this.ticketsEnabled) {
+      this.dataService.updateUserDetails({}).subscribe((response) => {
+        this.router.navigate(['/']);
+      });
+    } else {
+      this.dataService.updateUserDetails(data).subscribe((response) => {
+
+        //Also update the movie ticket count
+        this.dataService.updateMovie({ id: this.movieId, ticketCount: Number(this.numOfTicketsMovie) + Number(this.ticketCounter) }).subscribe((response) => {
+          this.router.navigate(['/']);
+        })
+      })
+    }
+  }
+
+  getMovie(data: any) {
+    this.dataService.getMovie(data).subscribe((response) => {
+      this.movieId = response.data[0].id;
+      this.numOfTicketsMovie = response.data[0].ticketCounter;
+    })
   }
 
   getRoom(data: any){
@@ -84,7 +128,7 @@ export class BuyTicketAddShowRemainingComponent implements OnInit {
   sendTicketToEmail(){
     console.log(this.time, "This is the time")
     this.dataService.sendTicketToUser({
-      userEmail: this.auth.currentUser().email,
+      userEmail: this.user.email,
       movieTitle: this.movieTitle,
       roomTitle: this.roomTitle,
       seats: this.seatsToSend,
@@ -117,7 +161,7 @@ export class BuyTicketAddShowRemainingComponent implements OnInit {
   }
 
   backToHome() {
-    this.router.navigate(['/']);
+    this.getUserByName({ name: this.user.name });
   }
 
   protected readonly window = window;

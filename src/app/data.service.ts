@@ -48,6 +48,34 @@ export class DataService {
 
   }
 
+  getUser(data: any){
+    return this.http.post<any>(this.remoteDataService.serviceURL + 'getUser', data, httpOptions).pipe(
+      map(
+        (response: any) => {
+          return response;
+        }
+      ),
+      catchError((error: any) => {
+        this.handleError(error);
+        return throwError(error); // Rethrow the error to be handled by the caller
+      }));
+
+  }
+
+  updateUserDetails(data:any) {
+    return this.http.post<any>(this.remoteDataService.serviceURL + 'updateUserDetails', data, httpOptions).pipe(
+      map(
+        (response: any) => {
+          return response;
+        }
+      ),
+      catchError((error: any) => {
+        this.handleError(error);
+        return throwError(error); // Rethrow the error to be handled by the caller
+      }));
+
+  }
+
   getMovie(data: any){
     return this.http.post<any>(this.remoteDataService.serviceURL + 'getMovie', data, httpOptions).pipe(
       map(

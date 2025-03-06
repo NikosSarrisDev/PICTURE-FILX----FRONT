@@ -139,7 +139,8 @@ export class QuantityComponent implements OnInit {
             roomTitle: this.roomTitle,
             date: this.viewDate,
             time: this.startTime,
-            amount: this.ticketPrice * this.ticketCounter
+            amount: this.ticketPrice * this.ticketCounter,
+            ticketCounter: this.ticketCounter
           }
         });
       })

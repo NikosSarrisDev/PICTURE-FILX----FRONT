@@ -14,6 +14,7 @@ import {Password} from 'primeng/password';
 import {Toast} from 'primeng/toast';
 import {Divider} from 'primeng/divider';
 import { passwordStrengthValidator } from './customValidatorPassWordStrength'
+import {FileSystemFileEntry, NgxFileDropEntry, NgxFileDropModule} from 'ngx-file-drop';
 
 @Component({
   selector: 'app-register',
@@ -29,7 +30,8 @@ import { passwordStrengthValidator } from './customValidatorPassWordStrength'
     ReactiveFormsModule,
     RouterLink,
     Toast,
-    Divider
+    Divider,
+    NgxFileDropModule
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
@@ -37,9 +39,12 @@ import { passwordStrengthValidator } from './customValidatorPassWordStrength'
 })
 export class RegisterComponent implements OnInit{
 
+  base64File: string | null = null;
   creationForm!: FormGroup;
   email: string = '';
   name: string = '';
+  phone: string = "";
+  photo: string = "";
   password: string = '';
   verifyPassword: string = '';
   submitted: boolean = false;
@@ -56,9 +61,47 @@ export class RegisterComponent implements OnInit{
     this.creationForm = this.formBuilder.group({
       name: [this.name, [Validators.required, Validators.minLength(4)]],
       email: [this.email, [Validators.required, Validators.email]],
+      phone: [this.phone, [Validators.required, Validators.pattern(/^\d{10}$/)]],
+      photo: [this.photo],
       password: [this.password, [Validators.required, Validators.minLength(8) , passwordStrengthValidator ]],
       verifyPassword: [this.verifyPassword, Validators.required]
     }, {validator: this.passwordMatchValidator })
+  }
+
+  //Drag and drop file
+  public dropped(files: NgxFileDropEntry[]) {
+    for (const droppedFile of files) {
+      if (droppedFile.fileEntry.isFile) {
+        const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
+        fileEntry.file((file: File) => {
+          this.convertToBase64(file);
+        });
+      }
+    }
+  }
+
+  //Choose a file via click
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      console.log('Selected file:', file.name);
+      this.convertToBase64(file);
+    }
+  }
+
+  private convertToBase64(file: File) {
+    const reader = new FileReader();
+    reader.readAsDataURL(file); // Convert file to Base64
+    reader.onload = () => {
+      this.base64File = reader.result as string;
+      this.creationForm.patchValue({
+        photo: this.base64File
+      })
+      console.log('Base64 File:', this.base64File);
+    };
+    reader.onerror = (error) => {
+      console.error('Error converting file:', error);
+    };
   }
 
   validateAllFromFields(formGroup: FormGroup| any){
@@ -82,10 +125,6 @@ export class RegisterComponent implements OnInit{
     }
   }
 
-  takeTheStrenghtOfThePassword(event: any){
-    console.log(event, "This is the event for the password in create");
-  }
-
   submit(){
     if (this.creationForm.invalid){
       this.messageService.add({severity: 'success', summary: 'Success!', detail: 'Η φόρμα σας δεν είναι έγκυρη, παρακαλώ όλα τα υποχρεωτικά όλα τα υποχρεωτικά πεδία'})
@@ -97,8 +136,10 @@ export class RegisterComponent implements OnInit{
     const name = this.creationForm.get('name')?.value;
     const email = this.creationForm.get('email')?.value;
     const password = this.creationForm.get('password')?.value;
+    const phone = this.creationForm.get('phone')?.value;
+    const photo = this.creationForm.get('photo')?.value;
 
-    this.dataService.createUser({name: name, email: email, password: password}).subscribe(r =>{
+    this.dataService.createUser({name: name, email: email, password: password, phone: phone}).subscribe(r =>{
       if(r.status == 'success'){
         this.messageService.add({severity: 'success', summary: 'Success!', detail: r.message});
         this.router.navigate(['/login']);
