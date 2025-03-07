@@ -39,7 +39,7 @@
       </div>
       <div style="margin-bottom: 1.5rem">
         <p-floatlabel variant="on">
-          <input pInputText style="width: 100%" id="phone" type="number" formControlName="phone"/>
+          <input pInputText style="width: 100%" id="phone" type="text" formControlName="phone"/>
           <label for="phone">Τηλέφωνο επικοινωνίας</label>
         </p-floatlabel>
         <div *ngIf="creationForm.controls['phone'].invalid && !creationForm.controls['phone'].untouched">
@@ -48,7 +48,7 @@
             υποχρεωτικό</small>
           <small style="color: red"
                  *ngIf="creationForm.controls['phone'].hasError('pattern')">Το
-            τηλέφωνο επικοινωνίας θα πρέπει να αποτελείτε από 10 ακριβώς χαρακτήρες</small>
+            τηλέφωνο επικοινωνίας θα πρέπει να αποτελείτε από 10 ακριβώς νούμερα</small>
         </div>
       </div>
       <div style="margin-bottom: 1.5rem">
@@ -99,16 +99,20 @@
             συμπίπτουν</small>
         </div>
       </div>
-      <div style="margin: 1rem 0">
-        <ngx-file-drop [dropZoneLabel]="'Ανέβασε Φωτογραφία'"
+      <div class="file-drop-container">
+        <ngx-file-drop [dropZoneLabel]="dropZoneLabel"
                        (onFileDrop)="dropped($event)"
                         (click)="fileInput.click()">
         </ngx-file-drop>
+        <input #fileInput type="file" (change)="onFileSelected($event)" style="display: none;">
+
+        <div *ngIf="dropZoneLabel != 'Ανέβασε Φωτογραφία'" class="file-info-overlay">
+          <button class="remove-btn" (click)="removeFile($event)">✖</button>
+        </div>
       </div>
-      <input #fileInput type="file" (change)="onFileSelected($event)" style="display: none;">
 
       <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 1rem">
-        <p-toast/>
+        <p-toast [preventDuplicates]="true" [autoZIndex]="false"/>
         <button pButton class="fb-gl-buttons" type="submit" [disabled]="creationForm.invalid">Εγγραφή <i
           class="pi pi-arrow-right"></i></button>
       </div>

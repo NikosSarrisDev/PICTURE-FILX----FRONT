@@ -48,6 +48,7 @@ export class RegisterComponent implements OnInit{
   password: string = '';
   verifyPassword: string = '';
   submitted: boolean = false;
+  dropZoneLabel: string = "Ανέβασε Φωτογραφία";
 
   constructor(private formBuilder: FormBuilder,
               private remoteDataService: RemoteDataService,
@@ -69,10 +70,11 @@ export class RegisterComponent implements OnInit{
   }
 
   //Drag and drop file
-  public dropped(files: NgxFileDropEntry[]) {
+  dropped(files: NgxFileDropEntry[]) {
     for (const droppedFile of files) {
       if (droppedFile.fileEntry.isFile) {
         const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
+        this.dropZoneLabel = fileEntry.name;
         fileEntry.file((file: File) => {
           this.convertToBase64(file);
         });
@@ -83,10 +85,20 @@ export class RegisterComponent implements OnInit{
   //Choose a file via click
   onFileSelected(event: any) {
     const file = event.target.files[0];
+    console.log("This event list", event.target.files);
     if (file) {
       console.log('Selected file:', file.name);
+      this.dropZoneLabel = file.name;
       this.convertToBase64(file);
     }
+  }
+
+  removeFile(event: Event) {
+    event.stopPropagation();
+    this.dropZoneLabel = "Ανέβασε Φωτογραφία";
+    this.creationForm.patchValue({
+      photo: ""
+    })
   }
 
   private convertToBase64(file: File) {
@@ -139,7 +151,7 @@ export class RegisterComponent implements OnInit{
     const phone = this.creationForm.get('phone')?.value;
     const photo = this.creationForm.get('photo')?.value;
 
-    this.dataService.createUser({name: name, email: email, password: password, phone: phone}).subscribe(r =>{
+    this.dataService.createUser({name: name, email: email, password: password, phone: phone, photo: photo}).subscribe(r =>{
       if(r.status == 'success'){
         this.messageService.add({severity: 'success', summary: 'Success!', detail: r.message});
         this.router.navigate(['/login']);
