@@ -6,6 +6,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {NgForOf, NgIf, NgStyle} from '@angular/common';
 import {Toast} from 'primeng/toast';
 import {AuthenticationService} from '../../../auth.service';
+import {ProgressSpinner} from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-buy-ticket-add-show-remaining',
@@ -14,7 +15,8 @@ import {AuthenticationService} from '../../../auth.service';
     NgForOf,
     Toast,
     NgStyle,
-    NgIf
+    NgIf,
+    ProgressSpinner
   ],
   templateUrl: './buy-ticket-add-show-remaining.component.html',
   styleUrl: './buy-ticket-add-show-remaining.component.css',
@@ -37,6 +39,8 @@ export class BuyTicketAddShowRemainingComponent implements OnInit {
   numOfTicketsUser!: number;
   numOfTicketsMovie!: number;
   ticketCounter!: number;
+  isTicketSendToEmail!: boolean;
+  emailTravelling!: boolean;
 
   constructor(private remoteDataService: RemoteDataService,
               private messageService: MessageService,
@@ -47,6 +51,8 @@ export class BuyTicketAddShowRemainingComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isTicketSendToEmail = false;
+    this.emailTravelling = false;
     this.route.queryParams.subscribe((params) => {
       this.movieTitle = params["movieTitle"];
       this.roomTitle = params["roomTitle"];
@@ -65,7 +71,7 @@ export class BuyTicketAddShowRemainingComponent implements OnInit {
   getUserByName(data: any) {
     this.dataService.getUser(data).subscribe((response) => {
       this.numOfTicketsUser = response.data[0].numOfTickets;
-      this.updateUserNumOfTickets({ id: response.data[0].id, numOfTickets: Number(this.numOfTicketsUser) + Number(this.ticketCounter) });
+      this.updateUserNumOfTickets({ id: response.data[0].id, numOfTickets: Number(this.numOfTicketsUser) + Number(this.ticketCounter), hasEntered: false });
     })
   }
 
@@ -126,6 +132,7 @@ export class BuyTicketAddShowRemainingComponent implements OnInit {
   }
 
   sendTicketToEmail(){
+    this.emailTravelling = true;
     console.log(this.time, "This is the time")
     this.dataService.sendTicketToUser({
       userEmail: this.user.email,
@@ -137,6 +144,8 @@ export class BuyTicketAddShowRemainingComponent implements OnInit {
       amount: this.amount
     }).subscribe((response) => {
       this.messageService.add({severity: response.status, summary: 'Ολοκλήρωση!', detail: response.message});
+      this.isTicketSendToEmail = true;
+      this.emailTravelling = false;
     })
   }
 

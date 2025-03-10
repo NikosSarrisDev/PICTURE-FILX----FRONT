@@ -62,8 +62,8 @@
     <div style="display: flex; align-items: center; flex-direction: column; min-height: 100vh">
       <div style="margin: 10rem 0 2rem 0; font-size: 2rem; font-family: Georgia, serif;">Ταινίες</div>
       <div style="font-size: 1rem; color: #2b38cc; align-self: flex-start; margin-bottom: 1rem; margin-left: 1rem; display: flex; align-items: center">
-        <div (click)="onSort('release_date')" [ngClass]="getOrderIcon('release_date')">Ημερομηνία Κυκλοφορίας</div>
-        <div style="margin-left: 2rem" (click)="onSort('rating')" [ngClass]="getOrderIcon('rating')">Βαθμολογία</div>
+        <div style="cursor: pointer" (click)="onSort('release_date')" [ngClass]="getOrderIcon('release_date')">Ημερομηνία Κυκλοφορίας</div>
+        <div style="margin-left: 2rem; cursor: pointer" (click)="onSort('rating')" [ngClass]="getOrderIcon('rating')">Βαθμολογία</div>
       </div>
       <div *ngIf="loading" style="min-height: 100vh; position: relative">
         <div style="display: flex; justify-content: center; align-items: center; position: absolute; top: 0; bottom: 0; left: 0; right: 0;">

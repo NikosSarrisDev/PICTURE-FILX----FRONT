@@ -10,3 +10,8 @@
   margin-bottom: 1.5rem;
   background: linear-gradient(45deg, rgb(23, 204, 193), rgba(34, 106, 215, 0.76));
 }
+
+::ng-deep .p-progressspinner-circle {
+  stroke: black !important;
+  stroke-width: 8px !important;
+}

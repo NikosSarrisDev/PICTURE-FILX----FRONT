@@ -85,9 +85,7 @@ export class RegisterComponent implements OnInit{
   //Choose a file via click
   onFileSelected(event: any) {
     const file = event.target.files[0];
-    console.log("This event list", event.target.files);
     if (file) {
-      console.log('Selected file:', file.name);
       this.dropZoneLabel = file.name;
       this.convertToBase64(file);
     }
@@ -109,7 +107,6 @@ export class RegisterComponent implements OnInit{
       this.creationForm.patchValue({
         photo: this.base64File
       })
-      console.log('Base64 File:', this.base64File);
     };
     reader.onerror = (error) => {
       console.error('Error converting file:', error);

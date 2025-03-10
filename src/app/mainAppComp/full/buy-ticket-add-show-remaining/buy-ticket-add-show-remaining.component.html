@@ -1,8 +1,13 @@
 <div style="padding: 10rem 2rem 0 2rem; background: #e78a0a;">
-  <div style="margin: 0 auto; padding: 1rem; min-height: 50vh">
+  <div style="margin: 0 auto; padding: 1rem; min-height: 70vh">
     <div class="div-text-email">
       Φανταστηκά μόλις ολοκληρώσατε την κράτηση του εισιτηρίου σας!
-      <button [ngStyle]="{ 'display': ticketsEnabled ? '' : 'none' }" (click)="sendTicketToEmail()" class="action-button" style="font-size: 1rem; align-self: flex-end">Αποστολή στο Email <i class="pi pi-arrow-right"></i></button>
+      <button *ngIf="!emailTravelling" [ngStyle]="{ 'display': ticketsEnabled ? '' : 'none' }" (click)="sendTicketToEmail()" class="action-button" style="font-size: 1rem; align-self: flex-end">
+        Αποστολή στο Email <i class="pi pi-arrow-right"></i>
+      </button>
+      <div style="align-self: flex-end; padding-right: 6rem">
+        <p-progress-spinner *ngIf="emailTravelling" [style]="{ width: '50px', height: '50px' }"></p-progress-spinner>
+      </div>
     </div>
     <div *ngIf="!ticketsEnabled" style="display: flex; justify-content: center; align-items: center; min-height: 30vh">
       <div style="color: red; font-size: 2rem">Το Εισιτήριό σας μόλις ακυρώθηκε!</div>
@@ -18,12 +23,12 @@
       </div>
       <div style="font-size: 1.5rem">Δωμάτιο: <span style="font-weight: bold">{{roomTitle}}</span></div>
       <div style="font-size: 1.5rem">Σύνολο Θέσεων: <span style="font-weight: bold">{{allTicketsONSpecificRoom}}</span></div>
-      <div style="font-size: 1.5rem">Θέσεις που απομένουν: <span style="font-weight: bold">{{remainingTicketsONSpecificRoom}}</span> για την σιγκεκριμένη προβολή</div>
+      <div style="font-size: 1.5rem">Θέσεις που απομένουν: <span style="font-weight: bold">{{remainingTicketsONSpecificRoom}}</span></div>
     </div>
     <div style="display: flex; align-items: center; justify-content: flex-end; gap: 1rem; margin: 2rem 0">
       <p-toast></p-toast>
       <button (click)="cancelTickets()" [ngStyle]="{ 'display': ticketsEnabled ? '' : 'none' }" class="cancel-button">Ακύρωση Εισιτηρίων <i class="pi pi-times"></i></button>
-      <button (click)="backToHome()" class="action-button" style="margin: unset;">Επιστοφή στην Αρχική <i class="pi pi-arrow-right"></i></button>
+      <button [disabled]="!isTicketSendToEmail" (click)="backToHome()" class="action-button" style="margin: unset;" [ngStyle]="{ 'background': !isTicketSendToEmail ? '#948e8e' : 'linear-gradient(90deg, rgb(222, 180, 58), rgb(255, 237, 65))' }">Επιστοφή στην Αρχική <i class="pi pi-arrow-right"></i></button>
     </div>
   </div>
   <div style="display: flex; justify-content: center; margin: 0 2rem;">
