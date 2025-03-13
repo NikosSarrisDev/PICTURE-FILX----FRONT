@@ -159,3 +159,45 @@ img {
   display: block;
   max-inline-size: 100%;
 }
+
+.add-content-button {
+  color: black;
+  background: linear-gradient(90deg, rgba(61, 196, 57, 0.78), rgb(40, 222, 17));
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.5rem;
+  padding: 1rem;
+}
+
+.add-content-button:hover {
+  color: white;
+  background: linear-gradient(90deg, rgba(108, 185, 107, 0.78), rgb(30, 103, 23));
+}
+
+.edit-content-button {
+  color: black;
+  background: linear-gradient(90deg, rgba(232, 218, 18, 1), rgb(231, 220, 16));
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.5rem;
+  padding: 1rem;
+}
+
+.edit-content-button:hover {
+  color: white;
+  background: linear-gradient(90deg, rgba(161, 157, 41, 1), rgb(140, 135, 11));
+}
+
+.delete-content-button {
+  color: black;
+  background: linear-gradient(90deg, rgba(217, 46, 46, 1), rgb(227, 14, 14));
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.5rem;
+  padding: 1rem;
+}
+
+.delete-content-button:hover {
+  color: white;
+  background: linear-gradient(90deg, rgba(124, 33, 33, 1), rgb(147, 9, 9));
+}

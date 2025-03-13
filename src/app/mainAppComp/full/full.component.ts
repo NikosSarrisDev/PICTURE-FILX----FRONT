@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from 'primeng/tabs';
-import {NgForOf} from '@angular/common';
+import {NgForOf, NgStyle} from '@angular/common';
 import {ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {AuthenticationService} from '../../auth.service';
 import {MoviesComponent} from './movies/movies.component';
@@ -25,7 +25,8 @@ import {Tooltip} from 'primeng/tooltip';
     ButtonDirective,
     Button,
     RouterLinkActive,
-    Tooltip
+    Tooltip,
+    NgStyle
   ],
   templateUrl: './full.component.html',
   styleUrl: './full.component.css'
@@ -41,6 +42,7 @@ export class FullComponent implements OnInit {
 
   ngOnInit() {
     this.currentUser = this.authenticationService.currentUser();
+    console.log(this.currentUser)
   }
 
   logoutUser() {

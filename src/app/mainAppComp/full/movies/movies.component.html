@@ -1,4 +1,6 @@
 <div class="row">
+  <p-toast/>
+  <p-confirmDialog [position]="'top'"/>
   <div style="background: #948e8e; display: flex; justify-content: center" class="col-md-3">
     <div style="margin: 10rem 1rem 0 1rem;">
       <form [formGroup]="filtersForm" (ngSubmit)="applyFilters()">
@@ -60,7 +62,10 @@
   </div>
   <div style="background: #e78a0a" class="col-md-9">
     <div style="display: flex; align-items: center; flex-direction: column; min-height: 100vh">
-      <div style="margin: 10rem 0 2rem 0; font-size: 2rem; font-family: Georgia, serif;">Ταινίες</div>
+      <div style="margin: 10rem 0 2rem 0; font-size: 2rem; font-family: Georgia, serif; display: flex; align-items: center; width: 100%" [ngStyle]="{ 'justify-content': user.role === 'ADMIN' ? 'space-between' : 'center'}">
+        <div>Ταινίες</div>
+        <button (click)="moveToAdminPageOfMovies('Προσθήκη', 'null')" *ngIf="user.role === 'ADMIN'" class="add-content-button">Προσθήκη Ταινίας <i class="pi pi-plus" style="font-size: inherit"></i></button>
+      </div>
       <div style="font-size: 1rem; color: #2b38cc; align-self: flex-start; margin-bottom: 1rem; margin-left: 1rem; display: flex; align-items: center">
         <div style="cursor: pointer" (click)="onSort('release_date')" [ngClass]="getOrderIcon('release_date')">Ημερομηνία Κυκλοφορίας</div>
         <div style="margin-left: 2rem; cursor: pointer" (click)="onSort('rating')" [ngClass]="getOrderIcon('rating')">Βαθμολογία</div>
@@ -76,6 +81,10 @@
       <div *ngIf="!loading" class="movie-grid">
         <div *ngFor="let movie of paginatedMovies" class="movie-style">
           <img class="movie-picture" [src]="movie.thumbnail" alt="MovieImage" (click)="viewsForMovie(movie.title)">
+          <div *ngIf="user.role === 'ADMIN'" class="admin-buttons">
+            <button class="edit-content-button" (click)="moveToAdminPageOfMovies('Επεξεργασία', movie.title)"><i class="pi pi-pencil"></i></button>
+            <button class="delete-content-button" (click)="confirmDelete($event, movie.id)"><i class="pi pi-times"></i></button>
+          </div>
           <p-rating [(ngModel)]="movie.rating" [readonly]="true"></p-rating>
           <div style="font-weight: bold">{{movie.title}}</div>
           <div class="info-style">

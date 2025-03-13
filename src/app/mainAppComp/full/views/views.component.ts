@@ -8,6 +8,7 @@ import {FullCalendarComponent, FullCalendarModule} from '@fullcalendar/angular';
 import {Calendar, CalendarOptions} from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import {AuthenticationService} from '../../../auth.service';
 
 @Component({
   selector: 'app-views',
@@ -33,6 +34,7 @@ export class ViewsComponent implements OnInit, AfterViewInit {
   views: any[] = [];
   loadingMovie!: boolean;
   selectedDate!: any;
+  user!: any;
 
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, interactionPlugin],
@@ -66,7 +68,8 @@ export class ViewsComponent implements OnInit, AfterViewInit {
   constructor(private route: ActivatedRoute,
               private router: Router,
               private dataService: DataService,
-              private cdr: ChangeDetectorRef) {
+              private cdr: ChangeDetectorRef,
+              private auth: AuthenticationService) {
   }
 
   ngOnInit() {
@@ -74,6 +77,8 @@ export class ViewsComponent implements OnInit, AfterViewInit {
     this.route.queryParams.subscribe((params) => {
       this.movieTitle = params["title"];
     })
+
+    this.user = this.auth.currentUser();
 
     this.getMovie(this.movieTitle);
 

@@ -1,0 +1,43 @@
+.full-div {
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.fields-div {
+  padding: 2rem;
+  border-radius: 1rem;
+  background: white;
+  margin: 0 auto;
+}
+
+.title-of-page {
+  padding: 2rem;
+  font-size: 2rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.input-fields {
+  margin: 2rem;
+}
+
+label {
+  display: block;
+  font-size: 1.2rem;
+}
+
+::ng-deep.p-select, input {
+  width: 100%;
+}
+
+::ng-deep .p-datepicker {
+  width: 100%;
+}
+
+.add-section {
+  display: flex;
+  justify-content: space-between;
+}
+

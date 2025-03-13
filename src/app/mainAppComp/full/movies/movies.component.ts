@@ -5,10 +5,14 @@ import {ButtonDirective} from 'primeng/button';
 import {DataService} from '../../../data.service';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {NgClass, NgForOf, NgIf} from '@angular/common';
+import {NgClass, NgForOf, NgIf, NgStyle} from '@angular/common';
 import {Paginator} from 'primeng/paginator';
 import {ProgressSpinner} from 'primeng/progressspinner';
 import {Rating} from 'primeng/rating';
+import {AuthenticationService} from '../../../auth.service';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import {ConfirmDialog} from 'primeng/confirmdialog';
+import {Toast} from 'primeng/toast';
 
 @Component({
   selector: 'app-movies',
@@ -24,10 +28,14 @@ import {Rating} from 'primeng/rating';
     ProgressSpinner,
     Rating,
     NgClass,
-    FormsModule
+    FormsModule,
+    NgStyle,
+    ConfirmDialog,
+    Toast
   ],
   templateUrl: './movies.component.html',
-  styleUrl: './movies.component.css'
+  styleUrl: './movies.component.css',
+  providers: [ConfirmationService, MessageService]
 })
 export class MoviesComponent implements OnInit {
 
@@ -39,14 +47,20 @@ export class MoviesComponent implements OnInit {
   loading!: boolean;
   orderCol: any;
   descAsc: number = 1;
+  user!: any;
 
   constructor(private dataService: DataService,
               private router: Router,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private auth: AuthenticationService,
+              private confirmationService: ConfirmationService,
+              private messageService: MessageService) {
   }
 
   ngOnInit() {
     this.getMovies({});
+
+    this.user = this.auth.currentUser();
 
     this.filtersForm = this.formBuilder.group({
       "title": [''],
@@ -64,6 +78,37 @@ export class MoviesComponent implements OnInit {
       "biography": [false],
       "action-adventure": [false]
     })
+  }
+
+  confirmDelete(event: Event, id: number) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Είσαι σίγουρος ότι θέλεις να διαγράψεις αυτό το αντικείμενο?',
+      header: 'Διαγραφή',
+      closable: true,
+      closeOnEscape: true,
+      icon: 'pi pi-exclamation-triangle',
+      rejectButtonProps: {
+        label: 'Ακύρωση',
+        severity: 'secondary',
+        outlined: true,
+      },
+      acceptButtonProps: {
+        label: 'Διαγραφή',
+      },
+      accept: () => {
+        this.messageService.add({severity: 'info', summary: 'Αποδοχή', detail: 'Αποδέχτηκες'});
+        this.deleteMovie({ id: id });
+      },
+      reject: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Απόρρηψη',
+          detail: 'Απορρήφθηκε',
+          life: 3000,
+        });
+      },
+    });
   }
 
   getMovies(data: any) {
@@ -170,6 +215,24 @@ export class MoviesComponent implements OnInit {
 
   toContactForm(){
     this.router.navigate(['contact']);
+  }
+
+  deleteMovie(data: any) {
+    this.loading = true;
+    this.dataService.deleteMovie(data).subscribe((response) => {
+      if (response.status == 'success') {
+        this.messageService.add({severity: 'success', summary: 'Επιτυχία!', detail: response.message});
+        this.getMovies({});
+      } else {
+        this.messageService.add({severity: 'error', summary: 'Αποτυχία!', detail: response.message});
+      }
+      this.loading = false;
+    }, (error) => { console.error(error); this.loading = false });
+  }
+
+  //Only for Admin
+  moveToAdminPageOfMovies(action: string, title: string) {
+    this.router.navigate(["/moviesAdmin"], { queryParams: { action: action, title: title }});
   }
 
   protected readonly window = window;

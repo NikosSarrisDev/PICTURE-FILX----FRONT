@@ -47,7 +47,7 @@
           <div>{{view.startTime.slice(0,5)}}</div>
           <div>{{movieDetails.title}}</div>
           <div>{{view.roomTitle}}</div>
-          <button [disabled]="view.availableNumberOfSeats < 0" [ngClass]="view.availableNumberOfSeats > 0 ? 'action-button' : 'action-button-disable'"
+          <button [disabled]="view.availableNumberOfSeats < 0 || user.role === 'ADMIN'" [ngClass]="view.availableNumberOfSeats > 0 && user.role !=='ADMIN' ? 'action-button' : 'action-button-disable'"
                style="margin: unset; display: flex; align-items: center; justify-content: center" (click)="moveToQuantityOffTickets(movieDetails.title, view.date, view.startTime, view.roomTitle)">Κράτηση <i
             class="pi pi-arrow-right"></i></button>
         </div>

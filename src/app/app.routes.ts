@@ -14,6 +14,7 @@ import {QuantityComponent} from './mainAppComp/full/quantity/quantity.component'
 import {
   BuyTicketAddShowRemainingComponent
 } from './mainAppComp/full/buy-ticket-add-show-remaining/buy-ticket-add-show-remaining.component';
+import {AdminPageMoviesComponent} from './ConfirmationDialogs/admin-page-movies/admin-page-movies.component';
 
 export const routes: Routes = [
   {
@@ -58,6 +59,11 @@ export const routes: Routes = [
         canActivate: [AuthGuard]
       }
     ]
+  },
+  {
+    path: 'moviesAdmin',
+    component: AdminPageMoviesComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'contact',

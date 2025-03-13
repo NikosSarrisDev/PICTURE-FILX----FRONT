@@ -33,7 +33,7 @@
         </div>
       </div>
       <div style="display: flex; align-items: center; margin: 0 0 3rem 2rem">
-        <button class="action-button" style="flex-shrink: 0" (click)="viewsForMovie(movie.title)">Εισιτήρια <i class="pi pi-arrow-right"></i></button>
+        <button class="action-button" [ngStyle]="{ 'background': user.role === 'ADMIN' ? '#948e8e' : 'linear-gradient(90deg, rgb(222, 180, 58), rgb(255, 237, 65))' }" style="flex-shrink: 0" [disabled]="user.role === 'ADMIN'" (click)="viewsForMovie(movie.title)">Εισιτήρια <i class="pi pi-arrow-right"></i></button>
         <button class="general-button" style="flex-shrink: 0" (click)="moveToWiki(movie.wikiLink)">Πληροφορίες</button>
       </div>
     </div>

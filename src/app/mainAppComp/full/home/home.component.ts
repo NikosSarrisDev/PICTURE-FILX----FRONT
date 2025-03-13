@@ -2,8 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {DataService} from '../../../data.service';
 import {YouTubePlayer} from '@angular/youtube-player';
 import {Router} from '@angular/router';
-import {NgForOf, NgIf} from '@angular/common';
+import {NgForOf, NgIf, NgStyle} from '@angular/common';
 import {ProgressSpinner} from 'primeng/progressspinner';
+import {AuthenticationService} from '../../../auth.service';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,8 @@ import {ProgressSpinner} from 'primeng/progressspinner';
     YouTubePlayer,
     NgForOf,
     ProgressSpinner,
-    NgIf
+    NgIf,
+    NgStyle
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
@@ -21,8 +23,10 @@ export class HomeComponent implements OnInit {
 
   movies!: any;
   loading!: boolean;
+  user!: any;
   constructor(private dataService: DataService,
-              private router: Router) {
+              private router: Router,
+              private auth: AuthenticationService) {
   }
 
   ngOnInit() {
@@ -31,6 +35,9 @@ export class HomeComponent implements OnInit {
     addEventListener("resize", () => {
       return window.innerWidth
     })
+
+    this.user = this.auth.currentUser();
+    console.log(this.user);
 
     this.getMovies({start: 3, limit: 4});
   }
