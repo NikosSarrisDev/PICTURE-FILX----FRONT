@@ -1,0 +1,15 @@
+.root-div-users {
+  background: #e78a0a;
+  min-height: 100vh;
+  padding-top: 10rem;
+  padding-inline: 3rem;
+}
+
+.clickable-rows {
+  cursor: pointer;
+  transition: border 0.3s ease-in-out;
+}
+
+.clickable-rows:hover {
+  border: 3px solid dodgerblue;
+}

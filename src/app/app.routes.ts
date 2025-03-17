@@ -15,6 +15,7 @@ import {
   BuyTicketAddShowRemainingComponent
 } from './mainAppComp/full/buy-ticket-add-show-remaining/buy-ticket-add-show-remaining.component';
 import {AdminPageMoviesComponent} from './ConfirmationDialogs/admin-page-movies/admin-page-movies.component';
+import {AdminPageUsersComponent} from './ConfirmationDialogs/admin-page-users/admin-page-users.component';
 
 export const routes: Routes = [
   {
@@ -37,6 +38,11 @@ export const routes: Routes = [
         path: 'rooms',
         component: RoomsComponent,
         canActivate: [AuthGuard],
+      },
+      {
+        path: 'adminAllUsers',
+        component: AdminPageUsersComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'roomDefault',

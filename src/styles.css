@@ -102,7 +102,16 @@
   font-family: Georgia, serif;
   font-size: 1.5rem;
   color: #FFFFFF;
-  margin: 0 3rem 0 1rem;
+  margin: 0 1rem 0 1rem;
+  transition: color 0.4s ease-in-out;
+}
+
+.to-adminUsers {
+  position: relative;
+  font-family: Georgia, serif;
+  font-size: 1.5rem;
+  color: #FFFFFF;
+  margin: 0 1rem;
   transition: color 0.4s ease-in-out;
 }
 
@@ -120,7 +129,7 @@
   transition: color 0.4s ease-in-out;
 }
 
-.back-to-full::after, .to-movies-co::after, .to-rooms-co::after {
+.back-to-full::after, .to-movies-co::after, .to-rooms-co::after, .to-adminUsers::after {
   content: '';
   position: absolute;
   left: 0;
@@ -131,11 +140,11 @@
   transition: width 0.4s ease-in-out;
 }
 
-.back-to-full:hover, .to-movies-co:hover, .to-rooms-co:hover, .to-contact-co:hover, .locale-switch:hover {
+.back-to-full:hover, .to-movies-co:hover, .to-rooms-co:hover, .to-contact-co:hover, .locale-switch:hover, .to-adminUsers:hover {
   color: #e78a0a;
 }
 
-.back-to-full:hover::after, .to-movies-co:hover::after, .to-rooms-co:hover::after {
+.back-to-full:hover::after, .to-movies-co:hover::after, .to-rooms-co:hover::after, .to-adminUsers:hover::after {
   width: 100%;
 }
 
