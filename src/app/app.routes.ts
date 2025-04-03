@@ -16,6 +16,7 @@ import {
 } from './mainAppComp/full/buy-ticket-add-show-remaining/buy-ticket-add-show-remaining.component';
 import {AdminPageMoviesComponent} from './ConfirmationDialogs/admin-page-movies/admin-page-movies.component';
 import {AdminPageUsersComponent} from './ConfirmationDialogs/admin-page-users/admin-page-users.component';
+import {AdminPageRoomsComponent} from './ConfirmationDialogs/admin-page-rooms/admin-page-rooms.component';
 
 export const routes: Routes = [
   {
@@ -70,6 +71,11 @@ export const routes: Routes = [
     path: 'moviesAdmin',
     component: AdminPageMoviesComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'roomsAdmin',
+    component: AdminPageRoomsComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'contact',

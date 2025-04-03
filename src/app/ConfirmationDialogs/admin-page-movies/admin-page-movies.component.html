@@ -47,8 +47,8 @@
               <div *ngIf="createForm.controls['duration']?.invalid && !createForm.controls['duration']?.untouched">
                 <small style="color: red" *ngIf="createForm.controls['duration'].hasError('required')">Το πεδίο
                   Διάρκεια είναι υποχρεωτικό</small>
-                <small style="color: red" *ngIf="createForm.controls['duration'].errors['pattern']">Το πεδίο Διάρκεια δέχεται μόνο αριθμούς με δύο ή τρία ψηφία</small>
-                <small style="color: red" *ngIf="createForm.controls['duration'].errors['maxlength']">Το πεδίο Διάρκεια δέχεται μόνο αριθμούς με δύο ή τρία ψηφία</small>
+                <small style="color: red" *ngIf="createForm.controls['duration'].hasError('pattern')">Το πεδίο Διάρκεια δέχεται μόνο αριθμούς με δύο ή τρία ψηφία</small>
+                <small style="color: red" *ngIf="createForm.controls['duration'].hasError('maxlength')">Το πεδίο Διάρκεια δέχεται μόνο αριθμούς με δύο ή τρία ψηφία</small>
               </div>
             </div>
             <div class="input-fields">

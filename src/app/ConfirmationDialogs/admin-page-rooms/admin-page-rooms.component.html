@@ -1,1 +1,118 @@
-<p>admin-page-rooms works!</p>
+<div class="full-div">
+  <p-progress-spinner *ngIf="loading" strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ 'position': 'absolute', 'top': '50%', 'down': '50%', 'left': '50%', 'right': '50%' }"></p-progress-spinner>
+  <p-toast/>
+  <p-confirmDialog [position]="'top'"/>
+  <div class="title-of-page">{{ action }} Αίθουσας</div>
+  <form [formGroup]="createForm" (ngSubmit)="confirmCreate($event)">
+    <div class="row fields-div">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="input-fields">
+              <label for="title">Τίτλος*</label>
+              <input formControlName="title" pInputText id="title" type="text">
+              <div *ngIf="createForm.controls['title']?.invalid && !createForm.controls['title']?.untouched">
+                <small style="color: red" *ngIf="createForm.controls['title'].hasError('required')">To πεδίο Τίτλος
+                  είναι
+                  υποχρεωτικό</small>
+              </div>
+            </div>
+            <div class="input-fields">
+              <label for="description">Περιγραφή*</label>
+              <textarea formControlName="description" pTextarea id="description" rows="4" cols="30"></textarea>
+              <div
+                *ngIf="createForm.controls['description']?.invalid && !createForm.controls['description']?.untouched">
+                <small style="color: red" *ngIf="createForm.controls['description'].hasError('required')">Το πεδίο
+                  Περιγραφή είναι υποχρεωτικό</small>
+              </div>
+            </div>
+            <div class="input-fields">
+              <label for="quickText">Σύντομη Περιγραφή*</label>
+              <textarea formControlName="quickText" pTextarea id="quickText" rows="4" cols="30"></textarea>
+              <div
+                *ngIf="createForm.controls['quickText']?.invalid && !createForm.controls['quickText']?.untouched">
+                <small style="color: red" *ngIf="createForm.controls['quickText'].hasError('quickText')">Το πεδίο
+                  Σύντομη Περιγραφή είναι υποχρεωτικό</small>
+              </div>
+            </div>
+            <div class="input-fields">
+              <label for="seats">Σύνολο Θέσεων*</label>
+              <p-select id="seats" formControlName="seats" [options]="numberOfSeats" optionLabel="label"
+                        optionValue="count"
+                        placeholder="Σύνολο Θέσεων" class="w-full md:w-56"/>
+              <div
+                *ngIf="createForm.controls['seats']?.invalid && !createForm.controls['seats']?.untouched">
+                <small style="color: red" *ngIf="createForm.controls['seats'].hasError('seats')">Το πεδίο
+                  Σύνολο Θέσεων είναι υποχρεωτικό</small>
+              </div>
+            </div>
+            <div class="input-fields">
+              <label for="ticketPrice">Τιμή εισιτηρίου*</label>
+              <p-select id="ticketPrice" formControlName="ticketPrice" [options]="ticketPrice" optionLabel="price"
+                        optionValue="price"
+                        placeholder="Τιμή εισιτηρίου" class="w-full md:w-56"/>
+              <div
+                *ngIf="createForm.controls['ticketPrice']?.invalid && !createForm.controls['ticketPrice']?.untouched">
+                <small style="color: red" *ngIf="createForm.controls['ticketPrice'].hasError('ticketPrice')">Το πεδίο
+                  Τιμή εισιτηρίου είναι υποχρεωτικό</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6" style="padding-top: 4rem">
+        <p-fileupload name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php" (onSelect)="onUpload($event)"
+                      (onClear)="createForm.patchValue({ thumbnail: '', image1: '', image2: '', image3: '', image4: '', image5: '' })"
+                      (onRemove)="createForm.patchValue({ thumbnail: '' })"
+                      [multiple]="true" accept="image/*" maxFileSize="1000000" mode="advanced">
+          <ng-template #empty>
+            <div>Σύρε και άσε τη φωτογραφία της ταινίας ή επέλεξε από τα αρχεία</div>
+          </ng-template>
+          <ng-template #content>
+            <img *ngIf="createForm.get('thumbnail')?.value !== ''" [src]="createForm.get('thumbnail')?.value"
+                 alt="Movie Thumbnail" width="100"/>
+            <img *ngIf="createForm.get('image1')?.value !== ''" [src]="createForm.get('image1')?.value"
+                 alt="Movie image1" width="100"/>
+            <img *ngIf="createForm.get('image2')?.value !== ''" [src]="createForm.get('image2')?.value"
+                 alt="Movie image2" width="100"/>
+            <img *ngIf="createForm.get('image3')?.value !== ''" [src]="createForm.get('image3')?.value"
+                 alt="Movie image3" width="100"/>
+            <img *ngIf="createForm.get('image4')?.value !== ''" [src]="createForm.get('image4')?.value"
+                 alt="Movie image4" width="100"/>
+            <img *ngIf="createForm.get('image5')?.value !== ''" [src]="createForm.get('image5')?.value"
+                 alt="Movie image5" width="100"/>
+
+          </ng-template>
+        </p-fileupload>
+        <div
+          *ngIf="createForm.controls['thumbnail']?.invalid && !createForm.controls['thumbnail']?.untouched">
+          <small style="color: red" *ngIf="createForm.controls['thumbnail'].hasError('required')">Είναι απαραίτητο το
+            εξώφυλλο της ταινίας</small>
+        </div>
+        <div
+          *ngIf="createForm.controls['image1']?.invalid && !createForm.controls['image1']?.untouched">
+          <small style="color: red" *ngIf="createForm.controls['image1'].hasError('required')">Είναι απαραίτητο να
+            υπάρχει και μια δευτερή και τρίτη εικόνα εκτός από το βασικό thumbnail
+            εξώφυλλο της ταινίας</small>
+        </div>
+        <div
+          *ngIf="createForm.controls['image2']?.invalid && !createForm.controls['image2']?.untouched">
+          <small style="color: red" *ngIf="createForm.controls['image2'].hasError('required')">Είναι απαραίτητο να
+            υπάρχει και μια δευτερή και τρίτη εικόνα εκτός από το βασικό thumbnail
+            εξώφυλλο της ταινίας</small>
+        </div>
+      </div>
+      <div class="add-section">
+        <div style="display: flex; align-items: center; margin-bottom: 1rem; font-size: 1.3rem">
+          <a style="text-decoration: none;" routerLink="/rooms"><i class="pi pi-arrow-left"
+                                                                    style="font-size: inherit"></i> Επιστροφή στις
+            Αίθουσες</a>
+        </div>
+        <button [ngClass]="action === 'Προσθήκη' ? 'add-content-button' : 'edit-content-button'" type="submit"
+                (click)="confirmCreate($event)" [disabled]="createForm.invalid">{{buttonEditOrCreate}} <i
+          [ngClass]="action === 'Επεξεργασία' ? 'pi pi-save' : 'pi pi-plus'"></i>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

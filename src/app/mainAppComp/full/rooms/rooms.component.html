@@ -1,13 +1,21 @@
 <div class="all-room">
+  <p-toast/>
+  <p-confirmDialog [position]="'top'"/>
   <div *ngIf="loading" style="min-height: 100vh; position: relative">
-    <div style="display: flex; justify-content: center; align-items: center; position: absolute; top: 0; bottom: 0; left: 0; right: 0">
-      <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '100px', height: '100px' }"/>
+    <div
+      style="display: flex; justify-content: center; align-items: center; position: absolute; top: 0; bottom: 0; left: 0; right: 0">
+      <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s"
+                          [style]="{ width: '100px', height: '100px' }"/>
     </div>
   </div>
   <div *ngIf="!loading" style="min-height: 100vh">
     <div
-      style="display: flex; justify-content: center; align-items: center; padding: 3rem 0; font-family: Georgia, serif; font-size: 2rem">
+      style="display: flex; justify-content: center; align-items: center; padding: 3rem 0; font-family: Georgia, serif; font-size: 2rem"
+      [ngStyle]="{ 'justify-content': user.role === 'ADMIN' ? 'space-between' : 'center', 'padding-inline' : user.role === 'ADMIN' ? '2rem' : '0'}">
       Ζήστε μια απίστευτη εμπειρία!
+      <button (click)="moveToAdminPageOfRooms('Προσθήκη', 'null')" *ngIf="user.role === 'ADMIN'"
+              class="add-content-button">Προσθήκη Αίθουσας <i class="pi pi-plus" style="font-size: inherit"></i>
+      </button>
     </div>
     <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 10rem">
       <div class="grid-rooms">
@@ -19,8 +27,18 @@
           <div style="color: white; margin-left: 0.5rem">
             {{room.quickText}}
           </div>
-          <div class="select-button">
-            <i class="pi pi-arrow-right"></i>
+          <div
+            [ngStyle]="{'justify-content' : user.role === 'ADMIN' ? 'space-between' : 'flex-end', 'display': 'flex'}">
+            <div *ngIf="user.role === 'ADMIN'" class="admin-buttons">
+              <button class="edit-content-button" (click)="moveToAdminPageOfRooms('Επεξεργασία', room.title)"
+                      style="margin-right: 1rem"><i
+                class="pi pi-pencil"></i></button>
+              <button class="delete-content-button" (click)="confirmDelete($event, room.id)"><i class="pi pi-times"></i>
+              </button>
+            </div>
+            <div class="select-button">
+              <i class="pi pi-arrow-right"></i>
+            </div>
           </div>
         </div>
       </div>

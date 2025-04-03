@@ -39,7 +39,7 @@ export class AdminPageMoviesComponent implements OnInit {
 
   @ViewChild(FileUpload) fileUpload!: FileUpload;
 
-  createForm!: any;
+  createForm!: FormGroup;
   submitted: boolean = false;
   loading: boolean = false;
   types: any[] = [];
@@ -204,7 +204,7 @@ export class AdminPageMoviesComponent implements OnInit {
       this.messageService.add({
         severity: 'error',
         summary: 'Αποτυχία!',
-        detail: 'Η φόρμα σας δεν είναι έγκυρη, παρακαλώ όλα τα υποχρεωτικά όλα τα υποχρεωτικά πεδία'
+        detail: 'Η φόρμα σας δεν είναι έγκυρη, παρακαλώ συμπληρώστε όλα τα υποχρεωτικά πεδία'
       })
       this.validateAllFromFields(this.createForm);
       this.submitted = true;
