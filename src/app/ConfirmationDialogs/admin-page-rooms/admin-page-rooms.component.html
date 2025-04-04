@@ -1,5 +1,6 @@
 <div class="full-div">
-  <p-progress-spinner *ngIf="loading" strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ 'position': 'absolute', 'top': '50%', 'down': '50%', 'left': '50%', 'right': '50%' }"></p-progress-spinner>
+  <p-progress-spinner *ngIf="loading" strokeWidth="8" fill="transparent" animationDuration=".5s"
+                      [style]="{ 'position': 'absolute', 'top': '50%', 'down': '50%', 'left': '50%', 'right': '50%' }"></p-progress-spinner>
   <p-toast/>
   <p-confirmDialog [position]="'top'"/>
   <div class="title-of-page">{{ action }} Αίθουσας</div>
@@ -31,7 +32,7 @@
               <textarea formControlName="quickText" pTextarea id="quickText" rows="4" cols="30"></textarea>
               <div
                 *ngIf="createForm.controls['quickText']?.invalid && !createForm.controls['quickText']?.untouched">
-                <small style="color: red" *ngIf="createForm.controls['quickText'].hasError('quickText')">Το πεδίο
+                <small style="color: red" *ngIf="createForm.controls['quickText'].hasError('required')">Το πεδίο
                   Σύντομη Περιγραφή είναι υποχρεωτικό</small>
               </div>
             </div>
@@ -62,26 +63,24 @@
       </div>
       <div class="col-md-6" style="padding-top: 4rem">
         <p-fileupload name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php" (onSelect)="onUpload($event)"
-                      (onClear)="createForm.patchValue({ thumbnail: '', image1: '', image2: '', image3: '', image4: '', image5: '' })"
-                      (onRemove)="createForm.patchValue({ thumbnail: '' })"
+                      (onClear)="clearAllFromUpload()"
+                      (onRemove)="removeOneFile($event)"
+                      [showUploadButton]="false"
+                      [chooseLabel]="'Επιλογή'"
+                      [cancelLabel]="'Αφαίρεση Όλων'"
                       [multiple]="true" accept="image/*" maxFileSize="1000000" mode="advanced">
           <ng-template #empty>
             <div>Σύρε και άσε τη φωτογραφία της ταινίας ή επέλεξε από τα αρχεία</div>
           </ng-template>
-          <ng-template #content>
-            <img *ngIf="createForm.get('thumbnail')?.value !== ''" [src]="createForm.get('thumbnail')?.value"
-                 alt="Movie Thumbnail" width="100"/>
-            <img *ngIf="createForm.get('image1')?.value !== ''" [src]="createForm.get('image1')?.value"
-                 alt="Movie image1" width="100"/>
-            <img *ngIf="createForm.get('image2')?.value !== ''" [src]="createForm.get('image2')?.value"
-                 alt="Movie image2" width="100"/>
-            <img *ngIf="createForm.get('image3')?.value !== ''" [src]="createForm.get('image3')?.value"
-                 alt="Movie image3" width="100"/>
-            <img *ngIf="createForm.get('image4')?.value !== ''" [src]="createForm.get('image4')?.value"
-                 alt="Movie image4" width="100"/>
-            <img *ngIf="createForm.get('image5')?.value !== ''" [src]="createForm.get('image5')?.value"
-                 alt="Movie image5" width="100"/>
 
+          <ng-template #content>
+            <ul *ngIf="base64Files.length">
+              <li style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 2rem" *ngFor="let file of base64Files; let i = index">
+                <img width="100" height="120" [src]="file" alt="image {{i}}">
+                <div *ngIf="!i">Βασική Εικόνα</div>
+                <div *ngIf="i">Εικόνα {{i}}</div>
+              </li>
+            </ul>
           </ng-template>
         </p-fileupload>
         <div
@@ -98,18 +97,18 @@
         <div
           *ngIf="createForm.controls['image2']?.invalid && !createForm.controls['image2']?.untouched">
           <small style="color: red" *ngIf="createForm.controls['image2'].hasError('required')">Είναι απαραίτητο να
-            υπάρχει και μια δευτερή και τρίτη εικόνα εκτός από το βασικό thumbnail
+            υπάρχει και μια τρίτη εικόνα εκτός από το βασικό thumbnail
             εξώφυλλο της ταινίας</small>
         </div>
       </div>
       <div class="add-section">
         <div style="display: flex; align-items: center; margin-bottom: 1rem; font-size: 1.3rem">
           <a style="text-decoration: none;" routerLink="/rooms"><i class="pi pi-arrow-left"
-                                                                    style="font-size: inherit"></i> Επιστροφή στις
+                                                                   style="font-size: inherit"></i> Επιστροφή στις
             Αίθουσες</a>
         </div>
         <button [ngClass]="action === 'Προσθήκη' ? 'add-content-button' : 'edit-content-button'" type="submit"
-                (click)="confirmCreate($event)" [disabled]="createForm.invalid">{{buttonEditOrCreate}} <i
+                (click)="confirmCreate($event)">{{buttonEditOrCreate}} <i
           [ngClass]="action === 'Επεξεργασία' ? 'pi pi-save' : 'pi pi-plus'"></i>
         </button>
       </div>

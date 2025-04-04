@@ -133,6 +133,7 @@ export class AdminPageMoviesComponent implements OnInit {
         description: response.data[0].description,
         thumbnail: response.data[0].thumbnail
       })
+      this.base64File = this.createForm.get('thumbnail')?.value;
     })
   }
 
@@ -188,11 +189,17 @@ export class AdminPageMoviesComponent implements OnInit {
     };
   }
 
+  removeFile() {
+    this.base64File = '';
+    this.createForm.patchValue({thumbnail: ''});
+  }
+
   validateAllFromFields(formGroup: FormGroup | any) {
     Object.keys(formGroup.controls).forEach(field => {
       const control = formGroup.get(field);
       if (control instanceof FormControl) {
         control.markAsDirty({onlySelf: true});
+        control.markAllAsTouched();
       } else if (control instanceof FormGroup) {
         this.validateAllFromFields(control);
       }

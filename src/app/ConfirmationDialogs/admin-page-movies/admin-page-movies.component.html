@@ -114,16 +114,22 @@
       </div>
       <div class="col-md-6" style="padding-top: 4rem">
         <p-fileupload name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php" (onSelect)="onUpload($event)"
-                      (onClear)="createForm.patchValue({ thumbnail: '' })"
-                      (onRemove)="createForm.patchValue({ thumbnail: '' })"
+                      (onClear)="removeFile()"
+                      (onRemove)="removeFile()"
+                      [showUploadButton]="false"
+                      [chooseLabel]="'Επιλογή'"
+                      [cancelLabel]="'Αφαίρεση'"
                       [multiple]="false" accept="image/*" maxFileSize="1000000" mode="advanced">
           <ng-template #empty>
             <div>Σύρε και άσε τη φωτογραφία της ταινίας ή επέλεξε από τα αρχεία</div>
           </ng-template>
           <ng-template #content>
-            <div *ngIf="createForm.get('thumbnail')?.value !== ''">
-              <img [src]="createForm.get('thumbnail')?.value" alt="Movie Thumbnail" width="100"/>
-            </div>
+            <ul *ngIf="base64File">
+              <li style="display: flex; align-items: center; justify-content: space-between;">
+                <img width="100" height="120" [src]="base64File" alt="Movie Thumbnail">
+                <div>Εικόνα Ταινίας</div>
+              </li>
+            </ul>
           </ng-template>
         </p-fileupload>
         <div
@@ -139,7 +145,7 @@
             Ταινίες</a>
         </div>
         <button [ngClass]="action === 'Προσθήκη' ? 'add-content-button' : 'edit-content-button'" type="submit"
-                (click)="confirmCreate($event)" [disabled]="createForm.invalid">{{buttonEditOrCreate}} <i
+                (click)="confirmCreate($event)">{{buttonEditOrCreate}} <i
           [ngClass]="action === 'Επεξεργασία' ? 'pi pi-save' : 'pi pi-plus'"></i>
         </button>
       </div>

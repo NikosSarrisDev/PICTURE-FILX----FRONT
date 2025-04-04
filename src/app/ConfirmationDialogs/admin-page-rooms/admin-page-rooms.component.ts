@@ -13,6 +13,7 @@ import {Toast} from "primeng/toast";
 import {DataService} from '../../data.service';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {ProgressSpinner} from 'primeng/progressspinner';
+import {ButtonDirective, ButtonIcon, ButtonLabel} from 'primeng/button';
 
 @Component({
   selector: 'app-admin-page-rooms',
@@ -32,7 +33,10 @@ import {ProgressSpinner} from 'primeng/progressspinner';
     Toast,
     NgClass,
     NgForOf,
-    ProgressSpinner
+    ProgressSpinner,
+    ButtonDirective,
+    ButtonLabel,
+    ButtonIcon
   ],
   templateUrl: './admin-page-rooms.component.html',
   styleUrl: './admin-page-rooms.component.css',
@@ -48,7 +52,6 @@ export class AdminPageRoomsComponent implements OnInit {
   numberOfSeats: any[] = [];
   ticketPrice: any[] = [];
   action!: string;
-  uploadedFiles: any[] = [];
   base64Files: any[] = [];
   roomTitle!: string;
   buttonEditOrCreate!: string;
@@ -124,6 +127,15 @@ export class AdminPageRoomsComponent implements OnInit {
         image4: response.data[0].image4,
         image5: response.data[0].image5
       })
+
+      this.base64Files = [
+        this.createForm.get('thumbnail')?.value,
+        this.createForm.get('image1')?.value,
+        this.createForm.get('image2')?.value,
+        this.createForm.get('image3')?.value,
+        this.createForm.get('image4')?.value,
+        this.createForm.get('image5')?.value]
+      console.log(this.base64Files);
     })
   }
 
@@ -159,72 +171,72 @@ export class AdminPageRoomsComponent implements OnInit {
   }
 
   onUpload(event: any) {
-    // for (let file of event.files) {
-    //   this.convertToBase64(file);
-    // }
-    this.uploadedFiles.push(event.files);
     this.convertToBase64(event.files);
   }
 
   private convertToBase64(files: File[]) {
-    // const reader = new FileReader();
-    // // reader.readAsDataURL(file); // Convert file to Base64
-    // for (let file of files) {
-    //   reader.readAsDataURL(file); // Convert file to Base64
-    // }
-    // reader.onload = () => {
-    //   this.base64File = reader.result as string;
-    //   this.createForm.patchValue({
-    //     thumbnail: this.base64File
-    //   })
-    //   console.log(this.createForm.get('thumbnail')?.value);
-    // };
-    // reader.onerror = (error) => {
-    //   console.error('Error converting file:', error);
-    // };
     for (let file of files) {
       const reader = new FileReader();
       reader.readAsDataURL(file); //Convert into Base64 format
       reader.onload = () => {
-        this.base64Files.push(reader.result);
-      }
-      this.base64Files.forEach((item, index) => {
-        switch (index) {
-          case 0:
-            this.createForm.patchValue({thumbnail: item});
-            break;
-          case 1:
-            this.createForm.patchValue({image1: item});
-            break;
-          case 2:
-            this.createForm.patchValue({image2: item});
-            break;
-          case 3:
-            this.createForm.patchValue({image3: item});
-            break;
-          case 4:
-            this.createForm.patchValue({image4: item});
-            break;
-          case 5:
-            this.createForm.patchValue({image5: item});
-            break;
-          default:
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Αποτυχία!',
-              detail: "Το πλήθος των εικόνων πρέπει να είναι το πολύ 6 στο σύνολο"
-            });
-            return;
+        if (this.base64Files.length < 6) {
+          this.base64Files.push(reader.result);
+          console.log(this.base64Files);
         }
-      })
+      }
+      setTimeout(() => {
+        console.log("This is the value of it");
+        this.base64Files.forEach((item, index) => {
+          switch (index) {
+            case 0:
+              this.createForm.patchValue({thumbnail: item});
+              break;
+            case 1:
+              this.createForm.patchValue({image1: item});
+              break;
+            case 2:
+              this.createForm.patchValue({image2: item});
+              break;
+            case 3:
+              this.createForm.patchValue({image3: item});
+              break;
+            case 4:
+              this.createForm.patchValue({image4: item});
+              break;
+            case 5:
+              this.createForm.patchValue({image5: item});
+              break;
+            default:
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Αποτυχία!',
+                detail: "Το πλήθος των εικόνων πρέπει να είναι το πολύ 6 στο σύνολο"
+              });
+              return;
+          }
+        })
+      }, 100);
       reader.onerror = (error) => {
         console.error('Error converting file:', error);
       }
     }
   }
 
-  removeAPhotoFromUpload() {
+  clearAllFromUpload() {
+    this.base64Files = [];
+    this.createForm.patchValue({thumbnail: '', image1: '', image2: '', image3: '', image4: '', image5: ''});
+  }
 
+  removeOneFile(event: any) {
+    this.base64Files.forEach((item, index) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(event.file);
+      reader.onload = () => {
+        if (reader.result === item) {
+          this.base64Files.splice(index, 1);
+        }
+      }
+    })
   }
 
   validateAllFromFields(formGroup: FormGroup | any) {
@@ -232,6 +244,7 @@ export class AdminPageRoomsComponent implements OnInit {
       const control = formGroup.get(field);
       if (control instanceof FormControl) {
         control.markAsDirty({onlySelf: true});
+        control.markAllAsTouched();
       } else if (control instanceof FormGroup) {
         this.validateAllFromFields(control);
       }
@@ -280,7 +293,7 @@ export class AdminPageRoomsComponent implements OnInit {
       }).subscribe((response) => {
         if (response.status == 'success') {
           this.messageService.add({severity: 'success', summary: 'Επιτυχία!', detail: response.message});
-          this.dataService.addAllSeats({roomId : response.DO_IT, total: seats}).subscribe((response) => {
+          this.dataService.addAllSeats({roomId: response.DO_IT, total: seats}).subscribe((response) => {
             this.messageService.add({severity: 'success', summary: 'Επιτυχία!', detail: response.message});
             this.clearFileUpload();
             this.createForm.reset();
@@ -320,4 +333,6 @@ export class AdminPageRoomsComponent implements OnInit {
     }
 
   }
+
+  protected readonly console = console;
 }
