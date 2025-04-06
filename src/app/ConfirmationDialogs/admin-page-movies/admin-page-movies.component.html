@@ -47,8 +47,10 @@
               <div *ngIf="createForm.controls['duration']?.invalid && !createForm.controls['duration']?.untouched">
                 <small style="color: red" *ngIf="createForm.controls['duration'].hasError('required')">Το πεδίο
                   Διάρκεια είναι υποχρεωτικό</small>
-                <small style="color: red" *ngIf="createForm.controls['duration'].hasError('pattern')">Το πεδίο Διάρκεια δέχεται μόνο αριθμούς με δύο ή τρία ψηφία</small>
-                <small style="color: red" *ngIf="createForm.controls['duration'].hasError('maxlength')">Το πεδίο Διάρκεια δέχεται μόνο αριθμούς με δύο ή τρία ψηφία</small>
+                <small style="color: red" *ngIf="createForm.controls['duration'].hasError('pattern')">Το πεδίο Διάρκεια
+                  δέχεται μόνο αριθμούς με δύο ή τρία ψηφία</small>
+                <small style="color: red" *ngIf="createForm.controls['duration'].hasError('maxlength')">Το πεδίο
+                  Διάρκεια δέχεται μόνο αριθμούς με δύο ή τρία ψηφία</small>
               </div>
             </div>
             <div class="input-fields">
@@ -93,6 +95,9 @@
             </div>
             <div class="input-fields">
               <label for="wikiLink">Υπερσύνδεσμος για Πληροφορίες*</label>
+              <h6 style="color: red">(π.χ https://el.wikipedia.org/wiki/<span
+                style="color: #2b38cc; border: 1px solid black; border-radius: 40%; padding: 0.2rem">Inception</span>)
+              </h6>
               <input formControlName="wikiLink" pInputText id="wikiLink" type="text">
               <div
                 *ngIf="createForm.controls['wikiLink']?.invalid && !createForm.controls['wikiLink']?.untouched">
@@ -120,15 +125,16 @@
                         placeholder="Επιλογή Αίθουσας" class="w-full md:w-56"/>
             </div>
             <div class="input-fields">
-<!--              <label for="startTime">Ώρα Αρχής</label>-->
-<!--              <p-select id="startTime" formControlName="startTime" [options]="rooms" optionLabel="range" optionValue="range"-->
-<!--                        placeholder="Επιλογή ώρας αρχής" class="w-full md:w-56"/>-->
-              <mat-form-field>
-                <mat-label>Pick a time</mat-label>
-                <input matInput formControlName="startTime">
-                <mat-time matIconSuffix [for]="picker"/>
-                <mat-timepicker #picker/>
-              </mat-form-field>
+              <label for="startTime">Ώρα Αρχής</label>
+              <p-calendar
+                id="startTime"
+                formControlName="startTime"
+                [timeOnly]="true"
+                hourFormat="24"
+                [stepMinute]="30"
+                [showIcon]="true"
+                placeholder="Επιλογή Ώρας"
+              ></p-calendar>
             </div>
           </div>
           <div class="col-md-6">
@@ -138,8 +144,15 @@
             </div>
             <div class="input-fields">
               <label for="endTime">Ώρα Τέλους</label>
-              <p-select id="endTime" formControlName="endTime" [options]="rooms" optionLabel="range" optionValue="range"
-                        placeholder="Επιλογή ώρας τέλους" class="w-full md:w-56"/>
+              <p-calendar
+                id="endTime"
+                formControlName="endTime"
+                [timeOnly]="true"
+                hourFormat="24"
+                [stepMinute]="30"
+                [showIcon]="true"
+                placeholder="Επιλογή Ώρας"
+              ></p-calendar>
             </div>
           </div>
         </div>

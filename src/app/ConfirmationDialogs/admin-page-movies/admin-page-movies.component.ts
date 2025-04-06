@@ -12,8 +12,7 @@ import {Rating} from 'primeng/rating';
 import {ConfirmDialog} from 'primeng/confirmdialog';
 import {Toast} from 'primeng/toast';
 import {DatePicker} from 'primeng/datepicker';
-import {MatFormField, MatFormFieldModule} from '@angular/material/form-field';
-import {MatInput, MatInputModule} from '@angular/material/input';
+import {Calendar} from 'primeng/calendar';
 
 @Component({
   selector: 'app-admin-page-movies',
@@ -32,11 +31,7 @@ import {MatInput, MatInputModule} from '@angular/material/input';
     NgClass,
     RouterLink,
     DatePicker,
-    MatFormField,
-    MatInput,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule
+    Calendar
   ],
   templateUrl: './admin-page-movies.component.html',
   styleUrl: './admin-page-movies.component.css',
@@ -270,6 +265,9 @@ export class AdminPageMoviesComponent implements OnInit {
     const startTime = this.createForm.get('startTime')?.value;
     const endTime = this.createForm.get('endTime')?.value;
 
+    const formattedStartTime = `${startTime.getHours().toString().padStart(2, '0')}:${startTime.getMinutes().toString().padStart(2, '0')}`;
+    const formattedEndTime = `${endTime.getHours().toString().padStart(2, '0')}:${endTime.getMinutes().toString().padStart(2, '0')}`;
+
     if (this.action === 'Προσθήκη') {
       this.dataService.addMovie({
         title: title,
@@ -290,9 +288,9 @@ export class AdminPageMoviesComponent implements OnInit {
           this.addView({
             movieId: response.DO_IT,
             roomId: room,
-            startTime: startTime,
-            endTime: endTime,
-            date: viewDate
+            startTime: formattedStartTime,
+            endTime: formattedEndTime,
+            date: viewDate.toISOString().split('T')[0]
           })
           this.clearFileUpload();
           this.createForm.reset();
@@ -321,11 +319,11 @@ export class AdminPageMoviesComponent implements OnInit {
       }).subscribe((response) => {
         if (response.status == 'success') {
           this.addView({
-            movieId: response.id,
-            roomId: room,
-            startTime: startTime,
-            endTime: endTime,
-            date: viewDate
+            movie_id: response.DO_IT,
+            room_id: room,
+            startTime: formattedStartTime,
+            endTime: formattedEndTime,
+            date: viewDate.toISOString().split('T')[0]
           })
           this.messageService.add({severity: 'success', summary: 'Επιτυχία!', detail: response.message});
         } else {
