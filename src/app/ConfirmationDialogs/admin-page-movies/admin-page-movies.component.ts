@@ -12,6 +12,8 @@ import {Rating} from 'primeng/rating';
 import {ConfirmDialog} from 'primeng/confirmdialog';
 import {Toast} from 'primeng/toast';
 import {DatePicker} from 'primeng/datepicker';
+import {MatFormField, MatFormFieldModule} from '@angular/material/form-field';
+import {MatInput, MatInputModule} from '@angular/material/input';
 
 @Component({
   selector: 'app-admin-page-movies',
@@ -29,7 +31,12 @@ import {DatePicker} from 'primeng/datepicker';
     Toast,
     NgClass,
     RouterLink,
-    DatePicker
+    DatePicker,
+    MatFormField,
+    MatInput,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule
   ],
   templateUrl: './admin-page-movies.component.html',
   styleUrl: './admin-page-movies.component.css',
@@ -44,6 +51,7 @@ export class AdminPageMoviesComponent implements OnInit {
   loading: boolean = false;
   types: any[] = [];
   ages: any[] = [];
+  rooms: any[] = [];
   action!: string;
   base64File!: string;
   movieTitle!: string;
@@ -65,6 +73,8 @@ export class AdminPageMoviesComponent implements OnInit {
       this.movieTitle = params["title"];
     })
 
+    this.getRooms({});
+
     this.createForm = this.formBuilder.group({
       title: ['', Validators.required],
       director: ['', Validators.required],
@@ -77,7 +87,11 @@ export class AdminPageMoviesComponent implements OnInit {
       trailerCode: ['', Validators.required],
       wikiLink: ['', Validators.required],
       description: ['', Validators.required],
-      thumbnail: ['', Validators.required]
+      thumbnail: ['', Validators.required],
+      room: [''],
+      viewDate: [''],
+      startTime: [''],
+      endTime: [''],
     })
 
     this.types = [
@@ -119,7 +133,7 @@ export class AdminPageMoviesComponent implements OnInit {
   getMovie(data: any) {
     this.dataService.getMovie(data).subscribe((response) => {
       this.movieId = response.data[0].id;
-      this.createForm.setValue({
+      this.createForm.patchValue({
         title: response.data[0].title,
         director: response.data[0].director,
         producer: response.data[0].producer,
@@ -134,6 +148,25 @@ export class AdminPageMoviesComponent implements OnInit {
         thumbnail: response.data[0].thumbnail
       })
       this.base64File = this.createForm.get('thumbnail')?.value;
+    })
+  }
+
+  getRooms(data: any) {
+    this.dataService.getRoom(data).subscribe((response) => {
+      this.rooms = response.data;
+    })
+  }
+
+  addView(data: any) {
+    this.dataService.addView(data).subscribe((response) => {
+      if (response.status == 'success') {
+        this.messageService.add({severity: 'success', summary: 'Επιτυχία!', detail: response.message});
+      } else {
+        this.messageService.add({severity: 'error', summary: 'Αποτυχία!', detail: response.message});
+      }
+      this.loading = false;
+    }, (error) => {
+      this.loading = false;
     })
   }
 
@@ -232,6 +265,10 @@ export class AdminPageMoviesComponent implements OnInit {
     const wikiLink = this.createForm.get('wikiLink')?.value;
     const description = this.createForm.get('description')?.value;
     const thumbnail = this.createForm.get('thumbnail')?.value;
+    const room = this.createForm.get('room')?.value;
+    const viewDate = this.createForm.get('viewDate')?.value;
+    const startTime = this.createForm.get('startTime')?.value;
+    const endTime = this.createForm.get('endTime')?.value;
 
     if (this.action === 'Προσθήκη') {
       this.dataService.addMovie({
@@ -250,6 +287,13 @@ export class AdminPageMoviesComponent implements OnInit {
       }).subscribe((response) => {
         if (response.status == 'success') {
           this.messageService.add({severity: 'success', summary: 'Επιτυχία!', detail: response.message});
+          this.addView({
+            movieId: response.DO_IT,
+            roomId: room,
+            startTime: startTime,
+            endTime: endTime,
+            date: viewDate
+          })
           this.clearFileUpload();
           this.createForm.reset();
         } else {
@@ -276,6 +320,13 @@ export class AdminPageMoviesComponent implements OnInit {
         thumbnail: thumbnail
       }).subscribe((response) => {
         if (response.status == 'success') {
+          this.addView({
+            movieId: response.id,
+            roomId: room,
+            startTime: startTime,
+            endTime: endTime,
+            date: viewDate
+          })
           this.messageService.add({severity: 'success', summary: 'Επιτυχία!', detail: response.message});
         } else {
           this.messageService.add({severity: 'error', summary: 'Αποτυχία!', detail: response.message});

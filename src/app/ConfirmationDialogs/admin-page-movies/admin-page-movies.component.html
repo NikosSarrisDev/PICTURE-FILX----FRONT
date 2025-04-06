@@ -111,6 +111,38 @@
             </div>
           </div>
         </div>
+        <h6>Προσθήκη Προβολών (Προαιρετικό)</h6>
+        <div class="row" style="border: 1px solid black; display: flex; align-items: center">
+          <div class="col-md-6">
+            <div class="input-fields">
+              <label for="room">Αίθουσα</label>
+              <p-select id="room" formControlName="room" [options]="rooms" optionLabel="title" optionValue="id"
+                        placeholder="Επιλογή Αίθουσας" class="w-full md:w-56"/>
+            </div>
+            <div class="input-fields">
+<!--              <label for="startTime">Ώρα Αρχής</label>-->
+<!--              <p-select id="startTime" formControlName="startTime" [options]="rooms" optionLabel="range" optionValue="range"-->
+<!--                        placeholder="Επιλογή ώρας αρχής" class="w-full md:w-56"/>-->
+              <mat-form-field>
+                <mat-label>Pick a time</mat-label>
+                <input matInput formControlName="startTime">
+                <mat-time matIconSuffix [for]="picker"/>
+                <mat-timepicker #picker/>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="input-fields">
+              <label for="viewDate">Ημέρα Προβολής</label>
+              <p-date-picker id="viewDate" formControlName="viewDate" dateFormat="yy-mm-dd"/>
+            </div>
+            <div class="input-fields">
+              <label for="endTime">Ώρα Τέλους</label>
+              <p-select id="endTime" formControlName="endTime" [options]="rooms" optionLabel="range" optionValue="range"
+                        placeholder="Επιλογή ώρας τέλους" class="w-full md:w-56"/>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="col-md-6" style="padding-top: 4rem">
         <p-fileupload name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php" (onSelect)="onUpload($event)"
