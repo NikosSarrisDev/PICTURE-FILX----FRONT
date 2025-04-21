@@ -286,8 +286,8 @@ export class AdminPageMoviesComponent implements OnInit {
         if (response.status == 'success') {
           this.messageService.add({severity: 'success', summary: 'Επιτυχία!', detail: response.message});
           this.addView({
-            movieId: response.DO_IT,
-            roomId: room,
+            movie_id: response.DO_IT,
+            room_id: room,
             startTime: formattedStartTime,
             endTime: formattedEndTime,
             date: viewDate.toISOString().split('T')[0]

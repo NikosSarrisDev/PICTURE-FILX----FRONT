@@ -9,6 +9,7 @@
   color: white;
   margin-bottom: 1.5rem;
   background: linear-gradient(45deg, rgb(23, 204, 193), rgba(34, 106, 215, 0.76));
+  line-height: 1.6;
 }
 
 ::ng-deep .p-progressspinner-circle {

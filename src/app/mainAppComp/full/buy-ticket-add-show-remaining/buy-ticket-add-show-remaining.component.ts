@@ -40,6 +40,7 @@ export class BuyTicketAddShowRemainingComponent implements OnInit {
   numOfTicketsMovie!: number;
   ticketCounter!: number;
   isTicketSendToEmail!: boolean;
+  isTicketCanceled!: boolean;
   emailTravelling!: boolean;
 
   constructor(private remoteDataService: RemoteDataService,
@@ -53,6 +54,7 @@ export class BuyTicketAddShowRemainingComponent implements OnInit {
   ngOnInit() {
     this.isTicketSendToEmail = false;
     this.emailTravelling = false;
+    this.isTicketCanceled = false;
     this.route.queryParams.subscribe((params) => {
       this.movieTitle = params["movieTitle"];
       this.roomTitle = params["roomTitle"];
@@ -144,7 +146,7 @@ export class BuyTicketAddShowRemainingComponent implements OnInit {
       amount: this.amount
     }).subscribe((response) => {
       this.messageService.add({severity: response.status, summary: 'Ολοκλήρωση!', detail: response.message});
-      this.isTicketSendToEmail = true;
+      this.isTicketSendToEmail = response.status == "success";
       this.emailTravelling = false;
     })
   }
@@ -164,6 +166,10 @@ export class BuyTicketAddShowRemainingComponent implements OnInit {
       //Turn the string array in this format "'DA-1', 'DB-1'" in order for where title in ... sql statement to work
       this.dataService.updateAllSeat({ seatTitleList: arrayWithTitles.map(title => `'${title}'`).join(","), reserved: false }).subscribe((response) => {
         this.messageService.add({severity: response.status, summary: 'Ολοκλήρωση!', detail: "Τα εισητήρια ακυρώθηκαν με επιτυχία"});
+        this.isTicketCanceled = response.status == "success";
+        console.log(this.isTicketSendToEmail, "isTheTicketSendToEmail");
+        console.log(this.isTicketCanceled, "isTicketCanceled");
+        console.log(!this.isTicketCanceled || !this.isTicketSendToEmail);
       })
 
     })

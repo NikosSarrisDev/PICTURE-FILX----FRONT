@@ -29,7 +29,7 @@ export class QuantityComponent implements OnInit {
   roomTitle!: string;
   ticketCounter: number = 0;
   ticketPrice!: number;
-  seats: any[][] = Array.from({length: 5}, () => Array(20).fill(null));
+  seats: any[][] = [];
   visible: boolean = false;
   availableNumberOfSeats!: number;
   loading: boolean = false;
@@ -49,12 +49,15 @@ export class QuantityComponent implements OnInit {
       this.dataService.getRoom({title: this.roomTitle}).subscribe((response) => {
         this.ticketPrice = response.data[0].ticketPrice;
         this.availableNumberOfSeats = response.data[0].availableNumberOfSeats;
+        this.seats = Array.from({length: Math.ceil(this.availableNumberOfSeats / 20)}, () => Array(20).fill(null));
       })
     })
 
-    this.dataService.updateAllSeat({ selected: false }).subscribe((response) => {
-      this.getSeats({roomTitle: this.roomTitle});
-    });
+    setTimeout(() => {
+      this.dataService.updateAllSeat({ selected: false }).subscribe((response) => {
+        this.getSeats({roomTitle: this.roomTitle});
+      });
+    }, 1000);
 
   }
 
